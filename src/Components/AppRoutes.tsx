@@ -6,9 +6,16 @@ import { PasswordRecovery } from "../pages/PasswordRecovery";
 import { Profile } from "../pages/Profile";
 import { Registration } from "../pages/Registration";
 import { TestPage } from "../pages/TestPage";
-import { pagesPath } from "../path/pagesPath";
-
+const pagesPath = {
+    LOGIN: '/login',
+    ERROR404: '*',
+    NEW_PASS: '/new-pass',
+    PASS_RECOVERY: '/pass-recovery',
+    PROFILE: '/profile',
+    REGISTRATION: '/registration'
+}
 export const AppRoutes = () => (
+
     <>
         <Routes>
             <Route path={pagesPath.ERROR404} element={<Error404 />} />
