@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Error404 } from "../pages/Error404";
 import { Login } from "../pages/Login";
 import { NewPassword } from "../pages/NewPassword";
@@ -8,7 +8,7 @@ import { Registration } from "../pages/Registration";
 import { TestPage } from "../pages/TestPage";
 const pagesPath = {
     LOGIN: '/login',
-    ERROR404: '*',
+    ERROR404: '/404',
     NEW_PASS: '/new-pass',
     PASS_RECOVERY: '/pass-recovery',
     PROFILE: '/profile',
@@ -25,6 +25,7 @@ export const AppRoutes = () => (
             <Route path={pagesPath.PROFILE} element={<Profile />} />
             <Route path={pagesPath.REGISTRATION} element={<Registration />} />
             <Route path="/" element={<TestPage />} />
+            <Route path="*" element={<Navigate to={'404'} />} />
         </Routes>
     </>
 )
