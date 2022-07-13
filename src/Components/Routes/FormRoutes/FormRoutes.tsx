@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Error404 } from "../../../pages/Error404";
-import { Login } from "../../../pages/Login";
+import { Login } from "../../../pages/Forms/Login/Login";
 import { NewPassword } from "../../../pages/NewPassword";
 import { PasswordRecovery } from "../../../pages/PasswordRecovery";
 import { Registration } from "../../../pages/Registration";
