@@ -1,10 +1,10 @@
 import { Container } from "@mui/material";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Error404 } from "../../../pages/Error404";
-import { Login } from "../../../pages/Forms/Login/Login";
-import { NewPassword } from "../../../pages/NewPassword";
-import { PasswordRecovery } from "../../../pages/PasswordRecovery";
-import { Registration } from "../../../pages/Registration";
+import { Error404 } from "../Error404";
+import { Login } from "./Login/Login";
+import { NewPassword } from "../NewPassword";
+import { PasswordRecovery } from "../PasswordRecovery";
+import { Registration } from "../Registration";
 import "./form.scss";
 const formPath = {
     LOGIN: '/login',
@@ -13,9 +13,9 @@ const formPath = {
     NEW_PASS: '/new-password',
     ERROR404: '404'
 }
-export const Form = () => (
+export const Forms = () => (
     <div className="form">
-        <Container maxWidth="xs" fixed>
+        <div className="form__container">
             <Routes>
                 <Route path={formPath.LOGIN} element={<Login />} />
                 <Route path={formPath.REGISTRATION} element={<Registration />} />
@@ -25,7 +25,7 @@ export const Form = () => (
                 <Route path="/" element={<div></div>} />
                 <Route path={formPath.ERROR404} element={<Error404 />} />
             </Routes>
-        </Container>
+        </div>
     </div>
 
 )

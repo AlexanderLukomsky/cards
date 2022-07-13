@@ -1,0 +1,17 @@
+@import "./Login/login.scss";
+.form {
+    background: linear-gradient(180deg, #e6d4de 0%, #9890c7 100%);
+    height: 100vh;
+    &__container {
+        max-width: 450px;
+        margin: 0 auto;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    &__item {
+        display: flex;
+        flex-direction: column;
+    }
+}

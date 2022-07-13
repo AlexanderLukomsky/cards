@@ -1,4 +1,4 @@
-import { BrowserRouter, HashRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import './App.scss';
 import { AppRoutes } from './Components/Routes/AppRoutes';
 function App() {
