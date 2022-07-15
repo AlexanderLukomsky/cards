@@ -3,7 +3,7 @@ import { Error404 } from "../Error404";
 import { Login } from "./Login/Login";
 import { NewPassword } from "../NewPassword";
 import { PasswordRecovery } from "../PasswordRecovery";
-import { Registration } from "../Registration";
+import { Registration } from "./Registration/Registration";
 import "./form.scss";
 import { formPath } from "./path/form-path";
 

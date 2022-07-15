@@ -11,7 +11,8 @@ export const TestPage = () => (
         <br /><br /><br />
         <div style={{ display: 'flex', justifyContent: 'center' }}><SuperCheckbox /></div>
         <br /><br /><br />
-        <NavLink to='/form/login'>FORM LOGIN</NavLink>
+        <div> <NavLink to='/form/login'>FORM LOGIN</NavLink></div>
+        <div> <NavLink to='/form/registration'>REGISTRATION</NavLink></div>
         <div><SuperButton>button</SuperButton></div>
     </div>
 )

@@ -2,7 +2,7 @@ import { configureStore, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AnyAction, combineReducers } from "redux";
 import { appReducer } from "./reducers/appReducer";
-import { loginReducer } from "./reducers/authReducer";
+import { authReducer } from "./reducers/authReducer";
 import { newPassReducer } from "./reducers/newPassReducer";
 import { passRecoveryReducer } from "./reducers/passRecoveryReducer";
 import { profileReducer } from "./reducers/profileReducer";
@@ -11,7 +11,7 @@ import { registrationReducer } from "./reducers/registrationReducer";
 //store
 export const rootReducers = combineReducers({
     app: appReducer,
-    auth: loginReducer,
+    auth: authReducer,
     newPass: newPassReducer,
     passRecovery: passRecoveryReducer,
     profile: profileReducer,

@@ -1,8 +1,8 @@
 export const passwordValidator = (passValue: string) => {
-    if (passValue.length < 6) {
-        return 'password cannot be less than 6 characters'
+    if (passValue.length < 8) {
+        return 'password cannot be less than 8 characters'
     }
-    if (passValue.match(/^[A-Za-z0-9]{6,}$/) === null) {
+    if (passValue.match(/^[A-Za-z0-9]{8,}$/) === null) {
         return 'invalid password format'
     }
     return ''

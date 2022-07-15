@@ -1,0 +1,42 @@
+.registration {
+    &__buttons {
+        display: flex;
+        margin-bottom: 31px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 65px;
+    }
+    &__button-reg {
+        display: block;
+        background: #21268f;
+        box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+        border-radius: 30px;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+        letter-spacing: 0.01em;
+        color: #ececf9;
+        text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+        max-width: 187px;
+        width: 100%;
+        padding: 9px 0;
+
+        &:disabled {
+            opacity: 0.5;
+        }
+    }
+    &__button-back {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        background: #d7d8ef;
+        border-radius: 30px;
+        letter-spacing: 0.01em;
+        color: rgb(33, 38, 143);
+        text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+        padding: 9px 0;
+        max-width: 124px;
+        width: 100%;
+    }
+}
