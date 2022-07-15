@@ -1,4 +1,3 @@
-import { Container } from "@mui/material";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Error404 } from "../Error404";
 import { Login } from "./Login/Login";
@@ -6,13 +5,8 @@ import { NewPassword } from "../NewPassword";
 import { PasswordRecovery } from "../PasswordRecovery";
 import { Registration } from "../Registration";
 import "./form.scss";
-const formPath = {
-    LOGIN: '/login',
-    REGISTRATION: '/registration',
-    PASS_RECOVERY: '/recovery-password',
-    NEW_PASS: '/new-password',
-    ERROR404: '404'
-}
+import { formPath } from "./path/form-path";
+
 export const Forms = () => (
     <div className="form">
         <div className="form__container">
