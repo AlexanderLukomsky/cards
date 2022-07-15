@@ -19,7 +19,6 @@ export const Password = ({ value, error, onChange, onBlur, label }: PropsType) =
     return (
         <div className={`password${!!error ? ' error' : ''}`}>
             <TextField style={{ width: '100%' }}
-
                 variant="standard" label={label} value={value} type="password"
                 onChange={onChangeHandler}
                 onBlur={onBlurHandler}

@@ -3,6 +3,9 @@ import { _instance } from "./instance"
 export const authApi = {
     auth(data: authDataType) {
         return _instance.post<ResponseType<loginResponseType>>('auth/login', data)
+    },
+    registration(data: authDataType) {
+        return _instance.post('/auth/register', data)
     }
 }
 
@@ -27,5 +30,5 @@ type loginResponseType = {
 export type authDataType = {
     email: string,
     password: string,
-    rememberMe: boolean
+    rememberMe?: boolean
 }

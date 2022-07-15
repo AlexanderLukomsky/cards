@@ -16,9 +16,9 @@ export const Login = () => {
     useEffect(() => { if (auth) { navigate('/') } }, [auth])
     const dispath = useAppDispatch()
     //state
-    const [email, setEmail] = useState<string>('nya-admin@nya.nya')
+    const [email, setEmail] = useState<string>('')
     const [emailError, setEmailError] = useState<string>('')
-    const [password, setPassword] = useState<string>('1qazxcvBG')
+    const [password, setPassword] = useState<string>('')
     const [passwordError, setPasswordError] = useState<string>('')
     //email handlers
     const changeEmailValue = (email: string) => {
