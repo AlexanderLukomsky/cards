@@ -56,7 +56,7 @@ export const Login = () => {
             {(appStatus === 'loading') && <div className="form-progress"><CircularProgress /></div>}
             <h3 className="form__title">Sign In</h3>
             <Email value={email} error={emailError} onChange={changeEmailValue} onBlur={emailValidate} />
-            <Password value={password} error={passwordError} onChange={changePassValue} onBlur={passwordValidate} />
+            <Password label="Password" value={password} error={passwordError} onChange={changePassValue} onBlur={passwordValidate} />
             <NavLink
                 to={`/form/${formPath.PASS_RECOVERY}`}
                 className={"form__link-pass_recovery"} >
