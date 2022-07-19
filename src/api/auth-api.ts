@@ -6,6 +6,9 @@ export const authApi = {
     },
     registration(data: authDataType) {
         return _instance.post('/auth/register', data)
+    },
+    authMe() {
+        return _instance.post('/auth/me', {})
     }
 }
 

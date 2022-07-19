@@ -8,14 +8,16 @@ const pagesPath = {
     ERROR404: '/404',
     PROFILE: '/profile',
 }
-export const AppRoutes = () => (
-    <>
-        <Routes>
-            <Route path={pagesPath.ERROR404} element={<Error404 />} />
-            <Route path={pagesPath.FORM} element={<Forms />} />
-            <Route path={pagesPath.PROFILE} element={<Profile />} />
-            <Route path="/" element={<TestPage />} />
-            <Route path="*" element={<Navigate to={'404'} />} />
-        </Routes>
-    </>
-)
+export const AppRoutes = () => {
+    return (
+        <>
+            <Routes>
+                <Route path={pagesPath.ERROR404} element={<Error404 />} />
+                <Route path={pagesPath.FORM} element={<Forms />} />
+                <Route path={pagesPath.PROFILE} element={<Profile />} />
+                <Route path="/" element={<TestPage />} />
+                <Route path="*" element={<Navigate to={'404'} />} />
+            </Routes>
+        </>
+    )
+}

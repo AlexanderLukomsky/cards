@@ -1,4 +1,4 @@
-import { Button, CircularProgress } from "@mui/material"
+import { CircularProgress } from "@mui/material"
 import { useEffect, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { CustomButton } from "../../../Components/CustomButton"
@@ -13,7 +13,7 @@ export const Login = () => {
     const appStatus = useAppSelector(state => state.app.appStatus)
     const auth = useAppSelector(state => state.app.isAuth)
     const navigate = useNavigate()
-    useEffect(() => { if (auth) { navigate('/') } }, [auth])
+    useEffect(() => { if (auth) { navigate('/') } }, [auth, navigate])
     const dispath = useAppDispatch()
     //state
     const [email, setEmail] = useState<string>('')
@@ -45,7 +45,7 @@ export const Login = () => {
             const data = {
                 email,
                 password,
-                rememberMe: false
+                rememberMe: true
             }
             dispath(authTC(data))
         }

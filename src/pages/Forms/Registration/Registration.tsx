@@ -11,11 +11,8 @@ import { formPath } from "../path/form-path"
 import { emailValidator, passwordValidator } from "../validators"
 import './registration.scss';
 export const Registration = () => {
-    console.log(formPath.LOGIN);
-
     const appStatus = useAppSelector(state => state.app.appStatus)
     const navigate = useNavigate()
-    console.log(appStatus);
     useEffect(() => {
         if (appStatus === 'success') { navigate(`/form/${formPath.LOGIN}`) }
     }, [appStatus])

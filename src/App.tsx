@@ -1,15 +1,22 @@
+import { useEffect } from 'react';
+import { HashRouter } from 'react-router-dom';
 import './App.scss';
 import { AppRoutes } from './Components/Routes/AppRoutes';
-import { useAppSelector } from './store/store';
+import { setIsInitializedAppTC } from './store/reducers/appReducer';
+import { useAppDispatch, useAppSelector } from './store/store';
 function App() {
-  const appError = useAppSelector(state => state.app.error)
-  { !!appError && alert(appError) }
+  const dispatch = useAppDispatch()
+  const appStatus = useAppSelector(state => state.app.appStatus)
+
+  useEffect(() => {
+    dispatch(setIsInitializedAppTC())
+  }, [dispatch])
   return (
     <div className="App">
-
-      {/* <HashRouter> */}
-      <AppRoutes />
-      {/* </HashRouter> */}
+      {appStatus === 'loading' && <div>LOADING APP</div>}
+      <HashRouter>
+        <AppRoutes />
+      </HashRouter>
     </div>
   );
 }
