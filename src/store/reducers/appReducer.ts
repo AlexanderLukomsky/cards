@@ -52,7 +52,6 @@ export const setIsInitializedAppTC = (): AppThunk => async (dispatch) => {
     dispatch(setAppStatus('loading'))
     try {
         const res = await authApi.authMe()
-        console.log(res);
         dispatch(auth(true))
         dispatch(setIsInitializedApp(true))
         dispatch(setAppStatus('success'))
