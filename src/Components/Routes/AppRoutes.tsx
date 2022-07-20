@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Cards } from "../../pages/Cards/Cards";
 import { Error404 } from "../../pages/Error404";
 import { Forms } from "../../pages/Forms/Forms";
-import { Profile } from "../../pages/Profile";
+import { Profile } from "../../pages/Profile/Profile";
 import { TestPage } from "../../pages/TestPage";
 const pagesPath = {
     FORM: '/form/*',

@@ -14,6 +14,7 @@ export const TestPage = () => (
         <div> <NavLink to='/form/login'>FORM LOGIN</NavLink></div>
         <div> <NavLink to='/form/registration'>REGISTRATION</NavLink></div>
         <div> <NavLink to='/cards/cards'>CARDS</NavLink></div>
+        <div> <NavLink to='/profile'>Profile</NavLink></div>
         <div><SuperButton>button</SuperButton></div>
     </div>
 )
