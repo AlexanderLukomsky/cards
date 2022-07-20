@@ -2,7 +2,7 @@ import { CircularProgress } from "@mui/material"
 import { useEffect, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { CustomButton } from "../../../Components/CustomButton"
-import { authTC } from "../../../store/reducers/authReducer"
+import { loginTC } from "../../../store/reducers/authReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { Email } from "../Components/Email"
 import { Password } from "../Components/Password"
@@ -13,7 +13,7 @@ export const Login = () => {
     const appStatus = useAppSelector(state => state.app.appStatus)
     const auth = useAppSelector(state => state.app.isAuth)
     const navigate = useNavigate()
-    useEffect(() => { if (auth) { navigate('/cards') } }, [auth, navigate])
+    useEffect(() => { if (auth) { navigate('/profile') } }, [auth, navigate])
     const dispath = useAppDispatch()
     //state
     const [email, setEmail] = useState<string>('')
@@ -47,7 +47,7 @@ export const Login = () => {
                 password,
                 rememberMe: true
             }
-            dispath(authTC(data))
+            dispath(loginTC(data))
         }
 
     }

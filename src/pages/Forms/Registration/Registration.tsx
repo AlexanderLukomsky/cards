@@ -1,9 +1,8 @@
 import { CircularProgress } from "@mui/material"
 import { useEffect, useState } from "react"
-import { NavLink, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { CustomButton } from "../../../Components/CustomButton"
-import { setAppStatus } from "../../../store/reducers/appReducer"
-import { authTC, registrationTC } from "../../../store/reducers/authReducer"
+import { registrationTC } from "../../../store/reducers/authReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { Email } from "../Components/Email"
 import { Password } from "../Components/Password"
@@ -15,7 +14,7 @@ export const Registration = () => {
     const navigate = useNavigate()
     useEffect(() => {
         if (appStatus === 'success') { navigate(`/form/${formPath.LOGIN}`) }
-    }, [appStatus])
+    }, [appStatus, navigate])
     const dispath = useAppDispatch()
     //state
     const [email, setEmail] = useState<string>('')

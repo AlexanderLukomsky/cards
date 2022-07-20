@@ -1,19 +1,28 @@
+import { CircularProgress } from '@mui/material';
 import { useEffect } from 'react';
-import { HashRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './App.scss';
 import { AppRoutes } from './Components/Routes/AppRoutes';
 import { setIsInitializedAppTC } from './store/reducers/appReducer';
 import { useAppDispatch, useAppSelector } from './store/store';
 function App() {
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const appStatus = useAppSelector(state => state.app.appStatus)
-
+  const appState = useAppSelector(state => state.app)
   useEffect(() => {
     dispatch(setIsInitializedAppTC())
   }, [dispatch])
+  useEffect(() => {
+    if (appState.isAuth) { navigate('/profile') }
+  }, [navigate, appState.isAuth])
+  if (!appState.isInitializedApp) return (
+    <div className='start-loader'>
+      <CircularProgress color="secondary" size="100px" thickness={1.5} />
+    </div>
+  )
+
   return (
     <div className="App">
-      {appStatus === 'loading' && <div>LOADING APP</div>}
       {/* <HashRouter> */}
       <AppRoutes />
       {/* </HashRouter> */}

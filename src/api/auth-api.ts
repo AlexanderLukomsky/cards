@@ -2,31 +2,32 @@ import { _instance } from "./instance"
 
 export const authApi = {
     auth(data: authDataType) {
-        return _instance.post<ResponseType<loginResponseType>>('auth/login', data)
+        return _instance.post<loginResponseType>('auth/login', data)
     },
     registration(data: authDataType) {
         return _instance.post('/auth/register', data)
     },
     authMe() {
         return _instance.post('/auth/me', {})
+    },
+    logout() {
+        return _instance.delete('/auth/me', {})
     }
 }
-
-type ResponseType<D> = {
-    data: D
-}
 type loginResponseType = {
-    _id: string;
-    email: string;
-    name: string;
-    avatar?: string;
-    publicCardPacksCount: number;
-    created: Date;
-    updated: Date;
-    isAdmin: boolean;
-    verified: boolean;
-    rememberMe: boolean;
-    error?: string;
+    created: '',
+    email: "",
+    isAdmin: false,
+    name: "",
+    publicCardPacksCount: 0,
+    rememberMe: false,
+    token: "",
+    tokenDeathTime: 0,
+    updated: '',
+    verified: false,
+    __v: 0,
+    _id: "",
+    avatar?: string
 }
 
 

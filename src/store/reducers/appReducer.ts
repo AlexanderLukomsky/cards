@@ -1,5 +1,6 @@
 import { authApi } from './../../api/auth-api';
 import { AppThunk } from "../store"
+import { setLoginAC } from './authReducer';
 type AppStatusType = "initial" | "loading" | "success" | "error"
 const initialState: InitialStateType = {
     appStatus: 'initial',
@@ -49,17 +50,17 @@ export const setIsInitializedApp = (isInitializedApp: boolean) => (
     } as const
 )
 export const setIsInitializedAppTC = (): AppThunk => async (dispatch) => {
-    dispatch(setAppStatus('loading'))
     try {
+        dispatch(setAppStatus('loading'))
         const res = await authApi.authMe()
         dispatch(auth(true))
-        dispatch(setIsInitializedApp(true))
+        dispatch(setLoginAC(res.data))
         dispatch(setAppStatus('success'))
     } catch (e) {
-        dispatch(setIsInitializedApp(false))
         dispatch(setAppStatus('error'))
+    } finally {
+        setTimeout(() => { dispatch(setIsInitializedApp(true)) }, 1500)
     }
-
 }
 type AppActionType =
     | ReturnType<typeof auth>
