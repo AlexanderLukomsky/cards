@@ -14,9 +14,9 @@ function App() {
   return (
     <div className="App">
       {appStatus === 'loading' && <div>LOADING APP</div>}
-      <HashRouter>
-        <AppRoutes />
-      </HashRouter>
+      {/* <HashRouter> */}
+      <AppRoutes />
+      {/* </HashRouter> */}
     </div>
   );
 }

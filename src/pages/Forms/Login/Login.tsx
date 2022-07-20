@@ -13,7 +13,7 @@ export const Login = () => {
     const appStatus = useAppSelector(state => state.app.appStatus)
     const auth = useAppSelector(state => state.app.isAuth)
     const navigate = useNavigate()
-    useEffect(() => { if (auth) { navigate('/') } }, [auth, navigate])
+    useEffect(() => { if (auth) { navigate('/cards') } }, [auth, navigate])
     const dispath = useAppDispatch()
     //state
     const [email, setEmail] = useState<string>('')
