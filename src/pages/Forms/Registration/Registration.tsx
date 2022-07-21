@@ -13,7 +13,7 @@ export const Registration = () => {
     const appStatus = useAppSelector(state => state.app.appStatus)
     const navigate = useNavigate()
     useEffect(() => {
-        if (appStatus === 'success') { navigate(`/form/${formPath.LOGIN}`) }
+        //  if (appStatus === 'success') { navigate(`/form/${formPath.LOGIN}`) }
     }, [appStatus, navigate])
     const dispath = useAppDispatch()
     //state
@@ -67,9 +67,9 @@ export const Registration = () => {
         }
     }
     return (
-        <div className="form__item registration">
-            {(appStatus === 'loading') && <div className="form-progress"><CircularProgress /></div>}
-            <h3 className="form__title">Sign Up</h3>
+        <div className="registration">
+            {(appStatus === 'loading') && <div className="registration-progress"><CircularProgress /></div>}
+            <h3 className="registration__title">Sign Up</h3>
             <Email value={email} error={emailError} onChange={changeEmailValue} onBlur={emailValidate} />
             <Password label="Password" value={password} error={passwordError} onChange={changePassValue} onBlur={passwordValidate} />
             <Password label="Confirm password" value={confirmPassword} error={confirmPasswordError} onChange={changeConfirmPassValue} onBlur={confirmPasswordValidate} />

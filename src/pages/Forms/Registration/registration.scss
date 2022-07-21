@@ -1,4 +1,17 @@
-.registration {
+.form .registration {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #f9f9fe;
+    border-radius: 8px;
+    padding: 33px 25px 30px;
+    &__title {
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 33px;
+        color: #2d2e46;
+    }
     &__buttons {
         display: flex;
         margin-bottom: 31px;
@@ -38,5 +51,18 @@
         padding: 9px 0;
         max-width: 124px;
         width: 100%;
+    }
+    .registration-progress {
+        position: absolute;
+        height: 101%;
+        width: 101%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        background-color: rgb(46, 47, 72, 0.2);
     }
 }

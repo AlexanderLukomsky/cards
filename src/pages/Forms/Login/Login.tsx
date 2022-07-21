@@ -1,6 +1,6 @@
 import { CircularProgress } from "@mui/material"
-import { useEffect, useState } from "react"
-import { NavLink, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { NavLink } from "react-router-dom"
 import { CustomButton } from "../../../Components/CustomButton"
 import { loginTC } from "../../../store/reducers/authReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
@@ -8,12 +8,9 @@ import { Email } from "../Components/Email"
 import { Password } from "../Components/Password"
 import { formPath } from "../path/form-path"
 import { emailValidator, passwordValidator } from "../validators"
-
+import './login.scss'
 export const Login = () => {
     const appStatus = useAppSelector(state => state.app.appStatus)
-    const auth = useAppSelector(state => state.app.isAuth)
-    const navigate = useNavigate()
-    useEffect(() => { if (auth) { navigate('/profile') } }, [auth, navigate])
     const dispath = useAppDispatch()
     //state
     const [email, setEmail] = useState<string>('')
@@ -52,24 +49,24 @@ export const Login = () => {
 
     }
     return (
-        <div className="form__item login">
-            {(appStatus === 'loading') && <div className="form-progress"><CircularProgress /></div>}
-            <h3 className="form__title">Sign In</h3>
+        <div className="login">
+            {(appStatus === 'loading') && <div className="login-progress"><CircularProgress /></div>}
+            <h3 className="login__title">Sign In</h3>
             <Email value={email} error={emailError} onChange={changeEmailValue} onBlur={emailValidate} />
             <Password label="Password" value={password} error={passwordError} onChange={changePassValue} onBlur={passwordValidate} />
             <NavLink
                 to={`/form/${formPath.PASS_RECOVERY}`}
-                className={"form__link-pass_recovery"} >
+                className={"login__link-pass_recovery"} >
                 Forgot Password
             </NavLink>
             <CustomButton
                 onClick={setLogin}
                 disabled={!!emailError || !!passwordError || appStatus === 'loading'}
-                className={"form__button-login"} >
+                className={"login__button-login"} >
                 Login
             </CustomButton>
-            <NavLink to='/' className={"form__link-info"} >Don’t have an account?</NavLink>
-            <NavLink to={`/form/${formPath.REGISTRATION}`} className={"form__link-registration"}>Sign Up</NavLink>
+            <NavLink to='/' className={"login__link-info"} >Don’t have an account?</NavLink>
+            <NavLink to={`/form/${formPath.REGISTRATION}`} className={"login__link-registration"}>Sign Up</NavLink>
         </div>
     )
 }
