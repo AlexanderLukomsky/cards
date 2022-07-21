@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom"
 import { Profile } from "./Profile/Profile"
 import './profilePage.scss'
 export const ProfilePage = () => {
@@ -6,6 +7,7 @@ export const ProfilePage = () => {
             <div className="profile_page__container container">
                 <Profile />
             </div>
+            <NavLink to='/cards/cards' >cards</NavLink>
         </div>
     )
 }

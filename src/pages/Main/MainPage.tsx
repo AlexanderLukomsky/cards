@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom"
-import { pagesPath } from "../../Components/Routes/AppRoutes";
+import { NavLink, useNavigate } from "react-router-dom"
+import { useAppSelector } from "../../store/store";
 import { Login } from "../Forms/Login/Login";
 import { formPath } from "../Forms/path/form-path"
 import './mainPage.scss'
 
 export const MainPage = () => {
     const [btnStyle, setBtnStyle] = useState<' base' | ' intervalColor'>(' base')
+    const navigate = useNavigate()
+    const isAuth = useAppSelector(state => state.app.isAuth)
+    useEffect(() => {
+        if (isAuth) { navigate('/profile') }
+    }, [isAuth, navigate])
     useEffect(() => {
         const id = setInterval(() => {
             if (btnStyle === ' base') {

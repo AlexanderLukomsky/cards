@@ -6,7 +6,6 @@ import { registrationTC } from "../../../store/reducers/authReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { Email } from "../Components/Email"
 import { Password } from "../Components/Password"
-import { formPath } from "../path/form-path"
 import { emailValidator, passwordValidator } from "../validators"
 import './registration.scss';
 export const Registration = () => {
