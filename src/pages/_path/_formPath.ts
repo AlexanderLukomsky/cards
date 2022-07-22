@@ -1,4 +1,4 @@
-export const formPath = {
+export const _formPath = {
     LOGIN: 'login',
     REGISTRATION: 'registration',
     PASS_RECOVERY: 'recovery-password',

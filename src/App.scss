@@ -5,6 +5,8 @@
 }
 .App {
   background: grey;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #e6d4de 0%, #9890c7 100%);
 }
 .start-loader {
   background: linear-gradient(180deg, #e6d4de 0%, #9890c7 100%);

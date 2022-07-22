@@ -1,3 +1,5 @@
+import { cardsReducer } from './reducers/cardsReducer';
+import { packsReducer } from './reducers/packsReducer';
 import { configureStore, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AnyAction, combineReducers } from "redux";
@@ -15,7 +17,9 @@ export const rootReducers = combineReducers({
     newPass: newPassReducer,
     passRecovery: passRecoveryReducer,
     profile: profileReducer,
-    registration: registrationReducer
+    registration: registrationReducer,
+    packs: packsReducer,
+    cards: cardsReducer
 })
 export const store = configureStore({
     reducer: rootReducers

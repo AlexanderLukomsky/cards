@@ -1,0 +1,21 @@
+.cards {
+    background: #fefeff;
+    padding: 24px 48px;
+    &__title {
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 33px;
+        color: #2d2e46;
+        margin-bottom: 15px;
+        font-family: sans-serif;
+    }
+    .head {
+        background: #ececf9;
+        &__title {
+            font-weight: 700;
+            font-size: 13px;
+            line-height: 16px;
+            color: #2d2e46;
+        }
+    }
+}

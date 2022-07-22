@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom"
 import { CustomButton } from "../../../Components/CustomButton"
 import { loginTC } from "../../../store/reducers/authReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
+import { _formPath } from "../../_path/_formPath"
 import { Email } from "../Components/Email"
 import { Password } from "../Components/Password"
-import { formPath } from "../path/form-path"
 import { emailValidator, passwordValidator } from "../validators"
 import './login.scss'
 export const Login = () => {
@@ -55,7 +55,7 @@ export const Login = () => {
             <Email value={email} error={emailError} onChange={changeEmailValue} onBlur={emailValidate} />
             <Password label="Password" value={password} error={passwordError} onChange={changePassValue} onBlur={passwordValidate} />
             <NavLink
-                to={`/form/${formPath.PASS_RECOVERY}`}
+                to={`/form/${_formPath.PASS_RECOVERY}`}
                 className={"login__link-pass_recovery"} >
                 Forgot Password
             </NavLink>
@@ -66,7 +66,7 @@ export const Login = () => {
                 Login
             </CustomButton>
             <NavLink to='/' className={"login__link-info"} >Don’t have an account?</NavLink>
-            <NavLink to={`/form/${formPath.REGISTRATION}`} className={"login__link-registration"}>Sign Up</NavLink>
+            <NavLink to={`/form/${_formPath.REGISTRATION}`} className={"login__link-registration"}>Sign Up</NavLink>
         </div>
     )
 }

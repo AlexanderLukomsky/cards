@@ -1,0 +1,14 @@
+.packs_page {
+    position: relative;
+    min-height: 100vh;
+    &__packs {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+    &-progress {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+}

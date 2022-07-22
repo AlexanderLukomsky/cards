@@ -59,7 +59,7 @@ export const setIsInitializedAppTC = (): AppThunk => async (dispatch) => {
     } catch (e) {
         dispatch(setAppStatus('error'))
     } finally {
-        setTimeout(() => { dispatch(setIsInitializedApp(true)) }, 1500)
+        setTimeout(() => { dispatch(setIsInitializedApp(true)) }, 200)
     }
 }
 type AppActionType =

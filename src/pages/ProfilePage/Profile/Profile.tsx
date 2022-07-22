@@ -5,6 +5,7 @@ import './profile.scss'
 import LogoutIcon from '@mui/icons-material/Logout';
 import { logoutTC } from "../../../store/reducers/authReducer";
 import { useNavigate } from "react-router-dom";
+import { _pagesPath } from "../../_path/_pagesPath";
 export const Profile = React.memo(() => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -12,7 +13,7 @@ export const Profile = React.memo(() => {
     const authState = useAppSelector(state => state.auth)
     const isAuth = useAppSelector(state => state.app).isAuth
     useEffect(() => {
-        if (!isAuth) { navigate('/cards') }
+        if (!isAuth) { navigate(_pagesPath.MAIN) }
     }, [isAuth, navigate])
     const editProfile = () => {
         setEditMode(!editMode)

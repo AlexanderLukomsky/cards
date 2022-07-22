@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../store/store";
 import { Login } from "../Forms/Login/Login";
-import { formPath } from "../Forms/path/form-path"
+import { _formPath } from "../_path/_formPath";
+import { _pagesPath } from "../_path/_pagesPath";
 import './mainPage.scss'
 
 export const MainPage = () => {
@@ -10,7 +11,7 @@ export const MainPage = () => {
     const navigate = useNavigate()
     const isAuth = useAppSelector(state => state.app.isAuth)
     useEffect(() => {
-        if (isAuth) { navigate('/profile') }
+        if (isAuth) { navigate(_pagesPath.PROFILE) }
     }, [isAuth, navigate])
     useEffect(() => {
         const id = setInterval(() => {
@@ -27,13 +28,13 @@ export const MainPage = () => {
     }, [btnStyle])
     return (
         <div>
-            <div> <NavLink to='/cards/cards'>CARDS</NavLink></div>
-            <div> <NavLink to='/profile'>Profile</NavLink></div>
-            <div> <NavLink to={`/form/${formPath.LOGIN}`}>FORM LOGIN</NavLink></div>
+            <div> <NavLink to={_pagesPath.PACKS}>PACKS</NavLink></div>
+            <div> <NavLink to={_pagesPath.PROFILE}>Profile</NavLink></div>
+            <div> <NavLink to={`/form/${_formPath.LOGIN}`}>FORM LOGIN</NavLink></div>
             <div className="main">
                 <div className="main__columns container">
                     <div className="main__column_nav">
-                        <div className={`main__reg-btn${btnStyle}`}> <NavLink to={`/form/${formPath.REGISTRATION}`}>REGISTRATION</NavLink></div>
+                        <div className={`main__reg-btn${btnStyle}`}> <NavLink to={`/form/${_formPath.REGISTRATION}`}>REGISTRATION</NavLink></div>
                     </div>
                     <div className="main__column_login">
                         <Login />
