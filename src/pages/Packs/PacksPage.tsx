@@ -1,9 +1,9 @@
 import { Pagination, Slider } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CustomSelect } from '../../Components/CustomSelect/CustomSelect'
 import { Header } from '../../Components/Header/Header'
-import { getPacksTC } from '../../store/reducers/packsReducer'
+import { changeMinMaxCardsValueAC, getPacksTC } from '../../store/reducers/packsReducer'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { _pagesPath } from '../_path/_pagesPath'
 import { Packs } from './Packs'
@@ -22,26 +22,47 @@ export const PacksPage = () => {
         const packsStorageSettings = localStorage.getItem('packs')
         if (typeof packsStorageSettings === 'string') {
             const packsSettings = JSON.parse(packsStorageSettings)
-            dispatch(getPacksTC({ ...packsSettings }))
+            dispatch(getPacksTC({ ...packsSettings.data }))
+            console.log(packsSettings);
+            if (packsSettings.data.min && packsSettings.data.max) {
+                setMinMax([packsSettings.data.min, packsSettings.data.max])
+            }
             return
         }
         dispatch(getPacksTC())
     }, [isAuth, navigate, dispatch])
+    const setLocalStorageParams = (params: any) => {
+        const data = {
+            page: packs.data.page,
+            pageCount: packs.data.pageCount,
+            min: packs.params.minCards,
+            max: packs.params.maxCards,
+            ...params
+        }
+        localStorage.setItem('packs', JSON.stringify({ data }))
+    }
     const changePacksPageCount = (pageCount: number) => {
-        const page = packs.data.page
-        localStorage.setItem('packs', JSON.stringify({ pageCount, page }))
         dispatch(getPacksTC({ pageCount }))
+        setLocalStorageParams({ pageCount })
     }
     const changePage = (e: any, page: number) => {
-        const pageCount = packs.data.pageCount
-        localStorage.setItem('packs', JSON.stringify({ pageCount, page }))
         dispatch(getPacksTC({ page }))
+        setLocalStorageParams({ page })
     }
     //**slider */
-    const [value, setValue] = useState<number[]>([20, 37]);
-    const handleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number[]);
+
+    const [minMax, setMinMax] = useState<number[]>([packs.params.minCards, packs.params.maxCards])
+    const changeMinMaxCardsValue = (event: Event, values: number | number[]) => {
+        setMinMax(values as number[])
     };
+    const sortByCardsNumber = (min: number, max: number) => {
+        const sortValues = { min, max }
+        dispatch(getPacksTC(sortValues))
+        dispatch(changeMinMaxCardsValueAC(sortValues))
+        setLocalStorageParams(sortValues)
+    }
+
+
     //*slider end
     return (
         <div className="packs_page container">
@@ -53,12 +74,16 @@ export const PacksPage = () => {
                         <div><button>ALL</button></div>
                     </div>
                     <div> show packs cards
-                        <div>
+                        <div className='slider-wrapper'>
                             <Slider
-                                getAriaLabel={() => 'Temperature range'}
-                                value={value}
-                                onChange={handleChange}
-                                valueLabelDisplay="auto"
+                                value={minMax}
+                                onChange={changeMinMaxCardsValue}
+                                onMouseUp={() => sortByCardsNumber(minMax[0], minMax[1])}
+                                color="secondary"
+                                size='medium'
+                                valueLabelDisplay="on"
+                                min={packs.data.minCardsCount}
+                                max={packs.data.maxCardsCount}
                             />
                         </div>
                     </div>

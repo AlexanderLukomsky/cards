@@ -1,10 +1,10 @@
 import { CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import moment from 'moment'
 import './packs.scss'
-import { MouseEvent } from "react"
+import React, { MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
 import { PacksType } from "../../api/packs-api"
-export const Packs = ({ packs, isInitialized, ...props }: PropsType) => {
+export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) => {
     const navigate = useNavigate()
     const formatDate = (date: Date) => {
         return moment(date).format("DD.MM.YYYY")
@@ -72,7 +72,7 @@ export const Packs = ({ packs, isInitialized, ...props }: PropsType) => {
         </>
     )
 }
-
+)
 type PropsType = {
     packs: PacksType[]
     isInitialized: boolean

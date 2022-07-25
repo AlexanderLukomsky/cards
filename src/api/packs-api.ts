@@ -38,6 +38,6 @@ export type PacksType = {
     _id: string
 }
 type RequestType = {
-    pageCount?: number
-    page?: number
+    pageCount: number
+    page: number
 }

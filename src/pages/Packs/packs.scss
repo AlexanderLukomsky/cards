@@ -17,3 +17,19 @@
         }
     }
 }
+
+.slider-wrapper {
+    .MuiSlider-valueLabelOpen {
+        background-color: #21268f;
+        border-radius: 3px;
+        .MuiSlider-valueLabelCircle {
+            padding: 2px;
+            font-size: 14px;
+            line-height: 17px;
+            color: #ffffff;
+        }
+        &::before {
+            display: none;
+        }
+    }
+}
