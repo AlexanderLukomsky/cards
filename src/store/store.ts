@@ -1,5 +1,5 @@
 import { cardsReducer } from './reducers/cardsReducer';
-import { packsReducer } from './reducers/packsReducer';
+import { PacksActionType, packsReducer } from './reducers/packsReducer';
 import { configureStore, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AnyAction, combineReducers } from "redux";
@@ -33,3 +33,4 @@ export type AppDispatchType = ThunkDispatch<AppRootStoreType, unknown, AppAction
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStoreType, unknown, AppActionsType>
 type AppActionsType =
     | AnyAction
+    | PacksActionType

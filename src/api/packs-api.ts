@@ -1,11 +1,15 @@
 import { _instance } from "./instance"
 
 export const packsAPI = {
-    getPacks() {
-        return _instance.get<PacksResponseDataType>('/cards/pack?&min=5')
+    getPacks(requestParams: RequestType) {
+        return _instance.get<PacksDataType>('/cards/pack', {
+            params: {
+                ...requestParams
+            }
+        })
     }
 }
-export type PacksResponseDataType = {
+export type PacksDataType = {
     cardPacks: PacksType[]
     cardPacksTotalCount: number
     maxCardsCount: number
@@ -32,4 +36,8 @@ export type PacksType = {
     user_name: string
     __v: number
     _id: string
+}
+type RequestType = {
+    pageCount?: number
+    page?: number
 }

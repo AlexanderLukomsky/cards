@@ -1,14 +1,26 @@
 .packs_page {
     position: relative;
     min-height: 100vh;
-    &__packs {
+
+    &__columns {
         display: flex;
-        flex-wrap: wrap;
-        margin-top: 10px;
+        margin: 10px 10px 0;
+        border-radius: 8px;
+        overflow: hidden;
     }
     &-progress {
         position: absolute;
         top: 50%;
         left: 50%;
+    }
+    .packs-wrapper {
+        background: #fefeff;
+        padding: 24px 48px;
+        width: 100%;
+    }
+    &__bar {
+        max-width: 243px;
+        width: 100%;
+        background: #ececf9;
     }
 }

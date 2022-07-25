@@ -15,7 +15,7 @@ export const Packs = ({ packs, isInitialized, ...props }: PropsType) => {
         }
     }
     return (
-        <div style={{ maxWidth: '1000px', margin: '0 auto' }} className='packs'>
+        <>
             <h3 className="packs__title">Packs list</h3>
             <TableContainer className="packs__table" component={Paper}>
                 <Table sx={{ maxWidth: 960 }} aria-label="simple table" >
@@ -66,11 +66,10 @@ export const Packs = ({ packs, isInitialized, ...props }: PropsType) => {
                                     ))}
                                 </>
                         }
-
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+        </>
     )
 }
 

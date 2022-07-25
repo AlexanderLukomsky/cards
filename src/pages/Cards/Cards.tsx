@@ -2,7 +2,7 @@ import { CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, T
 import { CardsType } from "../../api/cards-api"
 import { formatDate } from "../../utils/formatDate";
 import './cards.scss';
-export const Cards = ({ cards, isInitialized, ...props }: any) => {
+export const Cards = ({ cards, isInitialized, ...props }: PropsType) => {
     return (
         <div style={{ maxWidth: '1200px', margin: '0 auto' }} className='cards'>
             <h3 className="cards__title">Packs list</h3>
