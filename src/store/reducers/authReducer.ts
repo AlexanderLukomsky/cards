@@ -44,7 +44,6 @@ export const loginTC = (data: authDataType): AppThunk => async (dispatch) => {
     try {
         const res = await authApi.auth(data)
         dispatch(setLoginAC(res.data))
-        console.log(res.data);
         dispatch(setAppStatus('success'))
         dispatch(auth(true))
     } catch (e) {

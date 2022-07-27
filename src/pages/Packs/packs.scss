@@ -16,20 +16,10 @@
             color: #2d2e46;
         }
     }
-}
-
-.slider-wrapper {
-    .MuiSlider-valueLabelOpen {
-        background-color: #21268f;
-        border-radius: 3px;
-        .MuiSlider-valueLabelCircle {
-            padding: 2px;
-            font-size: 14px;
-            line-height: 17px;
-            color: #ffffff;
-        }
-        &::before {
-            display: none;
+    &__row {
+        cursor: pointer;
+        &:hover {
+            background-color: #ececf9;
         }
     }
 }

@@ -23,4 +23,61 @@
         width: 100%;
         background: #ececf9;
     }
+    &__footer {
+        padding: 10px;
+        display: flex;
+    }
+    &__footer-select {
+        margin-left: auto;
+    }
+    .slider-wrapper {
+        padding: 10px;
+        margin: 0 auto;
+        max-width: 230px;
+        .MuiSlider-valueLabelOpen {
+            background-color: #21268f;
+            border-radius: 3px;
+            .MuiSlider-valueLabelCircle {
+                padding: 2px;
+                font-size: 14px;
+                line-height: 17px;
+                color: #ffffff;
+            }
+            &::before {
+                display: none;
+            }
+        }
+    }
+    .profile {
+        padding: 10px;
+        max-width: 100%;
+        display: grid;
+        grid-template-areas:
+            "B B B B  B B B B  A A A A"
+            "C C C C  C C C C  C C C C";
+        &__logout {
+            grid-area: A;
+            background-color: transparent;
+        }
+        &__img_container {
+            grid-area: B;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+        &__info {
+            grid-area: C;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+        img {
+            width: 100%;
+        }
+        &__edit {
+            display: none;
+        }
+    }
 }

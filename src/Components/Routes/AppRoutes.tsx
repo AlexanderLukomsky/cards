@@ -12,6 +12,7 @@ export const AppRoutes = () => {
             <Routes>
                 <Route path={_pagesPath.MAIN} element={<MainPage />} />
                 <Route path="/" element={<Navigate to={_pagesPath.MAIN} />} />
+                <Route path="/Cards" element={<Navigate to={_pagesPath.MAIN} />} />
 
                 <Route path={_pagesPath.PROFILE} element={<ProfilePage />} />
                 <Route path={_pagesPath.PACKS} element={<PacksPage />} />

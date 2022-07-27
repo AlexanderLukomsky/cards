@@ -1,7 +1,7 @@
 import { _instance } from "./instance"
 
 export const packsAPI = {
-    getPacks(requestParams: RequestType) {
+    getPacks(requestParams?: RequestType) {
         return _instance.get<PacksDataType>('/cards/pack', {
             params: {
                 ...requestParams
@@ -38,6 +38,8 @@ export type PacksType = {
     _id: string
 }
 type RequestType = {
-    pageCount: number
-    page: number
+    pageCount?: number
+    page?: number
+    min?: number
+    max?: number
 }

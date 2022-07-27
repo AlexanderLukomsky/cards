@@ -15,7 +15,7 @@ export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) 
         }
     }
     return (
-        <>
+        <div className="packs">
             <h3 className="packs__title">Packs list</h3>
             <TableContainer className="packs__table" component={Paper}>
                 <Table sx={{ maxWidth: 960 }} aria-label="simple table" >
@@ -45,6 +45,7 @@ export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) 
                                 <>
                                     {packs.map((p) => (
                                         <TableRow onDoubleClick={(e) => goToCard(e, p._id)}
+                                            className={'packs__row'}
                                             key={p._id}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
@@ -69,7 +70,7 @@ export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) 
                     </TableBody>
                 </Table>
             </TableContainer>
-        </>
+        </div>
     )
 }
 )

@@ -4,53 +4,41 @@ import { AppThunk } from '../store';
 export const packsReducer = (state: InitStateType = initState, action: PacksActionType): InitStateType => {
     switch (action.type) {
         case 'packs/SET-PACKS':
-            return {
-                ...state,
-                isInitialized: action.payload.isInitialized,
-                data: action.payload.data
-            }
-        case 'packs/CHANGE-MIN-MAX-CARDS-VALUE':
-            return {
-                ...state, params: {
-                    ...state.params,
-                    minCards: action.payload.values.min,
-                    maxCards: action.payload.values.max
-                }
-            }
+            return { ...state, ...action.payload }
         default: return state
     }
 }
-const setPacksAC = (payload: { isInitialized: boolean, data: PacksDataType }) => (
+// AC / TC
+const setPacksAC = (payload: { isInitialized: boolean, data: PacksDataType, params: { min: number, max: number } }) => (
     {
         type: 'packs/SET-PACKS',
         payload
     } as const
 )
-export const changeMinMaxCardsValueAC = (values: { min: number, max: number }) => ({
-    type: 'packs/CHANGE-MIN-MAX-CARDS-VALUE',
-    payload: { values }
-} as const)
 export const getPacksTC = (requestModel?: RequestModelType): AppThunk => async (dispatch, getState) => {
-    const state = getState().packs
+    const initState = getState().packs
     const requestParams = {
-        page: state.data.page,
-        pageCount: state.data.pageCount,
-        min: state.params.minCards,
-        max: state.params.maxCards,
+        page: initState.data.page,
+        pageCount: initState.data.pageCount,
+        min: initState.params.min,
+        max: initState.params.max,
         ...requestModel
     }
+    const params = (!!requestModel?.min && !!requestModel?.max) ?
+        { min: requestModel.min, max: requestModel.max } :
+        { min: initState.params.min, max: initState.params.max }
     try {
         const res = await packsAPI.getPacks(requestParams)
-        console.log(res);
-        dispatch(setPacksAC({ isInitialized: true, data: res.data }))
+        dispatch(setPacksAC({ isInitialized: true, data: res.data, params }))
     } catch (e) {
-        console.log('error cards page');
+
     }
 }
+
+
+
 export type PacksActionType =
     | ReturnType<typeof setPacksAC>
-    | ReturnType<typeof changeMinMaxCardsValueAC>
-
 
 const initState = {
     isInitialized: false,
@@ -60,8 +48,8 @@ const initState = {
         cardPacksTotalCount: 5,
     } as PacksDataType,
     params: {
-        minCards: 0,
-        maxCards: 110
+        min: 0,
+        max: 110
     }
 }
 type InitStateType = typeof initState

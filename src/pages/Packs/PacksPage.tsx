@@ -1,17 +1,22 @@
-import { Pagination, Slider } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CustomSelect } from '../../Components/CustomSelect/CustomSelect'
 import { Header } from '../../Components/Header/Header'
-import { changeMinMaxCardsValueAC, getPacksTC } from '../../store/reducers/packsReducer'
+import { PaginationPacks } from './PaginationPacks/PaginationPacks'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { _pagesPath } from '../_path/_pagesPath'
 import { Packs } from './Packs'
 import './packsPage.scss'
+import { SortPackCards } from './SortPackCards/SortPackCards'
+import { setPacksStorage } from './utilsPacks/setPacksStorage'
+import { getPacksTC } from '../../store/reducers/packsReducer'
+import { PacksBarHeader } from './PacksBarHeader/PacksBarHeader'
+import { PacksHeader } from './PacksHeader/PacksHeader'
 export const PacksPage = () => {
     const isAuth = useAppSelector(state => state.app.isAuth)
     const packs = useAppSelector(state => state.packs)
-    const pageTotalCount = Math.ceil(packs.data.cardPacksTotalCount / packs.data.pageCount)
+    console.log(packs);
+    console.log('packs-page');
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     useEffect(() => {
@@ -19,81 +24,40 @@ export const PacksPage = () => {
             navigate(_pagesPath.MAIN)
             return
         }
-        const packsStorageSettings = localStorage.getItem('packs')
-        if (typeof packsStorageSettings === 'string') {
-            const packsSettings = JSON.parse(packsStorageSettings)
-            dispatch(getPacksTC({ ...packsSettings.data }))
-            console.log(packsSettings);
-            if (packsSettings.data.min && packsSettings.data.max) {
-                setMinMax([packsSettings.data.min, packsSettings.data.max])
-            }
+        const packsStorageAsString = localStorage.getItem('packs')
+        if (packsStorageAsString !== null) {
+            const data = JSON.parse(packsStorageAsString)
+            dispatch(getPacksTC({ ...data.packs }))
             return
         }
         dispatch(getPacksTC())
     }, [isAuth, navigate, dispatch])
-    const setLocalStorageParams = (params: any) => {
-        const data = {
-            page: packs.data.page,
-            pageCount: packs.data.pageCount,
-            min: packs.params.minCards,
-            max: packs.params.maxCards,
-            ...params
-        }
-        localStorage.setItem('packs', JSON.stringify({ data }))
-    }
     const changePacksPageCount = (pageCount: number) => {
-        dispatch(getPacksTC({ pageCount }))
-        setLocalStorageParams({ pageCount })
+        dispatch(getPacksTC({ pageCount, page: 1 }))
+        setPacksStorage({ pageCount, page: 1 })
     }
-    const changePage = (e: any, page: number) => {
-        dispatch(getPacksTC({ page }))
-        setLocalStorageParams({ page })
-    }
-    //**slider */
-
-    const [minMax, setMinMax] = useState<number[]>([packs.params.minCards, packs.params.maxCards])
-    const changeMinMaxCardsValue = (event: Event, values: number | number[]) => {
-        setMinMax(values as number[])
-    };
-    const sortByCardsNumber = (min: number, max: number) => {
-        const sortValues = { min, max }
-        dispatch(getPacksTC(sortValues))
-        dispatch(changeMinMaxCardsValueAC(sortValues))
-        setLocalStorageParams(sortValues)
-    }
-
-
-    //*slider end
     return (
         <div className="packs_page container">
             <Header page='cards' />
+            <PacksHeader />
             <div className='packs_page__columns'>
                 <div className='packs_page__bar'>
-                    <div>
-                        <div><button>MY</button></div>
-                        <div><button>ALL</button></div>
+                    <div className='packs_page__bar-header'>
+                        <PacksBarHeader />
                     </div>
-                    <div> show packs cards
-                        <div className='slider-wrapper'>
-                            <Slider
-                                value={minMax}
-                                onChange={changeMinMaxCardsValue}
-                                onMouseUp={() => sortByCardsNumber(minMax[0], minMax[1])}
-                                color="secondary"
-                                size='medium'
-                                valueLabelDisplay="on"
-                                min={packs.data.minCardsCount}
-                                max={packs.data.maxCardsCount}
-                            />
-                        </div>
+                    <div className='slider-wrapper'>
+                        <SortPackCards />
                     </div>
-                    <div>profile</div>
-                    <div>pag card number</div>
+
                 </div>
                 <div className='packs-wrapper'>
                     <Packs isInitialized={packs.isInitialized} packs={packs.data.cardPacks} />
-                    <CustomSelect pageCount={packs.data.pageCount} onChange={changePacksPageCount} />
-                    <Pagination page={packs.data.page} onChange={changePage} count={pageTotalCount} showFirstButton showLastButton />
+                    <div className='packs_page__footer'>
+                        <PaginationPacks />
+                        <div className='packs_page__footer-select'>
+                            <CustomSelect pageCount={packs.data.pageCount} onChange={changePacksPageCount} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
