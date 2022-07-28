@@ -1,9 +1,10 @@
 import { CircularProgress } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { CustomButton } from "../../../Components/CustomButton"
 import { registrationTC } from "../../../store/reducers/authReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
+import { _pagesPath } from "../../_path/_pagesPath"
 import { Email } from "../Components/Email"
 import { Password } from "../Components/Password"
 import { emailValidator, passwordValidator } from "../validators"
@@ -73,10 +74,11 @@ export const Registration = () => {
             <Password label="Password" value={password} error={passwordError} onChange={changePassValue} onBlur={passwordValidate} />
             <Password label="Confirm password" value={confirmPassword} error={confirmPasswordError} onChange={changeConfirmPassValue} onBlur={confirmPasswordValidate} />
             <div className="registration__buttons">
-                <CustomButton
-                    className={"registration__button-back"} >
+                <NavLink className={"registration__button-back"}
+                    to={_pagesPath.MAIN}
+                >
                     Home page
-                </CustomButton>
+                </NavLink>
                 <CustomButton
                     onClick={setRegistration}
                     disabled={!!emailError || !!passwordError || !!confirmPasswordError || appStatus === 'loading'}

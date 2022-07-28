@@ -3,19 +3,27 @@ import { packsAPI } from '../../api/packs-api';
 import { AppThunk } from '../store';
 export const packsReducer = (state: InitStateType = initState, action: PacksActionType): InitStateType => {
     switch (action.type) {
-        case 'packs/SET-PACKS':
-            return { ...state, ...action.payload }
+        case 'packs/SET-PACKS': return { ...state, ...action.payload }
+        case 'packs/IS-INITIALIZED': return { ...state, isInitialized: action.payload.isInitialized }
+
         default: return state
     }
 }
 // AC / TC
-const setPacksAC = (payload: { isInitialized: boolean, data: PacksDataType, params: { min: number, max: number } }) => (
+const setPacksAC = (payload: { data: PacksDataType, params: { min: number, max: number } }) => (
     {
         type: 'packs/SET-PACKS',
         payload
     } as const
 )
+const setIsInitializedPacksAC = (payload: { isInitialized: boolean }) => (
+    {
+        type: 'packs/IS-INITIALIZED',
+        payload
+    } as const
+)
 export const getPacksTC = (requestModel?: RequestModelType): AppThunk => async (dispatch, getState) => {
+    dispatch(setIsInitializedPacksAC({ isInitialized: false }))
     const initState = getState().packs
     const requestParams = {
         page: initState.data.page,
@@ -29,16 +37,17 @@ export const getPacksTC = (requestModel?: RequestModelType): AppThunk => async (
         { min: initState.params.min, max: initState.params.max }
     try {
         const res = await packsAPI.getPacks(requestParams)
-        dispatch(setPacksAC({ isInitialized: true, data: res.data, params }))
+        dispatch(setPacksAC({ data: res.data, params }))
     } catch (e) {
 
+    } finally {
+        dispatch(setIsInitializedPacksAC({ isInitialized: true }))
     }
 }
 
-
-
 export type PacksActionType =
     | ReturnType<typeof setPacksAC>
+    | ReturnType<typeof setIsInitializedPacksAC>
 
 const initState = {
     isInitialized: false,

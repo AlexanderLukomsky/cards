@@ -15,8 +15,6 @@ import { PacksHeader } from './PacksHeader/PacksHeader'
 export const PacksPage = () => {
     const isAuth = useAppSelector(state => state.app.isAuth)
     const packs = useAppSelector(state => state.packs)
-    console.log(packs);
-    console.log('packs-page');
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     useEffect(() => {
@@ -48,7 +46,6 @@ export const PacksPage = () => {
                     <div className='slider-wrapper'>
                         <SortPackCards />
                     </div>
-
                 </div>
                 <div className='packs-wrapper'>
                     <Packs isInitialized={packs.isInitialized} packs={packs.data.cardPacks} />
