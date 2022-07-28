@@ -1,24 +1,13 @@
 import { FormControl, MenuItem, Select } from '@mui/material'
-export const CustomSelect = ({ pageCount, onChange, ...props }: PropsType) => {
-    return (
-        <>
-            <FormControl variant='outlined' size='small'>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={pageCount}
-                    label="Age"
-                    onChange={(e) => { onChange(+e.target.value) }}
-                >
-                    <MenuItem value={5}>5</MenuItem>
-                    <MenuItem value={10}>10</MenuItem>
-                    <MenuItem value={15}>15</MenuItem>
-                </Select>
-            </FormControl>
-        </>
-    )
-}
+export const CustomSelect = ({ value, onChange, items, ...props }: PropsType) => (
+    <FormControl variant='outlined' size='small'>
+        <Select value={value} label="Age" onChange={(e) => { onChange(+e.target.value) }}>
+            {items.map(i => <MenuItem key={i} value={i}>{i}</MenuItem>)}
+        </Select>
+    </FormControl>
+)
 type PropsType = {
-    pageCount: number,
-    onChange: (pageCount: number) => void
+    items: number[]
+    value: number,
+    onChange: (value: number) => void
 }

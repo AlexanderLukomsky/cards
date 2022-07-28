@@ -3,10 +3,13 @@ import { _instance } from "./instance"
 export const packsAPI = {
     getPacks(requestParams?: RequestType) {
         return _instance.get<PacksDataType>('/cards/pack', {
-            params: {
-                ...requestParams
-            }
+            params: requestParams
         })
+    },
+    createPack(name: string) { return _instance.post('/cards/pack', { cardsPack: { name } }) },
+    deletePack(id: string) { return _instance.delete(`/cards/pack?id=${id}`) },
+    editPackName({ _id, name }: { _id: string, name: string }) {
+        return _instance.put(`/cards/pack`, { cardsPack: { _id, name } })
     }
 }
 export type PacksDataType = {

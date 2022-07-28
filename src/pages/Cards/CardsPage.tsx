@@ -16,7 +16,7 @@ export const CardsPage = () => {
         return () => {
             dispach(setInitializedAC(false))
         }
-    }, [])
+    }, [dispach, packId])
     return (
         <div className="cards_page container">
             <Header page='cards' />

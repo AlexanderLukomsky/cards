@@ -30,14 +30,13 @@ export const PacksPage = () => {
         }
         dispatch(getPacksTC())
     }, [isAuth, navigate, dispatch])
-    const changePacksPageCount = (pageCount: number) => {
+    const pageCountHandler = (pageCount: number) => {
         dispatch(getPacksTC({ pageCount, page: 1 }))
         setPacksStorage({ pageCount, page: 1 })
     }
     return (
         <div className="packs_page container">
             <Header page='cards' />
-            <PacksHeader />
             <div className='packs_page__columns'>
                 <div className='packs_page__bar'>
                     <div className='packs_page__bar-header'>
@@ -52,7 +51,7 @@ export const PacksPage = () => {
                     <div className='packs_page__footer'>
                         <PaginationPacks />
                         <div className='packs_page__footer-select'>
-                            <CustomSelect pageCount={packs.data.pageCount} onChange={changePacksPageCount} />
+                            <CustomSelect items={[5, 10, 15]} value={packs.data.pageCount} onChange={pageCountHandler} />
                         </div>
                     </div>
                 </div>
