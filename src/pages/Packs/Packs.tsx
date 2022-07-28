@@ -4,7 +4,9 @@ import './packs.scss'
 import React, { MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
 import { PacksType } from "../../api/packs-api"
+import { useAppSelector } from "../../store/store"
 export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) => {
+    const userId = useAppSelector(state => state.auth._id)
     const navigate = useNavigate()
     const formatDate = (date: Date) => {
         return moment(date).format("DD.MM.YYYY")
@@ -57,11 +59,17 @@ export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) 
                                             <TableCell align="right">{formatDate(p.updated)}</TableCell>
                                             <TableCell align="center">{p.user_name}</TableCell>
                                             <TableCell align="right">
-                                                <div>
-                                                    <button>Delete</button>
-                                                    <button>Edit</button>
-                                                    <button>Learn</button>
-                                                </div>
+                                                {userId === p.user_id ?
+                                                    <div>
+                                                        <button>Delete</button>
+                                                        <button>Edit</button>
+                                                        <button>Learn</button>
+                                                    </div>
+                                                    :
+                                                    <div>
+                                                        <button>Learn</button>
+                                                    </div>
+                                                }
                                             </TableCell>
                                         </TableRow>
                                     ))}
