@@ -4,7 +4,7 @@ import { getPacksTC } from "../../../store/reducers/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { setPacksStorage } from "../utilsPacks/setPacksStorage"
 
-export const SortPackCards = React.memo(() => {
+export const SortPackCards: React.FC = React.memo(() => {
     const packs = useAppSelector(state => state.packs)
     useEffect(() => {
         setMinMax([packs.params.min, packs.params.max])
@@ -24,11 +24,12 @@ export const SortPackCards = React.memo(() => {
             value={minMax}
             onChange={changeMinMaxCardsValue}
             onMouseUp={() => sortByCardsNumber(minMax[0], minMax[1])}
+            disableSwap={true}
             color="secondary"
             size='medium'
             valueLabelDisplay="on"
             min={packs.data.minCardsCount}
-            max={packs.data.maxCardsCount}
+            max={packs.data.maxCardsCount ? packs.data.maxCardsCount : 110}
         />
     )
 })

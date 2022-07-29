@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CustomSelect } from '../../Components/CustomSelect/CustomSelect'
 import { Header } from '../../Components/Header/Header'
@@ -9,14 +9,14 @@ import { Packs } from './Packs'
 import './packsPage.scss'
 import { SortPackCards } from './SortPackCards/SortPackCards'
 import { setPacksStorage } from './utilsPacks/setPacksStorage'
-import { getPacksTC } from '../../store/reducers/packsReducer'
+import { getPacksTC, setPageCountAC } from '../../store/reducers/packsReducer'
 import { PacksBarHeader } from './PacksBarHeader/PacksBarHeader'
-import { PacksHeader } from './PacksHeader/PacksHeader'
-export const PacksPage = () => {
+export const PacksPage = React.memo(() => {
     const isAuth = useAppSelector(state => state.app.isAuth)
     const packs = useAppSelector(state => state.packs)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+
     useEffect(() => {
         if (!isAuth) {
             navigate(_pagesPath.MAIN)
@@ -29,9 +29,9 @@ export const PacksPage = () => {
             return
         }
         dispatch(getPacksTC())
-    }, [isAuth, navigate, dispatch])
+    }, [isAuth, navigate, dispatch, packs.userPacksId, packs.data.page, packs.data.pageCount])
     const pageCountHandler = (pageCount: number) => {
-        dispatch(getPacksTC({ pageCount, page: 1 }))
+        dispatch(setPageCountAC(pageCount))
         setPacksStorage({ pageCount, page: 1 })
     }
     return (
@@ -58,4 +58,4 @@ export const PacksPage = () => {
             </div>
         </div>
     )
-}
+})
