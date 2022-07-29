@@ -81,9 +81,10 @@ export const getPacksTC = (requestModel?: RequestModelType): AppThunk => async (
 export const createPackTC = (packName: string): AppThunk => async (dispatch) => {
     try {
         dispatch(setStatusAC('loading'))
-        await packsAPI.createPack(packName)
+        const res = await packsAPI.createPack(packName)
         dispatch(getPacksTC())
         dispatch(setStatusAC('success'))
+        return res
     } catch (error) {
 
     } finally {

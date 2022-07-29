@@ -7,6 +7,7 @@ import { createPackTC } from "../../../store/reducers/packsReducer";
 import { modalsValidation } from "./modalsValidation/modalsValidation";
 export const AddPackModal = () => {
     const dispatch = useAppDispatch()
+    const status = useAppSelector(state => state.packs.status)
     const [isOpenModal, setIsOpenModal] = useState(false)
     const [value, setValue] = useState('')
     const [errorValue, setErrorValue] = useState('')
@@ -14,6 +15,7 @@ export const AddPackModal = () => {
     const addPackHandler = () => {
         if (modalsValidation(value)) {
             dispatch(createPackTC(value.trim()))
+            setValue('')
             return
         }
         setErrorValue('incorrect pack name')
@@ -23,10 +25,6 @@ export const AddPackModal = () => {
         setErrorValue('')
         setValue(value)
     }
-    const status = useAppSelector(state => state.packs.status)
-    useEffect(() => {
-        setValue('')
-    }, [status])
     return (
         <div>
             <Button color="info" size="large" variant="outlined" onClick={() => {
