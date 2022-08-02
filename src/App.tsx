@@ -1,6 +1,5 @@
 import { CircularProgress } from '@mui/material';
 import { useEffect } from 'react';
-import { HashRouter } from 'react-router-dom';
 import './App.scss';
 import { AppRoutes } from './Components/Routes/AppRoutes';
 import { ErrorSnackbars } from './Components/Snackbar/ErrorSnackbars';
@@ -20,9 +19,9 @@ function App() {
   )
   return (
     <div className="App">
-      <HashRouter>
-        <AppRoutes />
-      </HashRouter>
+      {/* <HashRouter> */}
+      <AppRoutes />
+      {/* </HashRouter> */}
       {!!appState.error && <ErrorSnackbars />}
     </div>
   );
