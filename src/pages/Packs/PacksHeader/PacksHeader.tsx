@@ -4,7 +4,6 @@ import { getPacksTC } from "../../../store/reducers/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { AddPackModal } from "../PacksModals/CreatePackModal"
 export const PacksHeader: React.FC<PropsType> = React.memo(({ isMyPacks }) => {
-    console.log(isMyPacks);
     const dispatch = useAppDispatch()
     const [value, setValue] = useState('')
     const [isSearching, setIsSearching] = useState(false)

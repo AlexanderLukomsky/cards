@@ -12,25 +12,31 @@ export const authApi = {
     },
     logout() {
         return _instance.delete('/auth/me', {})
+    },
+    update(model: UpdateModelType) {
+        return _instance.put<{ updatedUser: loginResponseType }>('/auth/me', model)
     }
 }
 type loginResponseType = {
-    created: '',
-    email: "",
-    isAdmin: false,
-    name: "",
-    publicCardPacksCount: 0,
-    rememberMe: false,
-    token: "",
-    tokenDeathTime: 0,
-    updated: '',
-    verified: false,
-    __v: 0,
-    _id: "",
+    created: string,
+    email: string,
+    isAdmin: boolean,
+    name: string,
+    publicCardPacksCount: number,
+    rememberMe: boolean,
+    token: string,
+    tokenDeathTime: number,
+    updated: string,
+    verified: boolean,
+    __v: number,
+    _id: string,
     avatar?: string
 }
 
-
+export type UpdateModelType = {
+    name?: string,
+    avatar?: string
+}
 export type authDataType = {
     email: string,
     password: string,

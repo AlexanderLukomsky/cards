@@ -1,6 +1,7 @@
 import { PacksDataType } from './../../api/packs-api';
 import { packsAPI } from '../../api/packs-api';
 import { AppThunk } from '../store';
+import { StatusType } from '../../_types/types';
 export const packsReducer = (state: InitStateType = initState, action: PacksActionType): InitStateType => {
     switch (action.type) {
         case 'packs/SET-PACKS':
@@ -138,7 +139,7 @@ const initState = {
     updatedPacks: { updateStatus: 'initial' as StatusType }
 }
 type InitStateType = typeof initState
-type StatusType = 'failed' | 'success' | 'initial' | 'loading'
+
 type RequestModelType = {
     pageCount?: number
     page?: number

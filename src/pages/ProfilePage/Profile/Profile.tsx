@@ -1,25 +1,28 @@
-import { Button, IconButton, TextField } from "@mui/material"
-import React, { useEffect, useState } from "react"
+import { Button, IconButton, LinearProgress, TextField } from "@mui/material"
+import React, { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import './profile.scss'
 import LogoutIcon from '@mui/icons-material/Logout';
 import { logoutTC } from "../../../store/reducers/authReducer";
-import { useNavigate } from "react-router-dom";
 import { _pagesPath } from "../../_path/_pagesPath";
+import { updateProfileTC } from "../../../store/reducers/profileReducer";
 export const Profile: React.FC<PropsType> = React.memo(({ showEdit = true }) => {
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const profileState = useAppSelector(state => state.profile)
     const [editMode, setEditMode] = useState<boolean>(false)
-    const authState = useAppSelector(state => state.auth)
-    const isAuth = useAppSelector(state => state.app).isAuth
-    useEffect(() => {
-        if (!isAuth) { navigate(_pagesPath.MAIN) }
-    }, [isAuth, navigate])
-    const editProfile = () => {
+    const [name, setName] = useState(profileState.name)
+    const onChangeNameHandler = (value: string) => {
+        setName(value)
+    }
+    const editProfileMod = () => {
         setEditMode(!editMode)
     }
     const logout = () => {
         dispatch(logoutTC())
+    }
+    const setEditedData = () => {
+        dispatch(updateProfileTC({ name }))
+        setEditMode(!editMode)
     }
     return (
         <div className="profile">
@@ -28,23 +31,27 @@ export const Profile: React.FC<PropsType> = React.memo(({ showEdit = true }) => 
             </IconButton>
             <div className="profile__img_container">
                 <img
-                    src={authState.avatar ?
-                        authState.avatar :
+                    src={profileState.avatar ?
+                        profileState.avatar :
                         'https://tinypng.com/images/social/website.jpg'}
                     alt="avatar"
                 />
             </div>
-            <div className="profile__info">
-                {
-                    editMode ?
-                        <TextField style={{ marginBottom: '5px' }} /> :
-                        <div className="profile__name">{authState.name}</div>
-                }
-                {
-                    showEdit && (editMode ? <Button >Save</Button> : <Button onClick={editProfile}>Edit name</Button>)
-                }
+            {
+                profileState.status === 'loading' ?
+                    <div className="profile__info" style={{ width: '100%' }}><LinearProgress style={{ width: '100%' }} /></div> :
+                    <div className="profile__info">
+                        {
+                            editMode ?
+                                <TextField style={{ marginBottom: '5px' }} value={name} onChange={(e) => { onChangeNameHandler(e.currentTarget.value) }} /> :
+                                <div className="profile__name">{profileState.name}</div>
+                        }
+                        {
+                            showEdit && (editMode ? <Button onClick={setEditedData}>Save</Button> : <Button onClick={editProfileMod}>Edit name</Button>)
+                        }
 
-            </div>
+                    </div>
+            }
         </div>
     )
 })
