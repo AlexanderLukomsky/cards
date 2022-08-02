@@ -38,7 +38,7 @@ export const PacksBarHeader = React.memo(() => {
                 </Button>
             </div>
             <div>
-                {isMyPacks && <Profile />}
+                {isMyPacks && <Profile showEdit={false} />}
             </div>
         </div>
     )

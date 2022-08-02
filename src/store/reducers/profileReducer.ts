@@ -7,12 +7,12 @@ export const profileReducer = (state: profileStateType = initState, action: Acti
     }
 }
 
-const profileInitializedAC = (isInitialized: boolean) => (
-    {
-        type: 'profile/PROFILE-IS-INITIALIZED',
-        payload: { isInitialized }
-    } as const
-)
+// const profileInitializedAC = (isInitialized: boolean) => (
+//     {
+//         type: 'profile/PROFILE-IS-INITIALIZED',
+//         payload: { isInitialized }
+//     } as const
+// )
 export const profileInitializedTC = (): AppThunk => (dispatch) => {
 
 }

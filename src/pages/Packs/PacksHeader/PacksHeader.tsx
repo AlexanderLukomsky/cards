@@ -4,6 +4,7 @@ import { getPacksTC } from "../../../store/reducers/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { AddPackModal } from "../PacksModals/CreatePackModal"
 export const PacksHeader: React.FC<PropsType> = React.memo(({ isMyPacks }) => {
+    console.log(isMyPacks);
     const dispatch = useAppDispatch()
     const [value, setValue] = useState('')
     const [isSearching, setIsSearching] = useState(false)
@@ -16,7 +17,6 @@ export const PacksHeader: React.FC<PropsType> = React.memo(({ isMyPacks }) => {
             } else {
                 dispatch(value ? getPacksTC({ packName: value }) : getPacksTC())
             }
-
         }, 1000)
         return () => clearTimeout(id)
     }, [value, isSearching, dispatch, userId, isMyPacks])

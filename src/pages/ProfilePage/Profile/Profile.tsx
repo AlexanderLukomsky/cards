@@ -1,4 +1,4 @@
-import { IconButton, TextField } from "@mui/material"
+import { Button, IconButton, TextField } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import './profile.scss'
@@ -6,7 +6,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { logoutTC } from "../../../store/reducers/authReducer";
 import { useNavigate } from "react-router-dom";
 import { _pagesPath } from "../../_path/_pagesPath";
-export const Profile = React.memo(() => {
+export const Profile: React.FC<PropsType> = React.memo(({ showEdit = true }) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [editMode, setEditMode] = useState<boolean>(false)
@@ -40,11 +40,14 @@ export const Profile = React.memo(() => {
                         <TextField style={{ marginBottom: '5px' }} /> :
                         <div className="profile__name">{authState.name}</div>
                 }
+                {
+                    showEdit && (editMode ? <Button >Save</Button> : <Button onClick={editProfile}>Edit name</Button>)
+                }
 
-                <button
-                    onClick={editProfile}
-                    className="profile__edit">{editMode ? 'Save' : 'Edit name'}</button>
             </div>
         </div>
     )
 })
+type PropsType = {
+    showEdit?: boolean
+}
