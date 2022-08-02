@@ -11,6 +11,7 @@ import { SortPackCards } from './SortPackCards/SortPackCards'
 import { setPacksStorage } from './utilsPacks/setPacksStorage'
 import { getPacksTC, setPageCountAC } from '../../store/reducers/packsReducer'
 import { PacksBarHeader } from './PacksBarHeader/PacksBarHeader'
+import { PacksHeader } from './PacksHeader/PacksHeader'
 export const PacksPage = React.memo(() => {
     const isAuth = useAppSelector(state => state.app.isAuth)
     const packs = useAppSelector(state => state.packs)
@@ -22,6 +23,7 @@ export const PacksPage = React.memo(() => {
             navigate(_pagesPath.MAIN)
             return
         }
+        if (packs.updatedPacks.updateStatus === 'failed') { return }
         const packsStorageAsString = localStorage.getItem('packs')
         if (packsStorageAsString !== null) {
             const data = JSON.parse(packsStorageAsString)
@@ -29,7 +31,7 @@ export const PacksPage = React.memo(() => {
             return
         }
         dispatch(getPacksTC())
-    }, [isAuth, navigate, dispatch, packs.userPacksId, packs.data.page, packs.data.pageCount])
+    }, [isAuth, navigate, dispatch, packs.isMyPacks, packs.data.page, packs.data.pageCount, packs.updatedPacks])
     const pageCountHandler = (pageCount: number) => {
         dispatch(setPageCountAC(pageCount))
         setPacksStorage({ pageCount, page: 1 })
@@ -47,6 +49,7 @@ export const PacksPage = React.memo(() => {
                     </div>
                 </div>
                 <div className='packs-wrapper'>
+                    <PacksHeader isMyPacks={packs.isMyPacks} />
                     <Packs isInitialized={packs.isInitialized} packs={packs.data.cardPacks} />
                     <div className='packs_page__footer'>
                         <PaginationPacks />

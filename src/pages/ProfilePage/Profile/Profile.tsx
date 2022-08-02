@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material"
+import { IconButton, TextField } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import './profile.scss'
@@ -23,9 +23,9 @@ export const Profile = React.memo(() => {
     }
     return (
         <div className="profile">
-            <button className="profile__logout"
-                onClick={logout}
-            ><LogoutIcon /></button>
+            <IconButton className="profile__logout" onClick={logout}>
+                <LogoutIcon />
+            </IconButton>
             <div className="profile__img_container">
                 <img
                     src={authState.avatar ?

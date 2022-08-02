@@ -1,6 +1,6 @@
 import { Button } from "@mui/material"
 import React from "react"
-import { getUserPack } from "../../../store/reducers/packsReducer"
+import { setIsMyPacksAC } from "../../../store/reducers/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { Profile } from "../../ProfilePage/Profile/Profile"
 import { clearPacksStorage } from "../utilsPacks/setPacksStorage"
@@ -12,34 +12,33 @@ const style = {
     },
 }
 export const PacksBarHeader = React.memo(() => {
-    const id = useAppSelector(state => state.auth._id)
-    const userPackId = useAppSelector(state => state.packs.userPacksId)
+    const isMyPacks = useAppSelector(state => state.packs.isMyPacks)
     const dispatch = useAppDispatch()
     const getMyPacksHandler = () => {
-        dispatch(getUserPack(id))
+        dispatch(setIsMyPacksAC(true))
         clearPacksStorage(['min', 'max', 'page'])
     }
     const getAllPacksHandler = () => {
-        dispatch(getUserPack(null))
+        dispatch(setIsMyPacksAC(false))
     }
     return (
         <div>
             <div style={style.buttons}>
                 <Button
-                    variant={userPackId ? 'contained' : 'outlined'}
-                    color={userPackId ? 'secondary' : 'primary'}
+                    variant={isMyPacks ? 'contained' : 'outlined'}
+                    color={isMyPacks ? 'secondary' : 'primary'}
                     onClick={getMyPacksHandler}>
                     MY
                 </Button>
                 <Button
-                    variant={userPackId ? 'outlined' : 'contained'}
-                    color={userPackId ? 'primary' : 'secondary'}
+                    variant={isMyPacks ? 'outlined' : 'contained'}
+                    color={isMyPacks ? 'primary' : 'secondary'}
                     onClick={getAllPacksHandler}>
                     ALL
                 </Button>
             </div>
             <div>
-                {userPackId && <Profile />}
+                {isMyPacks && <Profile />}
             </div>
         </div>
     )

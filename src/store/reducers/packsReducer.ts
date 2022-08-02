@@ -10,10 +10,11 @@ export const packsReducer = (state: InitStateType = initState, action: PacksActi
         case 'packs/CHANGE-PAGE':
             return { ...state, data: { ...state.data, page: action.payload.page } }
         case 'packs/SET-STATUS': return { ...state, status: action.payload.status }
-        case 'packs/GET-USER-PACK':
-            return { ...state, userPacksId: action.payload.userPacksId, params: { min: 0, max: 110 } }
         case 'packs/SET-PAGE-COUNT':
             return { ...state, data: { ...state.data, pageCount: action.payload.pageCount, page: 1 } }
+        case 'packs/IS-MY-PACKS':
+            return { ...state, isMyPacks: action.paylaod.isMyPacks }
+        case 'packs/UPDATED-PACK': return { ...state, updatedPacks: { updateStatus: action.payload.updateStatus } }
         default: return state
     }
 }
@@ -30,9 +31,10 @@ const setIsInitializedPacksAC = (payload: { isInitialized: boolean }) => (
         payload
     } as const
 )
-const setStatusAC = (status: StatusType) => (
+export const setStatusAC = (status: StatusType) => (
     { type: 'packs/SET-STATUS', payload: { status } } as const
 )
+
 export const setPageCountAC = (pageCount: number) => (
     {
         type: 'packs/SET-PAGE-COUNT',
@@ -45,11 +47,16 @@ export const changePacksPageAC = (page: number) => (
         payload: { page }
     } as const
 )
-
-export const getUserPack = (userPacksId: string | null) => (
+export const setIsMyPacksAC = (isMyPacks: boolean) => (
     {
-        type: 'packs/GET-USER-PACK',
-        payload: { userPacksId }
+        type: 'packs/IS-MY-PACKS',
+        paylaod: { isMyPacks }
+    } as const
+)
+export const updatePacksAC = (updateStatus: StatusType) => (
+    {
+        type: 'packs/UPDATED-PACK',
+        payload: { updateStatus }
     } as const
 )
 // TC
@@ -61,58 +68,49 @@ export const getPacksTC = (requestModel?: RequestModelType): AppThunk => async (
         pageCount: state.packs.data.pageCount,
         min: state.packs.params.min,
         max: state.packs.params.max,
-        user_id: state.packs.userPacksId,
+        user_id: state.packs.isMyPacks ? state.auth._id : null,
         ...requestModel
     }
     const params = requestModel?.max ?
         { min: requestModel.min!, max: requestModel.max } :
         { min: initState.params.min, max: initState.params.max }
-
-
     try {
+        dispatch(setStatusAC('loading'))
         const res = await packsAPI.getPacks(requestParams)
         dispatch(setPacksAC({ data: res.data, params }))
-    } catch (e) {
-
     } finally {
         dispatch(setIsInitializedPacksAC({ isInitialized: true }))
+        dispatch(setStatusAC('initial'))
     }
 }
 export const createPackTC = (packName: string): AppThunk => async (dispatch) => {
     try {
         dispatch(setStatusAC('loading'))
-        const res = await packsAPI.createPack(packName)
-        dispatch(getPacksTC())
-        dispatch(setStatusAC('success'))
-        return res
-    } catch (error) {
-
+        await packsAPI.createPack(packName)
+        dispatch(updatePacksAC('success'))
     } finally {
         dispatch(setStatusAC('initial'))
+        dispatch(updatePacksAC('initial'))
     }
 }
 export const deletePackTC = (id: string): AppThunk => async (dispatch) => {
     try {
         dispatch(setStatusAC('loading'))
         await packsAPI.deletePack(id)
-        dispatch(getPacksTC())
-        dispatch(setStatusAC('success'))
-    } catch (error) {
-
+        dispatch(updatePacksAC('success'))
     } finally {
         dispatch(setStatusAC('initial'))
+        dispatch(updatePacksAC('initial'))
     }
 }
-export const editPackNameTC = ({ id, packName }: { id: string, packName: string }): AppThunk => async (dispatch) => {
+export const editPackNameTC = ({ _id, name }: { _id: string, name: string }): AppThunk => async (dispatch) => {
     try {
         dispatch(setStatusAC('loading'))
-        await packsAPI.editPackName({ _id: id, name: packName })
-        dispatch(getPacksTC())
-        dispatch(setStatusAC('success'))
-    } catch (error) {
-
+        await packsAPI.editPackName({ _id, name })
+        dispatch(updatePacksAC('success'))
     } finally {
         dispatch(setStatusAC('initial'))
+        dispatch(updatePacksAC('initial'))
     }
 }
 export type PacksActionType =
@@ -120,8 +118,9 @@ export type PacksActionType =
     | ReturnType<typeof setIsInitializedPacksAC>
     | ReturnType<typeof changePacksPageAC>
     | ReturnType<typeof setStatusAC>
-    | ReturnType<typeof getUserPack>
     | ReturnType<typeof setPageCountAC>
+    | ReturnType<typeof setIsMyPacksAC>
+    | ReturnType<typeof updatePacksAC>
 
 const initState = {
     isInitialized: false,
@@ -135,7 +134,8 @@ const initState = {
         max: 110
     },
     status: 'idle' as StatusType,
-    userPacksId: null as string | null
+    isMyPacks: false,
+    updatedPacks: { updateStatus: 'initial' as StatusType }
 }
 type InitStateType = typeof initState
 type StatusType = 'failed' | 'success' | 'initial' | 'loading'
@@ -144,5 +144,6 @@ type RequestModelType = {
     page?: number
     min?: number
     max?: number
-    packName?: string
+    packName?: string,
+    user_id?: string
 }

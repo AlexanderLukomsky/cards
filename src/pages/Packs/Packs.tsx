@@ -1,14 +1,13 @@
 import { CircularProgress, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import moment from 'moment'
 import './packs.scss'
-import React, { MouseEvent, useState } from "react"
+import React, { MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
 import { PacksType } from "../../api/packs-api"
 import { useAppSelector } from "../../store/store"
 import { DeletePackModal } from "./PacksModals/DeletePackModal"
 import { EditPackNameModal } from "./PacksModals/EditPackNameModal"
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import { PacksHeader } from "./PacksHeader/PacksHeader"
 export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) => {
     const userId = useAppSelector(state => state.auth._id)
     const navigate = useNavigate()
@@ -23,7 +22,7 @@ export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) 
     return (
         <div className="packs">
             <h3 className="packs__title">Packs list</h3>
-            <PacksHeader />
+
             <TableContainer className="packs__table" component={Paper}>
                 <Table sx={{ maxWidth: 960 }} aria-label="simple table" >
                     <TableHead className="packs__head head">
@@ -56,7 +55,6 @@ export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) 
                                             key={p._id}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-
                                             <TableCell component="th" scope="row">
 
                                                 {p.name}
@@ -68,7 +66,7 @@ export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) 
                                                 {userId === p.user_id ?
                                                     <div>
                                                         <DeletePackModal packName={p.name} id={p._id} />
-                                                        <EditPackNameModal packName={p.name} id={p._id} />
+                                                        <EditPackNameModal id={p._id} packName={p.name} />
                                                         <IconButton onClick={(e) => { navigate(`/cards/${p._id}`) }}><FolderOpenIcon /></IconButton>
                                                     </div>
                                                     :

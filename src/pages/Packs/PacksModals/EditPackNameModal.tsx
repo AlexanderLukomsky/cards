@@ -5,15 +5,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import { modalsValidation } from "./modalsValidation/modalsValidation";
 import { useAppDispatch } from "../../../store/store";
 import { editPackNameTC } from "../../../store/reducers/packsReducer";
-export const EditPackNameModal: React.FC<PropsType> = ({ packName, id }) => {
+export const EditPackNameModal: React.FC<PropsType> = ({ id, packName }) => {
     const dispatch = useAppDispatch()
     const [isOpenModal, setIsOpenModal] = useState(false)
     const [value, setValue] = useState(packName)
     const [errorValue, setErrorValue] = useState('')
     const closeHandler = () => { setIsOpenModal(false) }
-    const addPackHandler = () => {
+    const editPackNameHandler = () => {
         if (modalsValidation(value)) {
-            dispatch(editPackNameTC({ id, packName: value.trim() }))
+            dispatch(editPackNameTC({ _id: id, name: value.trim() }))
             return
         }
         setErrorValue('incorrect pack name')
@@ -41,7 +41,7 @@ export const EditPackNameModal: React.FC<PropsType> = ({ packName, id }) => {
                 </div>
                 <div>
                     <Button onClick={closeHandler}>Cancel</Button>
-                    <Button onClick={addPackHandler}>Save</Button>
+                    <Button onClick={editPackNameHandler}>Save</Button>
                 </div>
             </BasicModal>
         </>
@@ -49,6 +49,6 @@ export const EditPackNameModal: React.FC<PropsType> = ({ packName, id }) => {
     )
 }
 type PropsType = {
+    id: string,
     packName: string
-    id: string
 }
