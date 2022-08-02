@@ -2,7 +2,6 @@ import { Button, IconButton } from "@mui/material"
 import React, { useState } from "react"
 import { BasicModal } from "../../../Components/Modals/Modal"
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { packsAPI } from "../../../api/packs-api";
 import { useAppDispatch } from "../../../store/store";
 import { deletePackTC } from "../../../store/reducers/packsReducer";
 export const DeletePackModal: React.FC<PropsType> = React.memo(({ packName, id }) => {

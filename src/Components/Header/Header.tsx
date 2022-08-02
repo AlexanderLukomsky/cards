@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { _pagesPath } from '../../pages/_path/_pagesPath'
 import s from './header.module.scss'
 export const Header = ({ page, ...props }: PropsType) => {

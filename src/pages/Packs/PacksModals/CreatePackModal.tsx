@@ -1,13 +1,12 @@
-import { Button, IconButton, TextField } from "@mui/material"
-import { useEffect, useState } from "react"
+import { Button, TextField } from "@mui/material"
+import { useState } from "react"
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { BasicModal } from "../../../Components/Modals/Modal";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { useAppDispatch } from "../../../store/store";
 import { createPackTC } from "../../../store/reducers/packsReducer";
 import { modalsValidation } from "./modalsValidation/modalsValidation";
 export const AddPackModal = () => {
     const dispatch = useAppDispatch()
-    const status = useAppSelector(state => state.packs.status)
     const [isOpenModal, setIsOpenModal] = useState(false)
     const [value, setValue] = useState('')
     const [errorValue, setErrorValue] = useState('')

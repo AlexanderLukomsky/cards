@@ -47,7 +47,7 @@ export const BasicModal: React.FC<PropsType> = ({ children, isOpenModal, setIsOp
     const status = useAppSelector(state => state.packs.status)
     useEffect(() => {
         setIsOpenModal(false)
-    }, [status])
+    }, [status, setIsOpenModal])
     return (
         <Modal
             open={isOpenModal}
