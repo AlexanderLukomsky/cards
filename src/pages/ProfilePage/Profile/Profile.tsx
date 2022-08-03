@@ -5,7 +5,7 @@ import './profile.scss'
 import LogoutIcon from '@mui/icons-material/Logout';
 import { logoutTC } from "../../../store/reducers/authReducer";
 import { _pagesPath } from "../../_path/_pagesPath";
-import { updateProfileTC } from "../../../store/reducers/profileReducer";
+import { updateProfileTC } from "../_profileReducer/profileReducer";
 export const Profile: React.FC<PropsType> = React.memo(({ showEdit = true }) => {
     const dispatch = useAppDispatch()
     const profileState = useAppSelector(state => state.profile)

@@ -6,7 +6,7 @@ import { appReducer } from "./reducers/appReducer";
 import { authReducer } from "./reducers/authReducer";
 import { newPassReducer } from "./reducers/newPassReducer";
 import { passRecoveryReducer } from "./reducers/passRecoveryReducer";
-import { profileReducer } from "./reducers/profileReducer";
+import { profileReducer } from "../pages/ProfilePage/_profileReducer/profileReducer";
 import { registrationReducer } from "../pages/Forms/Registration/_registrationReducer/registrationReducer";
 import { PacksActionType, packsReducer } from '../pages/Packs/_packsReducer/packsReducer';
 
