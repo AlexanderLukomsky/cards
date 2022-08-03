@@ -1,5 +1,5 @@
 import { AxiosError } from "axios"
-import { authApi, authDataType } from "../../api/auth-api"
+import { authAPI, authDataType } from "../../api/auth-api"
 import { handleAppError } from "../../utils/utils"
 import { AppThunk } from "../store"
 import { auth, setAppStatus } from "./appReducer"
@@ -43,7 +43,7 @@ export const logoutAC = () => (
 export const loginTC = (data: authDataType): AppThunk => async (dispatch) => {
     dispatch(setAppStatus('loading'))
     try {
-        const res = await authApi.auth(data)
+        const res = await authAPI.auth(data)
         dispatch(setLoginAC(res.data))
         dispatch(setAppStatus('success'))
         dispatch(auth(true))
@@ -52,20 +52,10 @@ export const loginTC = (data: authDataType): AppThunk => async (dispatch) => {
         alert((e as AxiosError<{ error: string }, any>).response?.data.error)
     }
 }
-export const registrationTC = (data: authDataType): AppThunk => async (dispatch) => {
-    dispatch(setAppStatus('loading'))
-    try {
-        await authApi.registration(data)
-        dispatch(setAppStatus('success'))
-    } catch (e: any) {
-        const errorMessage = (e as AxiosError<{ error: string }, any>).response ? e.response.data.error : e.message
-        dispatch(setAppStatus('error'))
-        handleAppError(errorMessage, dispatch)
-    }
-}
+
 export const logoutTC = (): AppThunk => async (dispatch) => {
     try {
-        await authApi.logout()
+        await authAPI.logout()
         dispatch(setAppStatus('success'))
         dispatch(auth(false))
     } catch (e: any) {

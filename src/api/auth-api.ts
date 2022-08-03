@@ -1,6 +1,5 @@
 import { _instance } from "./instance"
-
-export const authApi = {
+export const authAPI = {
     auth(data: authDataType) {
         return _instance.post<loginResponseType>('auth/login', data)
     },

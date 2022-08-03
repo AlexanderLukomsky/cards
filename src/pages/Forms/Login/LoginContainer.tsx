@@ -7,7 +7,7 @@ import { Login } from "./Login"
 export const LoginContainer = () => {
     const auth = useAppSelector(state => state.app.isAuth)
     const navigate = useNavigate()
-    useEffect(() => { if (auth) { navigate(_pagesPath.PROFILE) } }, [auth, navigate])
+    useEffect(() => { if (auth) { navigate(_pagesPath.PACKS) } }, [auth, navigate])
     return (
         <div className="login_container">
             <Login />

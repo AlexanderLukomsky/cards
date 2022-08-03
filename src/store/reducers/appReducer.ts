@@ -1,4 +1,4 @@
-import { authApi } from './../../api/auth-api';
+import { authAPI } from './../../api/auth-api';
 import { AppThunk } from "../store"
 import { setLoginAC } from './authReducer';
 type AppStatusType = "initial" | "loading" | "success" | "error"
@@ -53,7 +53,7 @@ export const setIsInitializedApp = (isInitializedApp: boolean) => (
 export const setIsInitializedAppTC = (): AppThunk => async (dispatch) => {
     try {
         dispatch(setAppStatus('loading'))
-        const res = await authApi.authMe()
+        const res = await authAPI.authMe()
         dispatch(auth(true))
         dispatch(setLoginAC(res.data))
         dispatch(setAppStatus('success'))

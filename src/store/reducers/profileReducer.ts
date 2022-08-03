@@ -1,5 +1,5 @@
 import { StatusType } from '../../_types/types';
-import { authApi } from './../../api/auth-api';
+import { authAPI } from './../../api/auth-api';
 import { AppThunk } from './../store';
 import { authInitState, AuthStateType, setLoginAC } from './authReducer';
 const initState: profileStateType = { ...authInitState, status: 'initial', isInitialized: false }
@@ -27,7 +27,7 @@ export const updateProfileTC = (model: { name?: string, avatar?: string }): AppT
     console.log(model);
     try {
         dispatch(setProfileStatusAC('loading'))
-        const res = await authApi.update(model)
+        const res = await authAPI.update(model)
         dispatch(updateProfileAC(res.data.updatedUser.name))
     } finally {
         dispatch(setProfileStatusAC('initial'))

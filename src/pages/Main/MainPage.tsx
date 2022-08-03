@@ -11,7 +11,7 @@ export const MainPage = () => {
     const navigate = useNavigate()
     const isAuth = useAppSelector(state => state.app.isAuth)
     useEffect(() => {
-        if (isAuth) { navigate(_pagesPath.PROFILE) }
+        if (isAuth) { navigate(_pagesPath.PACKS) }
     }, [isAuth, navigate])
     useEffect(() => {
         const id = setInterval(() => {
