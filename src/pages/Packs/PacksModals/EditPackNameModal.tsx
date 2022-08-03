@@ -1,6 +1,6 @@
 import { Button, IconButton, TextField } from "@mui/material"
 import React, { useState } from "react"
-import { BasicModal } from "../../../Components/Modals/Modal"
+import { BasicModal } from "../../../Components/Modals/BasicModal"
 import EditIcon from '@mui/icons-material/Edit';
 import { modalsValidation } from "./modalsValidation/modalsValidation";
 import { useAppDispatch } from "../../../store/store";

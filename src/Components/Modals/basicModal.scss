@@ -1,0 +1,36 @@
+.basic-modal {
+    &__header {
+        margin-bottom: 47px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #ececf9;
+        padding: 0 10px;
+    }
+    &__title {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 27px;
+        color: #2d2e46;
+        font-family: sans-serif;
+    }
+    &__progress {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 101%;
+        z-index: 1000;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: black;
+        opacity: 0.5;
+    }
+    &__buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 5px;
+    }
+}

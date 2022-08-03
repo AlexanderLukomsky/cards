@@ -17,9 +17,11 @@
         }
     }
     &__row {
-        cursor: pointer;
         &:hover {
             background-color: #ececf9;
         }
+    }
+    &__name {
+        cursor: pointer;
     }
 }

@@ -1,6 +1,6 @@
 import { Button, IconButton } from "@mui/material"
 import React, { useState } from "react"
-import { BasicModal } from "../../../Components/Modals/Modal"
+import { BasicModal } from "../../../Components/Modals/BasicModal"
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useAppDispatch } from "../../../store/store";
 import { deletePackTC } from "../../../store/reducers/packsReducer";

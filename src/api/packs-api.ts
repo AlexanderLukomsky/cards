@@ -45,5 +45,6 @@ type RequestType = {
     page?: number
     min?: number
     max?: number
-    user_id?: string | null
+    user_id?: string | null,
+    packName?: string | null
 }

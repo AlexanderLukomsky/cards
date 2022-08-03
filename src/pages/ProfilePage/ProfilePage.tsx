@@ -20,7 +20,7 @@ export const ProfilePage = React.memo(() => {
             return
         }
         dispatch(getPacksTC({ user_id, min: 0, max: 110, page: 1 }))
-    }, [dispatch, packs.updatedPacks, user_id])
+    }, [dispatch, packs.updatedPacks, user_id, packs.searchPackName])
     return (
         <div className="profile_page">
             <Header page="profile" />
@@ -28,7 +28,7 @@ export const ProfilePage = React.memo(() => {
                 <div className="profile_page__columns">
                     <Profile />
                     <div className="packs-wrapper">
-                        <PacksHeader isMyPacks={true} />
+                        <PacksHeader />
                         <Packs packs={packs.data.cardPacks} isInitialized={packs.isInitialized} />
                     </div>
                 </div>

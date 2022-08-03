@@ -1,4 +1,4 @@
-import { cardsReducer } from './reducers/cardsReducer';
+import { cardsReducer } from '../pages/Cards/cardsReducer/cardsReducer';
 import { PacksActionType, packsReducer } from './reducers/packsReducer';
 import { configureStore, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";

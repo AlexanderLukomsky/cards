@@ -1,12 +1,19 @@
+@import "./cardsModals";
 .cards {
     background: #fefeff;
     padding: 24px 48px;
+    &__header {
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
     &__title {
         font-weight: 600;
         font-size: 22px;
         line-height: 33px;
         color: #2d2e46;
-        margin-bottom: 15px;
+
         font-family: sans-serif;
     }
     .head {

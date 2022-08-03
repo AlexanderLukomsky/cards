@@ -31,7 +31,9 @@ export const PacksPage = React.memo(() => {
             return
         }
         dispatch(getPacksTC())
-    }, [isAuth, navigate, dispatch, packs.isMyPacks, packs.data.page, packs.data.pageCount, packs.updatedPacks])
+    }, [isAuth, navigate, dispatch, packs.isMyPacks, packs.data.page,
+        packs.data.pageCount, packs.updatedPacks, packs.searchPackName])
+
     const pageCountHandler = (pageCount: number) => {
         dispatch(setPageCountAC(pageCount))
         setPacksStorage({ pageCount, page: 1 })
@@ -49,7 +51,7 @@ export const PacksPage = React.memo(() => {
                     </div>
                 </div>
                 <div className='packs-wrapper'>
-                    <PacksHeader isMyPacks={packs.isMyPacks} />
+                    <PacksHeader />
                     <Packs isInitialized={packs.isInitialized} packs={packs.data.cardPacks} />
                     <div className='packs_page__footer'>
                         <PaginationPacks />

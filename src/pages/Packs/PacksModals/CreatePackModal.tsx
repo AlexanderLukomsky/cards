@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material"
 import { useState } from "react"
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import { BasicModal } from "../../../Components/Modals/Modal";
+import { BasicModal } from "../../../Components/Modals/BasicModal";
 import { useAppDispatch } from "../../../store/store";
 import { createPackTC } from "../../../store/reducers/packsReducer";
 import { modalsValidation } from "./modalsValidation/modalsValidation";
