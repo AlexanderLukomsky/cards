@@ -1,6 +1,6 @@
 import { Pagination, PaginationProps } from "@mui/material"
 import React from "react"
-import { changePacksPageAC } from "../../../store/reducers/packsReducer"
+import { changePacksPageAC } from "../_packsReducer/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { setPacksStorage } from "../utilsPacks/setPacksStorage"
 

@@ -1,17 +1,17 @@
 import { Cards } from "./Cards"
 import { useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { getCardsTC, setInitializedAC } from "../../store/reducers/cardsReducer";
+import { getCardsTC, setInitializedAC } from "./cardsReducer/cardsReducer";
 import { Header } from "../../Components/Header/Header";
-import './cardsPage.scss'
+import './stylesCards/cardsPage.scss'
 export const CardsPage = () => {
     const { packId } = useParams<{ packId: string }>()
     const dispach = useAppDispatch()
-    const cards = useAppSelector(state => state.cards.data.cards)
-    const isInitialized = useAppSelector(state => state.cards.isInitialized)
+    const cards = useAppSelector(state => state.cards)
+    const navigate = useNavigate()
     useEffect(() => {
-        if (!packId) { return }
+        if (!packId) { navigate('/404'); return }
         dispach(getCardsTC(packId))
         return () => {
             dispach(setInitializedAC(false))
@@ -21,7 +21,12 @@ export const CardsPage = () => {
         <div className="cards_page container">
             <Header page='cards' />
             <div className="cards_page__container">
-                <Cards cards={cards} isInitialized={isInitialized} />
+                <Cards
+                    cards={cards.data.cards}
+                    isInitialized={cards.isInitialized}
+                    packId={packId as string}
+                    packUserId={cards.data.packUserId}
+                />
             </div>
         </div>
     )

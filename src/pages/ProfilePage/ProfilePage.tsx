@@ -1,20 +1,26 @@
 import React, { useEffect } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { Header } from "../../Components/Header/Header"
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { _pagesPath } from "../_path/_pagesPath"
 import { Profile } from "./Profile/Profile"
 import './profilePage.scss'
 import { Packs } from "../Packs/Packs"
-import { getPacksTC } from "../../store/reducers/packsReducer"
+import { getPacksTC } from "../Packs/_packsReducer/packsReducer"
 import { PacksHeader } from "../Packs/PacksHeader/PacksHeader"
 export const ProfilePage = React.memo(() => {
+    const isAuth = useAppSelector(state => state.app.isAuth)
     const packs = useAppSelector(state => state.packs)
     const user_id = useAppSelector(state => state.auth._id)
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     useEffect(() => {
+        if (!isAuth) {
+            navigate('/main')
+            return
+        }
         dispatch(getPacksTC({ user_id, min: 0, max: 110, page: 1 }))
-    }, [dispatch, packs.updatedPacks, user_id])
+    }, [dispatch, packs.updatedPacks, user_id, packs.searchPackName])
     return (
         <div className="profile_page">
             <Header page="profile" />
@@ -22,14 +28,11 @@ export const ProfilePage = React.memo(() => {
                 <div className="profile_page__columns">
                     <Profile />
                     <div className="packs-wrapper">
-                        <PacksHeader isMyPacks={true} />
+                        <PacksHeader />
                         <Packs packs={packs.data.cardPacks} isInitialized={packs.isInitialized} />
                     </div>
                 </div>
-
             </div>
-
-            <NavLink to={_pagesPath.PACKS} >PACKS</NavLink>
         </div>
     )
 })

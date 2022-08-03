@@ -1,6 +1,7 @@
-import { PacksDataType } from './../../api/packs-api';
-import { packsAPI } from '../../api/packs-api';
-import { AppThunk } from '../store';
+import { PacksDataType } from '../../../api/packs-api';
+import { packsAPI } from '../../../api/packs-api';
+import { AppThunk } from '../../../store/store';
+import { StatusType } from '../../../_types/types';
 export const packsReducer = (state: InitStateType = initState, action: PacksActionType): InitStateType => {
     switch (action.type) {
         case 'packs/SET-PACKS':
@@ -15,6 +16,7 @@ export const packsReducer = (state: InitStateType = initState, action: PacksActi
         case 'packs/IS-MY-PACKS':
             return { ...state, isMyPacks: action.paylaod.isMyPacks }
         case 'packs/UPDATED-PACK': return { ...state, updatedPacks: { updateStatus: action.payload.updateStatus } }
+        case 'packs/EDIT-SEATCH-PACK-NAME-VALUE': return { ...state, searchPackName: action.payload.searchPackName }
         default: return state
     }
 }
@@ -59,6 +61,12 @@ export const updatePacksAC = (updateStatus: StatusType) => (
         payload: { updateStatus }
     } as const
 )
+export const editSearchPackNameValueAC = (searchPackName: string | null) => (
+    {
+        type: 'packs/EDIT-SEATCH-PACK-NAME-VALUE',
+        payload: { searchPackName }
+    } as const
+)
 // TC
 export const getPacksTC = (requestModel?: RequestModelType): AppThunk => async (dispatch, getState) => {
     dispatch(setIsInitializedPacksAC({ isInitialized: false }))
@@ -69,6 +77,7 @@ export const getPacksTC = (requestModel?: RequestModelType): AppThunk => async (
         min: state.packs.params.min,
         max: state.packs.params.max,
         user_id: state.packs.isMyPacks ? state.auth._id : null,
+        packName: state.packs.searchPackName,
         ...requestModel
     }
     const params = requestModel?.max ?
@@ -121,6 +130,7 @@ export type PacksActionType =
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setIsMyPacksAC>
     | ReturnType<typeof updatePacksAC>
+    | ReturnType<typeof editSearchPackNameValueAC>
 
 const initState = {
     isInitialized: false,
@@ -135,10 +145,11 @@ const initState = {
     },
     status: 'idle' as StatusType,
     isMyPacks: false,
-    updatedPacks: { updateStatus: 'initial' as StatusType }
+    updatedPacks: { updateStatus: 'initial' as StatusType },
+    searchPackName: null as string | null
 }
 type InitStateType = typeof initState
-type StatusType = 'failed' | 'success' | 'initial' | 'loading'
+
 type RequestModelType = {
     pageCount?: number
     page?: number

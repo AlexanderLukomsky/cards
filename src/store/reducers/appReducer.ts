@@ -44,6 +44,7 @@ export const setAppError = (error: string) => (
     } as const
 )
 export const setIsInitializedApp = (isInitializedApp: boolean) => (
+
     {
         type: 'app/IS-INITIALIZED',
         payload: { isInitializedApp }

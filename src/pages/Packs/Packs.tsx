@@ -1,7 +1,7 @@
 import { CircularProgress, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import moment from 'moment'
-import './packs.scss'
-import React, { MouseEvent } from "react"
+import './stylesPacks/packs.scss'
+import React from "react"
 import { useNavigate } from "react-router-dom"
 import { PacksType } from "../../api/packs-api"
 import { useAppSelector } from "../../store/store"
@@ -14,10 +14,8 @@ export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) 
     const formatDate = (date: Date) => {
         return moment(date).format("DD.MM.YYYY")
     }
-    const goToCard = (e: MouseEvent<HTMLTableRowElement>, id: string) => {
-        if ((e.target as Element).tagName !== 'BUTTON') {
-            navigate(`/cards/${id}`)
-        }
+    const onClickNavigateHandler = (pack_id: string) => {
+        navigate(`/cards/${pack_id}`)
     }
     return (
         <div className="packs">
@@ -50,13 +48,16 @@ export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) 
                                 </TableRow> :
                                 <>
                                     {packs.map((p) => (
-                                        <TableRow onDoubleClick={(e) => goToCard(e, p._id)}
+                                        <TableRow
                                             className={'packs__row'}
                                             key={p._id}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell component="th" scope="row">
-
+                                            <TableCell
+                                                className="packs__name"
+                                                component="th"
+                                                scope="row"
+                                                onClick={() => onClickNavigateHandler(p._id)}>
                                                 {p.name}
                                             </TableCell>
                                             <TableCell align="center">{p.cardsCount}</TableCell>
@@ -67,11 +68,11 @@ export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) 
                                                     <div>
                                                         <DeletePackModal packName={p.name} id={p._id} />
                                                         <EditPackNameModal id={p._id} packName={p.name} />
-                                                        <IconButton onClick={(e) => { navigate(`/cards/${p._id}`) }}><FolderOpenIcon /></IconButton>
+                                                        <IconButton onClick={() => { onClickNavigateHandler(p._id) }}><FolderOpenIcon /></IconButton>
                                                     </div>
                                                     :
                                                     <div>
-                                                        <IconButton onClick={(e) => { navigate(`/cards/${p._id}`) }}><FolderOpenIcon /></IconButton>
+                                                        <IconButton onClick={() => { onClickNavigateHandler(p._id) }}><FolderOpenIcon /></IconButton>
                                                     </div>
                                                 }
                                             </TableCell>

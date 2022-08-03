@@ -1,10 +1,10 @@
 import { Button, IconButton, TextField } from "@mui/material"
 import React, { useState } from "react"
-import { BasicModal } from "../../../Components/Modals/Modal"
+import { BasicModal } from "../../../Components/Modals/BasicModal"
 import EditIcon from '@mui/icons-material/Edit';
 import { modalsValidation } from "./modalsValidation/modalsValidation";
 import { useAppDispatch } from "../../../store/store";
-import { editPackNameTC } from "../../../store/reducers/packsReducer";
+import { editPackNameTC } from "../_packsReducer/packsReducer";
 export const EditPackNameModal: React.FC<PropsType> = ({ id, packName }) => {
     const dispatch = useAppDispatch()
     const [isOpenModal, setIsOpenModal] = useState(false)

@@ -1,33 +1,36 @@
-import { TextField } from "@mui/material"
+import { IconButton, TextField } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { getPacksTC } from "../../../store/reducers/packsReducer"
+import { editSearchPackNameValueAC } from "../_packsReducer/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { AddPackModal } from "../PacksModals/CreatePackModal"
-export const PacksHeader: React.FC<PropsType> = React.memo(({ isMyPacks }) => {
-    console.log(isMyPacks);
+import ClearIcon from '@mui/icons-material/Clear';
+export const PacksHeader: React.FC = React.memo(() => {
     const dispatch = useAppDispatch()
-    const [value, setValue] = useState('')
-    const [isSearching, setIsSearching] = useState(false)
     const userId = useAppSelector(state => state.auth._id)
+    const searchPackName = useAppSelector(state => state.packs.searchPackName)
+    const [value, setValue] = useState(searchPackName ? searchPackName : '')
+    const [isSearching, setIsSearching] = useState(false)
+
     useEffect(() => {
         if (!isSearching) { return }
         const id = setTimeout(() => {
-            if (isMyPacks) {
-                dispatch(value ? getPacksTC({ packName: value, user_id: userId }) : getPacksTC({ user_id: userId }))
-            } else {
-                dispatch(value ? getPacksTC({ packName: value }) : getPacksTC())
-            }
+            dispatch(editSearchPackNameValueAC(value ? value : null))
         }, 1000)
         return () => clearTimeout(id)
-    }, [value, isSearching, dispatch, userId, isMyPacks])
+    }, [value, isSearching, dispatch, userId])
     const onChange = (text: string) => {
         setValue(text)
         setIsSearching(true)
     }
+    const clearSearchValueHandler = () => {
+        dispatch(editSearchPackNameValueAC(null))
+        setValue('')
+    }
     return (
         <div style={{ display: 'flex', marginBottom: '20px' }}>
-            <div style={{ width: '100%', padding: '0 30px' }}>
-                <TextField style={{ width: '100%', }} id="standard-basic" value={value} focused label="Search..." variant="standard" onChange={(e) => {
+            <div style={{ width: '100%', padding: '0 30px 0 0', display: 'flex', alignItems: 'center' }}>
+                <IconButton onClick={clearSearchValueHandler} style={{ marginRight: "20px" }}><ClearIcon fontSize="large" /></IconButton>
+                <TextField style={{ width: '100%', }} id="standard-basic" value={value} label="Search..." variant="standard" onChange={(e) => {
                     onChange(e.currentTarget.value)
                 }} />
             </div>
@@ -37,6 +40,3 @@ export const PacksHeader: React.FC<PropsType> = React.memo(({ isMyPacks }) => {
         </div>
     )
 })
-type PropsType = {
-    isMyPacks: boolean
-}

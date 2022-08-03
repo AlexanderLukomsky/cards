@@ -4,7 +4,7 @@ import { handleAppError } from "../../utils/utils"
 import { AppThunk } from "../store"
 import { auth, setAppStatus } from "./appReducer"
 
-const initState = {
+export const authInitState = {
     created: '',
     email: "",
     isAdmin: false,
@@ -18,27 +18,28 @@ const initState = {
     __v: 0,
     _id: "",
 }
-type AuthStateType = typeof initState & {
+export type AuthStateType = typeof authInitState & {
     avatar?: string
 }
-export const authReducer = (state: AuthStateType = initState, action: ActionType): AuthStateType => {
+export const authReducer = (state: AuthStateType = authInitState, action: ActionType): AuthStateType => {
     switch (action.type) {
         case 'auth/SET-LOGIN': return { ...state, ...action.payload.data }
         default: return state
     }
 }
-
-export const setLoginAC = (data: AuthStateType) => {
-    return {
+//AC
+export const setLoginAC = (data: AuthStateType) => (
+    {
         type: 'auth/SET-LOGIN',
         payload: { data }
     } as const
-}
-export const logoutAC = () => {
-    return {
+)
+export const logoutAC = () => (
+    {
         type: 'auth/LOGOUT'
     } as const
-}
+)
+//TC
 export const loginTC = (data: authDataType): AppThunk => async (dispatch) => {
     dispatch(setAppStatus('loading'))
     try {
