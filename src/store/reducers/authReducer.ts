@@ -4,8 +4,6 @@ import { authAPI, authDataType, loginResponseType } from "../../api/auth-api"
 import { handleAppError } from "../../utils/utils"
 import { AppThunk } from "../store"
 import { setAppStatusAC } from "./appReducer"
-
-
 export const authInitState = {
     authData: {} as loginResponseType,
     isAuth: false
@@ -27,32 +25,6 @@ const slice = createSlice({
     }
 })
 export const authReducer = slice.reducer
-// export const authReducer = (state: AuthStateType = authInitState, action: ActionType): AuthStateType => {
-//     switch (action.type) {
-//         case 'auth/SET-LOGIN': return { ...state, authData: action.payload.data }
-//         case 'auth/LOGOUT': return { ...state, isAuth: false }
-//         case 'auth/SET-IS-AUTH': return { ...state, isAuth: action.payload.isAuth }
-//         default: return state
-//     }
-// }
-//AC
-// export const setLoginAC = (data: loginResponseType) => (
-//     {
-//         type: 'auth/SET-LOGIN',
-//         payload: { data }
-//     } as const
-// )
-// export const logoutAC = () => (
-//     {
-//         type: 'auth/LOGOUT'
-//     } as const
-// )
-// export const setIsAuthAC = (isAuth: boolean) => (
-//     {
-//         type: 'auth/SET-IS-AUTH',
-//         payload: { isAuth }
-//     } as const
-// )
 export const { setLoginAC } = slice.actions
 export const { logoutAC } = slice.actions
 export const { setIsAuthAC } = slice.actions
@@ -81,13 +53,6 @@ export const logoutTC = (): AppThunk => async (dispatch) => {
         handleAppError(errorMessage, dispatch)
     }
 }
-
-
-type ActionType =
-    | ReturnType<typeof setLoginAC>
-    | ReturnType<typeof logoutAC>
-    | ReturnType<typeof setIsAuthAC>
-
 export type AuthStateType = {
     authData: loginResponseType
     isAuth: boolean
