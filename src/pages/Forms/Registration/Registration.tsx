@@ -13,7 +13,6 @@ import { registrationTC } from "./_registrationReducer/registrationReducer"
 export const Registration = () => {
     const isReg = useAppSelector(state => state.registration.isReg)
     const appStatus = useAppSelector(state => state.app.appStatus)
-
     const navigate = useNavigate()
     useEffect(() => {
         if (isReg) { navigate(`/form/${_formPath.LOGIN}`) }

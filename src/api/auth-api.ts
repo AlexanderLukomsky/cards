@@ -16,7 +16,7 @@ export const authAPI = {
         return _instance.put<{ updatedUser: loginResponseType }>('/auth/me', model)
     }
 }
-type loginResponseType = {
+export type loginResponseType = {
     created: string,
     email: string,
     isAdmin: boolean,

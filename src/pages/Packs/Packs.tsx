@@ -9,7 +9,7 @@ import { DeletePackModal } from "./PacksModals/DeletePackModal"
 import { EditPackNameModal } from "./PacksModals/EditPackNameModal"
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 export const Packs = React.memo(({ packs, isInitialized, ...props }: PropsType) => {
-    const userId = useAppSelector(state => state.auth._id)
+    const userId = useAppSelector(state => state.auth.authData._id)
     const navigate = useNavigate()
     const formatDate = (date: Date) => {
         return moment(date).format("DD.MM.YYYY")

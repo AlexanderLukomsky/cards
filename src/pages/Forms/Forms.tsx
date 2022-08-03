@@ -4,13 +4,14 @@ import { NewPassword } from "../NewPassword";
 import { PasswordRecovery } from "../PasswordRecovery";
 import { Registration } from "./Registration/Registration";
 import "./form.scss";
-import { LoginContainer } from "./Login/LoginContainer";
 import { _formPath } from "../_path/_formPath";
+import { Login } from "./Login/Login";
+
 export const Forms = () => (
     < div className="form" >
         <div className="form__container">
             <Routes>
-                <Route path={_formPath.LOGIN} element={<LoginContainer />} />
+                <Route path={_formPath.LOGIN} element={<Login />} />
                 <Route path={_formPath.REGISTRATION} element={<Registration />} />
                 <Route path={_formPath.PASS_RECOVERY} element={<PasswordRecovery />} />
                 <Route path={_formPath.NEW_PASS} element={<NewPassword />} />

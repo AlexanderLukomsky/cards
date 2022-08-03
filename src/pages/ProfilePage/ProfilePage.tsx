@@ -6,12 +6,13 @@ import { _pagesPath } from "../_path/_pagesPath"
 import { Profile } from "./Profile/Profile"
 import './profilePage.scss'
 import { Packs } from "../Packs/Packs"
-import { getPacksTC } from "../Packs/_packsReducer/packsReducer"
+
 import { PacksHeader } from "../Packs/PacksHeader/PacksHeader"
+import { getPacksTC } from "../Packs/_packsReducer/packsReducer"
 export const ProfilePage = React.memo(() => {
-    const isAuth = useAppSelector(state => state.app.isAuth)
+    const isAuth = useAppSelector(state => state.auth.isAuth)
     const packs = useAppSelector(state => state.packs)
-    const user_id = useAppSelector(state => state.auth._id)
+    const user_id = useAppSelector(state => state.auth.authData._id)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     useEffect(() => {
@@ -20,7 +21,7 @@ export const ProfilePage = React.memo(() => {
             return
         }
         dispatch(getPacksTC({ user_id, min: 0, max: 110, page: 1 }))
-    }, [dispatch, packs.updatedPacks, user_id, packs.searchPackName])
+    }, [dispatch, packs.updatedPacks, user_id, packs.searchPackName, isAuth])
     return (
         <div className="profile_page">
             <Header page="profile" />

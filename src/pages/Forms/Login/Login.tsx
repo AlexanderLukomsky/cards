@@ -1,17 +1,21 @@
 import { CircularProgress } from "@mui/material"
-import { useState } from "react"
-import { NavLink } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
 import { CustomButton } from "../../../Components/CustomButton"
-import { loginTC } from "../../../store/reducers/authReducer"
+import { setLoginTC } from "../../../store/reducers/authReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { _formPath } from "../../_path/_formPath"
+import { _pagesPath } from "../../_path/_pagesPath"
 import { Email } from "../Components/Email"
 import { Password } from "../Components/Password"
 import { emailValidator, passwordValidator } from "../validators"
 import './login.scss'
 export const Login = () => {
-    const appStatus = useAppSelector(state => state.app.appStatus)
+    const navigate = useNavigate()
     const dispath = useAppDispatch()
+    const appStatus = useAppSelector(state => state.app.appStatus)
+    const isAuth = useAppSelector(state => state.auth.isAuth)
+    useEffect(() => { if (isAuth) { navigate(_pagesPath.PACKS) } }, [isAuth, navigate])
     //state
     const [email, setEmail] = useState<string>('')
     const [emailError, setEmailError] = useState<string>('')
@@ -44,7 +48,7 @@ export const Login = () => {
                 password,
                 rememberMe: true
             }
-            dispath(loginTC(data))
+            dispath(setLoginTC(data))
         }
 
     }

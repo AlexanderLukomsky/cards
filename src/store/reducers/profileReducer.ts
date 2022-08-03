@@ -1,12 +1,12 @@
 import { StatusType } from '../../_types/types';
-import { authAPI } from './../../api/auth-api';
+import { authAPI, loginResponseType } from './../../api/auth-api';
 import { AppThunk } from './../store';
 import { authInitState, AuthStateType, setLoginAC } from './authReducer';
 const initState: profileStateType = { ...authInitState, status: 'initial', isInitialized: false }
 export const profileReducer = (state: profileStateType = initState, action: ActionType): profileStateType => {
     switch (action.type) {
-        case 'auth/SET-LOGIN': return { ...state, ...action.payload.data, status: 'initial' }
-        case 'profile/UPDATE-PROFILE': return { ...state, name: action.payload.name }
+        case 'auth/SET-LOGIN': return { ...state, authData: action.payload.data, status: 'initial' }
+        case 'profile/UPDATE-PROFILE': return { ...state, authData: { ...state.authData, name: action.payload.name } }
         case 'profile/SET-STATUS': return { ...state, status: action.payload.status }
         default: return state
     }
@@ -34,7 +34,8 @@ export const updateProfileTC = (model: { name?: string, avatar?: string }): AppT
     }
 
 }
-type profileStateType = AuthStateType & {
+type profileStateType = {
+    authData: loginResponseType
     status: StatusType,
     isInitialized: boolean
 }

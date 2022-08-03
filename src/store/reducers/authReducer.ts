@@ -1,34 +1,24 @@
 import { AxiosError } from "axios"
-import { authAPI, authDataType } from "../../api/auth-api"
+import { authAPI, authDataType, loginResponseType } from "../../api/auth-api"
 import { handleAppError } from "../../utils/utils"
 import { AppThunk } from "../store"
-import { auth, setAppStatus } from "./appReducer"
+import { setAppStatusAC } from "./appReducer"
+
 
 export const authInitState = {
-    created: '',
-    email: "",
-    isAdmin: false,
-    name: "",
-    publicCardPacksCount: 0,
-    rememberMe: false,
-    token: "",
-    tokenDeathTime: 0,
-    updated: '',
-    verified: false,
-    __v: 0,
-    _id: "",
-}
-export type AuthStateType = typeof authInitState & {
-    avatar?: string
+    authData: {} as loginResponseType,
+    isAuth: false
 }
 export const authReducer = (state: AuthStateType = authInitState, action: ActionType): AuthStateType => {
     switch (action.type) {
-        case 'auth/SET-LOGIN': return { ...state, ...action.payload.data }
+        case 'auth/SET-LOGIN': return { ...state, authData: action.payload.data }
+        case 'auth/LOGOUT': return { ...state, isAuth: false }
+        case 'auth/SET-IS-AUTH': return { ...state, isAuth: action.payload.isAuth }
         default: return state
     }
 }
 //AC
-export const setLoginAC = (data: AuthStateType) => (
+export const setLoginAC = (data: loginResponseType) => (
     {
         type: 'auth/SET-LOGIN',
         payload: { data }
@@ -39,16 +29,22 @@ export const logoutAC = () => (
         type: 'auth/LOGOUT'
     } as const
 )
+export const setIsAuthAC = (isAuth: boolean) => (
+    {
+        type: 'auth/SET-IS-AUTH',
+        payload: { isAuth }
+    } as const
+)
 //TC
-export const loginTC = (data: authDataType): AppThunk => async (dispatch) => {
-    dispatch(setAppStatus('loading'))
+export const setLoginTC = (data: authDataType): AppThunk => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     try {
         const res = await authAPI.auth(data)
         dispatch(setLoginAC(res.data))
-        dispatch(setAppStatus('success'))
-        dispatch(auth(true))
+        dispatch(setIsAuthAC(true))
+        dispatch(setAppStatusAC('success'))
     } catch (e) {
-        dispatch(setAppStatus('error'))
+        dispatch(setAppStatusAC('error'))
         alert((e as AxiosError<{ error: string }, any>).response?.data.error)
     }
 }
@@ -56,14 +52,22 @@ export const loginTC = (data: authDataType): AppThunk => async (dispatch) => {
 export const logoutTC = (): AppThunk => async (dispatch) => {
     try {
         await authAPI.logout()
-        dispatch(setAppStatus('success'))
-        dispatch(auth(false))
+        dispatch(setAppStatusAC('success'))
+        dispatch(setIsAuthAC(false))
     } catch (e: any) {
         const errorMessage = (e as AxiosError<{ error: string }, any>).response ? e.response.data.error : e.message
-        dispatch(setAppStatus('error'))
+        dispatch(setAppStatusAC('error'))
         handleAppError(errorMessage, dispatch)
     }
 }
 
 
-type ActionType = { type: any } & ReturnType<typeof setLoginAC>
+type ActionType =
+    | ReturnType<typeof setLoginAC>
+    | ReturnType<typeof logoutAC>
+    | ReturnType<typeof setIsAuthAC>
+
+export type AuthStateType = {
+    authData: loginResponseType
+    isAuth: boolean
+}

@@ -9,7 +9,7 @@ import './mainPage.scss'
 export const MainPage = () => {
     const [btnStyle, setBtnStyle] = useState<' base' | ' intervalColor'>(' base')
     const navigate = useNavigate()
-    const isAuth = useAppSelector(state => state.app.isAuth)
+    const isAuth = useAppSelector(state => state.auth.isAuth)
     useEffect(() => {
         if (isAuth) { navigate(_pagesPath.PACKS) }
     }, [isAuth, navigate])

@@ -1,12 +1,12 @@
 import { IconButton, TextField } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { editSearchPackNameValueAC } from "../_packsReducer/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { AddPackModal } from "../PacksModals/CreatePackModal"
 import ClearIcon from '@mui/icons-material/Clear';
+import { editSearchPackNameValueAC } from "../_packsReducer/packsReducer";
 export const PacksHeader: React.FC = React.memo(() => {
     const dispatch = useAppDispatch()
-    const userId = useAppSelector(state => state.auth._id)
+    const userId = useAppSelector(state => state.auth.authData._id)
     const searchPackName = useAppSelector(state => state.packs.searchPackName)
     const [value, setValue] = useState(searchPackName ? searchPackName : '')
     const [isSearching, setIsSearching] = useState(false)

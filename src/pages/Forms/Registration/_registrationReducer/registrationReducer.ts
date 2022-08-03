@@ -1,9 +1,9 @@
 import { StatusType } from './../../../../_types/types';
 import { AxiosError } from "axios"
 import { authAPI, authDataType } from "../../../../api/auth-api"
-import { setAppStatus } from "../../../../store/reducers/appReducer"
 import { AppThunk } from "../../../../store/store"
 import { handleAppError } from "../../../../utils/utils"
+import { setAppStatusAC } from '../../../../store/reducers/appReducer';
 
 const initState = {
     isReg: false
@@ -22,14 +22,14 @@ export const setIsRegAC = (isReg: boolean) => (
 )
 export const registrationTC = (data: authDataType): AppThunk => async (dispatch) => {
     try {
-        dispatch(setAppStatus('loading'))
+        dispatch(setAppStatusAC('loading'))
         await authAPI.registration(data)
         setTimeout(() => { dispatch(setIsRegAC(true)) }, 1000)
-        setTimeout(() => { dispatch(setAppStatus('success')) }, 1500)
+        setTimeout(() => { dispatch(setAppStatusAC('success')) }, 1500)
 
     } catch (e: any) {
         const errorMessage = (e as AxiosError<{ error: string }, any>).response ? e.response.data.error : e.message
-        dispatch(setAppStatus('error'))
+        dispatch(setAppStatusAC('error'))
         handleAppError(errorMessage, dispatch)
         dispatch(setIsRegAC(false))
     }

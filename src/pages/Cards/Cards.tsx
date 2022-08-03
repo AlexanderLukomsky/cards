@@ -6,7 +6,7 @@ import { formatDate } from "../../utils/formatDate";
 import { AddCardModal } from "./cardsModal/addCardModal";
 import './stylesCards/cards.scss';
 export const Cards: React.FC<PropsType> = ({ cards, isInitialized, packUserId, packId, ...props }) => {
-    const authId = useAppSelector(state => state.auth._id)
+    const authId = useAppSelector(state => state.auth.authData._id)
     const status = useAppSelector(state => state.cards.updateStatus.status)
     return (
         <div style={{ maxWidth: '1200px', margin: '0 auto' }} className='cards'>

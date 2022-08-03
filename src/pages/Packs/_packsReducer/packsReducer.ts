@@ -76,7 +76,7 @@ export const getPacksTC = (requestModel?: RequestModelType): AppThunk => async (
         pageCount: state.packs.data.pageCount,
         min: state.packs.params.min,
         max: state.packs.params.max,
-        user_id: state.packs.isMyPacks ? state.auth._id : null,
+        user_id: state.packs.isMyPacks ? state.auth.authData._id : null,
         packName: state.packs.searchPackName,
         ...requestModel
     }

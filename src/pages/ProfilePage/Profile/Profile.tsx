@@ -10,7 +10,7 @@ export const Profile: React.FC<PropsType> = React.memo(({ showEdit = true }) => 
     const dispatch = useAppDispatch()
     const profileState = useAppSelector(state => state.profile)
     const [editMode, setEditMode] = useState<boolean>(false)
-    const [name, setName] = useState(profileState.name)
+    const [name, setName] = useState(profileState.authData.name)
     const onChangeNameHandler = (value: string) => {
         setName(value)
     }
@@ -31,8 +31,8 @@ export const Profile: React.FC<PropsType> = React.memo(({ showEdit = true }) => 
             </IconButton>
             <div className="profile__img_container">
                 <img
-                    src={profileState.avatar ?
-                        profileState.avatar :
+                    src={profileState.authData.avatar ?
+                        profileState.authData.avatar :
                         'https://tinypng.com/images/social/website.jpg'}
                     alt="avatar"
                 />
@@ -44,7 +44,7 @@ export const Profile: React.FC<PropsType> = React.memo(({ showEdit = true }) => 
                         {
                             editMode ?
                                 <TextField style={{ marginBottom: '5px' }} value={name} onChange={(e) => { onChangeNameHandler(e.currentTarget.value) }} /> :
-                                <div className="profile__name">{profileState.name}</div>
+                                <div className="profile__name">{profileState.authData.name}</div>
                         }
                         {
                             showEdit && (editMode ? <Button onClick={setEditedData}>Save</Button> : <Button onClick={editProfileMod}>Edit name</Button>)
