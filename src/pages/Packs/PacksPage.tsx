@@ -8,7 +8,6 @@ import { _pagesPath } from '../_path/_pagesPath'
 import { Packs } from './Packs'
 import './stylesPacks/packsPage.scss'
 import { SortPackCards } from './SortPackCards/SortPackCards'
-import { setPacksStorage } from './utilsPacks/setPacksStorage'
 import { PacksBarHeader } from './PacksBarHeader/PacksBarHeader'
 import { PacksHeader } from './PacksHeader/PacksHeader'
 import { getPacksTC, setPageCountAC } from './_packsReducer/packsReducer'
@@ -17,26 +16,16 @@ export const PacksPage = React.memo(() => {
     const packs = useAppSelector(state => state.packs)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-
     useEffect(() => {
         if (!isAuth) {
             navigate(_pagesPath.MAIN)
             return
         }
         if (packs.updatedPacks.updateStatus === 'failed') { return }
-        const packsStorageAsString = localStorage.getItem('packs')
-        if (packsStorageAsString !== null) {
-            const data = JSON.parse(packsStorageAsString)
-            dispatch(getPacksTC({ ...data.packs }))
-            return
-        }
         dispatch(getPacksTC())
-    }, [isAuth, navigate, dispatch, packs.isMyPacks, packs.data.page,
-        packs.data.pageCount, packs.updatedPacks, packs.searchPackName])
-
+    }, [isAuth, navigate, dispatch, packs.isMyPacks, packs.updatedPacks, packs.searchPackName])
     const pageCountHandler = (pageCount: number) => {
         dispatch(setPageCountAC(pageCount))
-        setPacksStorage({ pageCount, page: 1 })
     }
     return (
         <div className="packs_page container">

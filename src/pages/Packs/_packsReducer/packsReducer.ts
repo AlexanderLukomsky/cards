@@ -9,10 +9,10 @@ export const packsReducer = (state: InitStateType = initState, action: PacksActi
         case 'packs/IS-INITIALIZED':
             return { ...state, isInitialized: action.payload.isInitialized }
         case 'packs/CHANGE-PAGE':
-            return { ...state, data: { ...state.data, page: action.payload.page } }
+            return { ...state, data: { ...state.data, page: action.payload.page }, updatedPacks: { ...state.updatedPacks } }
         case 'packs/SET-STATUS': return { ...state, status: action.payload.status }
         case 'packs/SET-PAGE-COUNT':
-            return { ...state, data: { ...state.data, pageCount: action.payload.pageCount, page: 1 } }
+            return { ...state, data: { ...state.data, pageCount: action.payload.pageCount, page: 1 }, updatedPacks: { ...state.updatedPacks } }
         case 'packs/IS-MY-PACKS':
             return { ...state, isMyPacks: action.paylaod.isMyPacks }
         case 'packs/UPDATED-PACK': return { ...state, updatedPacks: { updateStatus: action.payload.updateStatus } }

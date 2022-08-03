@@ -3,7 +3,6 @@ import React from "react"
 import { setIsMyPacksAC } from "../_packsReducer/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { Profile } from "../../ProfilePage/Profile/Profile"
-import { clearPacksStorage } from "../utilsPacks/setPacksStorage"
 const style = {
     buttons: {
         display: 'flex',
@@ -16,7 +15,6 @@ export const PacksBarHeader = React.memo(() => {
     const dispatch = useAppDispatch()
     const getMyPacksHandler = () => {
         dispatch(setIsMyPacksAC(true))
-        clearPacksStorage(['min', 'max', 'page'])
     }
     const getAllPacksHandler = () => {
         dispatch(setIsMyPacksAC(false))

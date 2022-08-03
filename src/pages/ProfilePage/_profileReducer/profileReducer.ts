@@ -6,11 +6,11 @@ import { authInitState, setLoginAC } from '../../../store/reducers/authReducer';
 
 export const profileReducer = (state: profileStateType = initState, action: ActionType): profileStateType => {
     switch (action.type) {
-        case 'auth/SET-LOGIN': return { ...state, authData: action.payload.data, status: 'initial' }
-        case 'profile/UPDATE-PROFILE': return { ...state, authData: { ...state.authData, name: action.payload.name } }
-        case 'profile/SET-STATUS': return { ...state, status: action.payload.status }
-        case 'profile/SET-PACKS': return { ...state, packs: action.payload.packs, isInitializedPacks: true }
-        case 'profile/SET-IS-INITIALIZED': return { ...state, isInitializedPacks: action.payload.isInitializedPacks }
+        //  case 'auth/SET-LOGIN': return { ...state, authData: action.payload.data, status: 'initial' }
+        //  case 'profile/UPDATE-PROFILE': return { ...state, authData: { ...state.authData, name: action.payload.name } }
+        //    case 'profile/SET-STATUS': return { ...state, status: action.payload.status }
+        //   case 'profile/SET-PACKS': return { ...state, packs: action.payload.packs, isInitializedPacks: true }
+        //  case 'profile/SET-IS-INITIALIZED': return { ...state, isInitializedPacks: action.payload.isInitializedPacks }
         default: return state
     }
 }

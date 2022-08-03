@@ -1,9 +1,7 @@
 import { Slider } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { getPacksTC } from "../_packsReducer/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
-import { setPacksStorage } from "../utilsPacks/setPacksStorage"
-
+import { getPacksTC } from "../_packsReducer/packsReducer"
 export const SortPackCards: React.FC = React.memo(() => {
     const packs = useAppSelector(state => state.packs)
     useEffect(() => {
@@ -17,7 +15,6 @@ export const SortPackCards: React.FC = React.memo(() => {
     const sortByCardsNumber = (min: number, max: number) => {
         const sortValues = { min, max }
         dispatch(getPacksTC(sortValues))
-        setPacksStorage(sortValues)
     }
     return (
         <Slider
