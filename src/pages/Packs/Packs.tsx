@@ -1,6 +1,6 @@
 import { CircularProgress, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import moment from 'moment'
-import './packs.scss'
+import './stylesPacks/packs.scss'
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { PacksType } from "../../api/packs-api"

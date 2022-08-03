@@ -1,6 +1,6 @@
 import { Slider } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { getPacksTC } from "../../../store/reducers/packsReducer"
+import { getPacksTC } from "../_packsReducer/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { setPacksStorage } from "../utilsPacks/setPacksStorage"
 

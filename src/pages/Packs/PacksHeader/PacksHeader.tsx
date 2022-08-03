@@ -1,6 +1,6 @@
 import { IconButton, TextField } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { editSearchPackNameValueAC } from "../../../store/reducers/packsReducer"
+import { editSearchPackNameValueAC } from "../_packsReducer/packsReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { AddPackModal } from "../PacksModals/CreatePackModal"
 import ClearIcon from '@mui/icons-material/Clear';

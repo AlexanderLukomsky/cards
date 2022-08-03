@@ -4,7 +4,7 @@ import { _instance } from "../../api/instance";
 import { useAppSelector } from "../../store/store";
 import { formatDate } from "../../utils/formatDate";
 import { AddCardModal } from "./cardsModal/addCardModal";
-import './styleCards/cards.scss';
+import './stylesCards/cards.scss';
 export const Cards: React.FC<PropsType> = ({ cards, isInitialized, packUserId, packId, ...props }) => {
     const authId = useAppSelector(state => state.auth._id)
     const status = useAppSelector(state => state.cards.updateStatus.status)

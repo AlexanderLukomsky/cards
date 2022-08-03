@@ -3,7 +3,7 @@ import { useState } from "react"
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { BasicModal } from "../../../Components/Modals/BasicModal";
 import { useAppDispatch } from "../../../store/store";
-import { createPackTC } from "../../../store/reducers/packsReducer";
+import { createPackTC } from "../_packsReducer/packsReducer";
 import { modalsValidation } from "./modalsValidation/modalsValidation";
 export const AddPackModal = () => {
     const dispatch = useAppDispatch()

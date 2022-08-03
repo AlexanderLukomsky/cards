@@ -6,7 +6,7 @@ import { _pagesPath } from "../_path/_pagesPath"
 import { Profile } from "./Profile/Profile"
 import './profilePage.scss'
 import { Packs } from "../Packs/Packs"
-import { getPacksTC } from "../../store/reducers/packsReducer"
+import { getPacksTC } from "../Packs/_packsReducer/packsReducer"
 import { PacksHeader } from "../Packs/PacksHeader/PacksHeader"
 export const ProfilePage = React.memo(() => {
     const isAuth = useAppSelector(state => state.app.isAuth)

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { getCardsTC, setInitializedAC } from "./cardsReducer/cardsReducer";
 import { Header } from "../../Components/Header/Header";
-import './styleCards/cardsPage.scss'
+import './stylesCards/cardsPage.scss'
 export const CardsPage = () => {
     const { packId } = useParams<{ packId: string }>()
     const dispach = useAppDispatch()

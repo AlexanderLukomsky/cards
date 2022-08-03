@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { BasicModal } from "../../../Components/Modals/BasicModal"
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useAppDispatch } from "../../../store/store";
-import { deletePackTC } from "../../../store/reducers/packsReducer";
+import { deletePackTC } from "../_packsReducer/packsReducer";
 export const DeletePackModal: React.FC<PropsType> = React.memo(({ packName, id }) => {
     const [isOpenModal, setIsOpenModal] = useState(false)
     const closeHandler = () => { setIsOpenModal(false) }
