@@ -22,14 +22,14 @@ export const setIsRegAC = (isReg: boolean) => (
 )
 export const registrationTC = (data: authDataType): AppThunk => async (dispatch) => {
     try {
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({ appStatus: 'loading' }))
         await authAPI.registration(data)
         setTimeout(() => { dispatch(setIsRegAC(true)) }, 1000)
-        setTimeout(() => { dispatch(setAppStatusAC('success')) }, 1500)
+        setTimeout(() => { dispatch(setAppStatusAC({ appStatus: 'success' })) }, 1500)
 
     } catch (e: any) {
         const errorMessage = (e as AxiosError<{ error: string }, any>).response ? e.response.data.error : e.message
-        dispatch(setAppStatusAC('error'))
+        dispatch(setAppStatusAC({ appStatus: 'error' }))
         handleAppError(errorMessage, dispatch)
         dispatch(setIsRegAC(false))
     }

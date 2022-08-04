@@ -8,8 +8,9 @@ import './profilePage.scss'
 import { Packs } from "../Packs/Packs"
 
 import { PacksHeader } from "../Packs/PacksHeader/PacksHeader"
-import { getProfilePacksTC, setIsInitializedProfile } from "./_profileReducer/profileReducer"
+import { getPacksTC } from "../Packs/_packsReducer/packsReducer"
 export const ProfilePage = React.memo(() => {
+    const packs = useAppSelector(state => state.packs)
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const profile = useAppSelector(state => state.profile)
     const user_id = useAppSelector(state => state.auth.authData._id)
@@ -20,9 +21,8 @@ export const ProfilePage = React.memo(() => {
             navigate('/main')
             return
         }
-        dispatch(getProfilePacksTC(user_id))
-        return () => { dispatch(setIsInitializedProfile(false)) }
-    }, [dispatch, user_id, isAuth])
+        dispatch(getPacksTC({ ...profile.getParams, user_id, packName: packs.searchPackName }))
+    }, [dispatch, user_id, isAuth, packs.updatedPacks, packs.searchPackName])
     return (
         <div className="profile_page">
             <Header page="profile" />
@@ -31,7 +31,7 @@ export const ProfilePage = React.memo(() => {
                     <Profile />
                     <div className="packs-wrapper">
                         <PacksHeader />
-                        <Packs packs={profile.packs.cardPacks} isInitialized={profile.isInitializedPacks} />
+                        <Packs packs={packs.data.cardPacks} isInitialized={packs.isInitialized} />
                     </div>
                 </div>
             </div>

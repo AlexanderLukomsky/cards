@@ -22,22 +22,22 @@ const slice = createSlice({
         setIsAuthAC(state, action: PayloadAction<{ isAuth: boolean }>) {
             state.isAuth = action.payload.isAuth
         }
+    },
+    extraReducers: {
     }
 })
 export const authReducer = slice.reducer
-export const { setLoginAC } = slice.actions
-export const { logoutAC } = slice.actions
-export const { setIsAuthAC } = slice.actions
+export const { setLoginAC, logoutAC, setIsAuthAC } = slice.actions
 //TC
 export const setLoginTC = (data: authDataType): AppThunk => async (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC({ appStatus: 'loading' }))
     try {
         const res = await authAPI.auth(data)
         dispatch(setLoginAC({ data: res.data }))
         dispatch(setIsAuthAC({ isAuth: true }))
-        dispatch(setAppStatusAC('success'))
+        dispatch(setAppStatusAC({ appStatus: 'success' }))
     } catch (e) {
-        dispatch(setAppStatusAC('error'))
+        dispatch(setAppStatusAC({ appStatus: 'error' }))
         alert((e as AxiosError<{ error: string }, any>).response?.data.error)
     }
 }
@@ -45,11 +45,11 @@ export const setLoginTC = (data: authDataType): AppThunk => async (dispatch) => 
 export const logoutTC = (): AppThunk => async (dispatch) => {
     try {
         await authAPI.logout()
-        dispatch(setAppStatusAC('success'))
+        dispatch(setAppStatusAC({ appStatus: 'success' }))
         dispatch(logoutAC())
     } catch (e: any) {
         const errorMessage = (e as AxiosError<{ error: string }, any>).response ? e.response.data.error : e.message
-        dispatch(setAppStatusAC('error'))
+        dispatch(setAppStatusAC({ appStatus: 'error' }))
         handleAppError(errorMessage, dispatch)
     }
 }

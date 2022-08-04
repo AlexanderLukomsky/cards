@@ -26,7 +26,7 @@ export const SortPackCards: React.FC = React.memo(() => {
             size='medium'
             valueLabelDisplay="on"
             min={packs.data.minCardsCount}
-            max={packs.data.maxCardsCount ? packs.data.maxCardsCount : 110}
+            max={packs.data.maxCardsCount}
         />
     )
 })

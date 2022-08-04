@@ -6,7 +6,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { editSearchPackNameValueAC } from "../_packsReducer/packsReducer";
 export const PacksHeader: React.FC = React.memo(() => {
     const dispatch = useAppDispatch()
-    const userId = useAppSelector(state => state.auth.authData._id)
     const searchPackName = useAppSelector(state => state.packs.searchPackName)
     const [value, setValue] = useState(searchPackName ? searchPackName : '')
     const [isSearching, setIsSearching] = useState(false)
@@ -17,7 +16,7 @@ export const PacksHeader: React.FC = React.memo(() => {
             dispatch(editSearchPackNameValueAC(value ? value : null))
         }, 1000)
         return () => clearTimeout(id)
-    }, [value, isSearching, dispatch, userId])
+    }, [value, isSearching, dispatch])
     const onChange = (text: string) => {
         setValue(text)
         setIsSearching(true)

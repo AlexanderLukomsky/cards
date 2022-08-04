@@ -20,7 +20,7 @@ export const ErrorSnackbars = React.memo(() => {
         if (reason === 'clickaway') {
             return;
         }
-        dispatch(setAppErrorAC(''))
+        dispatch(setAppErrorAC({ error: '' }))
     };
     return (
         <Stack spacing={2} sx={{ minWidth: '360px' }}>

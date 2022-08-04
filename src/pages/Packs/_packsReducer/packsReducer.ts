@@ -80,6 +80,7 @@ export const getPacksTC = (requestModel?: RequestModelType): AppThunk => async (
         packName: state.packs.searchPackName,
         ...requestModel
     }
+    console.log(state.packs.data.pageCount);
     const params = requestModel?.max ?
         { min: requestModel.min!, max: requestModel.max } :
         { min: initState.params.min, max: initState.params.max }
@@ -122,6 +123,11 @@ export const editPackNameTC = ({ _id, name }: { _id: string, name: string }): Ap
         dispatch(updatePacksAC('initial'))
     }
 }
+export const clearDataTC = (): AppThunk => (dispatch) => {
+    dispatch(setIsInitializedPacksAC({ isInitialized: false }))
+    dispatch(setIsMyPacksAC(false))
+
+}
 export type PacksActionType =
     | ReturnType<typeof setPacksAC>
     | ReturnType<typeof setIsInitializedPacksAC>
@@ -143,6 +149,7 @@ const initState = {
         min: 0,
         max: 110
     },
+    getParams: { pageCount: 5 },
     status: 'idle' as StatusType,
     isMyPacks: false,
     updatedPacks: { updateStatus: 'initial' as StatusType },
@@ -155,6 +162,6 @@ type RequestModelType = {
     page?: number
     min?: number
     max?: number
-    packName?: string,
+    packName?: string | null,
     user_id?: string
 }
