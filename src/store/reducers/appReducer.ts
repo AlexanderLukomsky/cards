@@ -4,18 +4,11 @@ import { authAPI } from './../../api/auth-api';
 import { AppThunk } from "../store"
 import { setIsAuthAC, setLoginAC } from './authReducer';
 type AppStatusType = "initial" | "loading" | "success" | "error"
-const initialState: InitialStateType = {
+const initialState = {
     appStatus: 'initial',
     error: '',
     isInitializedApp: false
 }
-type InitialStateType = {
-    appStatus: AppStatusType
-    error: string
-    isInitializedApp: boolean
-}
-
-
 const slice = createSlice({
     name: 'app',
     initialState: initialState,
@@ -48,9 +41,5 @@ export const setIsInitializedAppTC = (): AppThunk => async (dispatch) => {
         setTimeout(() => { dispatch(setIsInitializedAppAC({ isInitializedApp: true })) }, 200)
     }
 }
-type AppActionType =
-    | ReturnType<typeof setAppStatusAC>
-    | SetAppErrorType
-    | SetIsInitializedAppType
 export type SetAppErrorType = ReturnType<typeof setAppErrorAC>
 export type SetIsInitializedAppType = ReturnType<typeof setIsInitializedAppAC>
