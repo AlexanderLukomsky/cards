@@ -7,7 +7,7 @@ export const PaginationPacks = React.memo((props: PaginationProps) => {
     const packs = useAppSelector(state => state.packs)
     const pageTotalCount = Math.ceil(packs.data.cardPacksTotalCount / packs.data.pageCount)
     const changePage = (e: any, page: number) => {
-        dispatch(changePacksPageAC(page))
+        dispatch(changePacksPageAC({ page }))
     }
     return (
         <Pagination page={packs.data.page} onChange={changePage} count={pageTotalCount} showFirstButton showLastButton />

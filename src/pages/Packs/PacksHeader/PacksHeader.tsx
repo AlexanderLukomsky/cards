@@ -1,38 +1,17 @@
-import { IconButton, TextField } from "@mui/material"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { AddPackModal } from "../PacksModals/CreatePackModal"
-import ClearIcon from '@mui/icons-material/Clear';
 import { editSearchPackNameValueAC } from "../_packsReducer/packsReducer";
+import { PacksSearch } from "./PacksSearch";
 export const PacksHeader: React.FC = React.memo(() => {
     const dispatch = useAppDispatch()
-    const searchPackName = useAppSelector(state => state.packs.searchPackName)
-    const [value, setValue] = useState(searchPackName ? searchPackName : '')
-    const [isSearching, setIsSearching] = useState(false)
-
-    useEffect(() => {
-        if (!isSearching) { return }
-        const id = setTimeout(() => {
-            dispatch(editSearchPackNameValueAC(value ? value : null))
-        }, 1000)
-        return () => clearTimeout(id)
-    }, [value, isSearching, dispatch])
-    const onChange = (text: string) => {
-        setValue(text)
-        setIsSearching(true)
-    }
-    const clearSearchValueHandler = () => {
-        dispatch(editSearchPackNameValueAC(null))
-        setValue('')
+    const searchPackName = useAppSelector(state => state.packs.requestParams.searchPackName)
+    const setSearchValue = (value: string | null) => {
+        dispatch(editSearchPackNameValueAC(value ? value : null))
     }
     return (
         <div style={{ display: 'flex', marginBottom: '20px' }}>
-            <div style={{ width: '100%', padding: '0 30px 0 0', display: 'flex', alignItems: 'center' }}>
-                <IconButton onClick={clearSearchValueHandler} style={{ marginRight: "20px" }}><ClearIcon fontSize="large" /></IconButton>
-                <TextField style={{ width: '100%', }} id="standard-basic" value={value} label="Search..." variant="standard" onChange={(e) => {
-                    onChange(e.currentTarget.value)
-                }} />
-            </div>
+            <PacksSearch callback={setSearchValue} initValue={searchPackName} />
             <div style={{ minWidth: '180px' }}>
                 <AddPackModal />
             </div>

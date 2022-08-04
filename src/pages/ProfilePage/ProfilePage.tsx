@@ -5,13 +5,12 @@ import { useAppDispatch, useAppSelector } from "../../store/store"
 import { Profile } from "./Profile/Profile"
 import './profilePage.scss'
 import { Packs } from "../Packs/Packs"
-import { PacksHeader } from "../Packs/PacksHeader/PacksHeader"
 import { getPacksTC } from "../Packs/_packsReducer/packsReducer"
+import { ProfilePacksHeader } from "./ProfilePacksHeader/ProfilePacksHeader"
 export const ProfilePage = React.memo(() => {
     const packs = useAppSelector(state => state.packs)
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const profile = useAppSelector(state => state.profile)
-    const user_id = useAppSelector(state => state.auth.authData._id)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     useEffect(() => {
@@ -19,9 +18,8 @@ export const ProfilePage = React.memo(() => {
             navigate('/main')
             return
         }
-        dispatch(getPacksTC({ ...profile.getParams, user_id, packName: packs.searchPackName }))
-    }, [dispatch, user_id, isAuth, packs.updatedPacks, packs.searchPackName, navigate])
-    //**!Profile get params??? */
+        dispatch(getPacksTC(profile.requestParams))
+    }, [dispatch, navigate, isAuth, packs.updatedPacks, profile.requestParams])
     return (
         <div className="profile_page">
             <Header page="profile" />
@@ -29,7 +27,7 @@ export const ProfilePage = React.memo(() => {
                 <div className="profile_page__columns">
                     <Profile />
                     <div className="packs-wrapper">
-                        <PacksHeader />
+                        <ProfilePacksHeader />
                         <Packs packs={packs.data.cardPacks} isInitialized={packs.isInitialized} />
                     </div>
                 </div>

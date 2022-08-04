@@ -43,8 +43,8 @@ export type PacksType = {
 type RequestType = {
     pageCount?: number
     page?: number
-    min?: number
-    max?: number
+    min?: number | null
+    max?: number | null
     user_id?: string | null,
     packName?: string | null
 }

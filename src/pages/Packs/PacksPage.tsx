@@ -7,10 +7,11 @@ import { useAppDispatch, useAppSelector } from '../../store/store'
 import { _pagesPath } from '../_path/_pagesPath'
 import { Packs } from './Packs'
 import './stylesPacks/packsPage.scss'
-import { SortPackCards } from './SortPackCards/SortPackCards'
-import { PacksBarHeader } from './PacksBarHeader/PacksBarHeader'
+import { PacksBarHeader } from './PacksBar/PacksBarHeader/PacksBarHeader'
 import { PacksHeader } from './PacksHeader/PacksHeader'
-import { getPacksTC, setPageCountAC } from './_packsReducer/packsReducer'
+import { getPacksTC, setIsInitializedPacksAC, setPageCountAC } from './_packsReducer/packsReducer'
+import { SortPackCards } from './SortPackCards/SortPacksCards'
+import { PacksBar } from './PacksBar/PacksBar'
 export const PacksPage = React.memo(() => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const packs = useAppSelector(state => state.packs)
@@ -23,23 +24,16 @@ export const PacksPage = React.memo(() => {
         }
         if (packs.updatedPacks.updateStatus === 'failed') { return }
         dispatch(getPacksTC())
-    }, [isAuth, navigate, dispatch, packs.isMyPacks, packs.updatedPacks, packs.searchPackName])
+        //    return () => { dispatch(setIsInitializedPacksAC({ isInitialized: false })) }
+    }, [isAuth, navigate, dispatch, packs.updatedPacks, packs.requestParams])
     const pageCountHandler = (pageCount: number) => {
         dispatch(setPageCountAC(pageCount))
     }
-
     return (
         <div className="packs_page container">
             <Header page='cards' />
             <div className='packs_page__columns'>
-                <div className='packs_page__bar'>
-                    <div className='packs_page__bar-header'>
-                        <PacksBarHeader />
-                    </div>
-                    <div className='slider-wrapper'>
-                        <SortPackCards />
-                    </div>
-                </div>
+                <PacksBar />
                 <div className='packs-wrapper'>
                     <PacksHeader />
                     <Packs isInitialized={packs.isInitialized} packs={packs.data.cardPacks} />
