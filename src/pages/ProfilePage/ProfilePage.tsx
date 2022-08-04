@@ -1,12 +1,10 @@
 import React, { useEffect } from "react"
-import { NavLink, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { Header } from "../../Components/Header/Header"
 import { useAppDispatch, useAppSelector } from "../../store/store"
-import { _pagesPath } from "../_path/_pagesPath"
 import { Profile } from "./Profile/Profile"
 import './profilePage.scss'
 import { Packs } from "../Packs/Packs"
-
 import { PacksHeader } from "../Packs/PacksHeader/PacksHeader"
 import { getPacksTC } from "../Packs/_packsReducer/packsReducer"
 export const ProfilePage = React.memo(() => {
@@ -22,7 +20,8 @@ export const ProfilePage = React.memo(() => {
             return
         }
         dispatch(getPacksTC({ ...profile.getParams, user_id, packName: packs.searchPackName }))
-    }, [dispatch, user_id, isAuth, packs.updatedPacks, packs.searchPackName])
+    }, [dispatch, user_id, isAuth, packs.updatedPacks, packs.searchPackName, navigate])
+    //**!Profile get params??? */
     return (
         <div className="profile_page">
             <Header page="profile" />

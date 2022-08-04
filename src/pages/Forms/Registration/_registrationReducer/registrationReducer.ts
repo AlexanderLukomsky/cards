@@ -1,4 +1,3 @@
-import { StatusType } from './../../../../_types/types';
 import { AxiosError } from "axios"
 import { authAPI, authDataType } from "../../../../api/auth-api"
 import { AppThunk } from "../../../../store/store"

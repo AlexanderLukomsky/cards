@@ -10,7 +10,7 @@ import './stylesPacks/packsPage.scss'
 import { SortPackCards } from './SortPackCards/SortPackCards'
 import { PacksBarHeader } from './PacksBarHeader/PacksBarHeader'
 import { PacksHeader } from './PacksHeader/PacksHeader'
-import { clearDataTC, getPacksTC, setPageCountAC } from './_packsReducer/packsReducer'
+import { getPacksTC, setPageCountAC } from './_packsReducer/packsReducer'
 export const PacksPage = React.memo(() => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const packs = useAppSelector(state => state.packs)
