@@ -1,7 +1,7 @@
 export const NewPassword = () => {
-    return (
-        <div>
-            NewPassword
-        </div>
-    )
+   return (
+      <div>
+         NewPassword
+      </div>
+   )
 }

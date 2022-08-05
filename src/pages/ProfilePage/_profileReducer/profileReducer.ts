@@ -41,5 +41,3 @@ export const updateProfileTC = (model: { name?: string, avatar?: string }): AppT
     }
 
 }
-
-

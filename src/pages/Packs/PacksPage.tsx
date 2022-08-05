@@ -7,10 +7,8 @@ import { useAppDispatch, useAppSelector } from '../../store/store'
 import { _pagesPath } from '../_path/_pagesPath'
 import { Packs } from './Packs'
 import './stylesPacks/packsPage.scss'
-import { PacksBarHeader } from './PacksBar/PacksBarHeader/PacksBarHeader'
 import { PacksHeader } from './PacksHeader/PacksHeader'
 import { getPacksTC, setIsInitializedPacksAC, setPageCountAC } from './_packsReducer/packsReducer'
-import { SortPackCards } from './SortPackCards/SortPacksCards'
 import { PacksBar } from './PacksBar/PacksBar'
 export const PacksPage = React.memo(() => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
@@ -24,7 +22,7 @@ export const PacksPage = React.memo(() => {
         }
         if (packs.updatedPacks.updateStatus === 'failed') { return }
         dispatch(getPacksTC())
-        //    return () => { dispatch(setIsInitializedPacksAC({ isInitialized: false })) }
+        return () => { dispatch(setIsInitializedPacksAC({ isInitialized: false })) }
     }, [isAuth, navigate, dispatch, packs.updatedPacks, packs.requestParams])
     const pageCountHandler = (pageCount: number) => {
         dispatch(setPageCountAC(pageCount))

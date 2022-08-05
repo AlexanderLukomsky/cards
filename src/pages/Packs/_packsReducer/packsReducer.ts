@@ -1,7 +1,9 @@
+import { AxiosError } from 'axios';
 import { createSlice } from '@reduxjs/toolkit';
 import { PacksDataType } from '../../../api/packs-api';
 import { packsAPI } from '../../../api/packs-api';
 import { AppThunk } from '../../../store/store';
+import { handleError } from '../../../utils/utils';
 import { StatusType } from '../../../_types/types';
 
 
@@ -38,7 +40,7 @@ export const setIsInitializedPacksAC = (payload: { isInitialized: boolean }) => 
         payload
     } as const
 )
-export const setStatusAC = (status: StatusType) => (
+export const setPacksStatusAC = (status: StatusType) => (
     { type: 'packs/SET-STATUS', payload: { status } } as const
 )
 export const setSortParamsAC = ({ min, max }: { min: number, max: number }) => (
@@ -91,42 +93,47 @@ export const getPacksTC = (requestModel?: RequestModelType): AppThunk => async (
     }
     try {
         dispatch(setIsInitializedPacksAC({ isInitialized: false }))
-        dispatch(setStatusAC('loading'))
         const res = await packsAPI.getPacks(requestParams)
         dispatch(setPacksAC({ data: res.data }))
-    } finally {
         dispatch(setIsInitializedPacksAC({ isInitialized: true }))
-        dispatch(setStatusAC('initial'))
+    } catch (e: any) {
+        handleError(e, dispatch, setPacksStatusAC)
     }
 }
 export const createPackTC = (packName: string): AppThunk => async (dispatch) => {
     try {
-        dispatch(setStatusAC('loading'))
+        dispatch(setPacksStatusAC('loading'))
         await packsAPI.createPack(packName)
         dispatch(changePacksPageAC({ page: 1 }))
     } catch (e) {
-        dispatch(setStatusAC('initial'))
+        handleError(e, dispatch)
         dispatch(updatePacksAC('initial'))
+    } finally {
+        dispatch(setPacksStatusAC('initial'))
     }
 }
 export const deletePackTC = (id: string): AppThunk => async (dispatch) => {
     try {
-        dispatch(setStatusAC('loading'))
+        dispatch(setPacksStatusAC('loading'))
         await packsAPI.deletePack(id)
         dispatch(updatePacksAC('success'))
-    } finally {
-        dispatch(setStatusAC('initial'))
+    } catch (e) {
+        handleError(e, dispatch)
         dispatch(updatePacksAC('initial'))
+    } finally {
+        dispatch(setPacksStatusAC('initial'))
     }
 }
 export const editPackNameTC = ({ _id, name }: { _id: string, name: string }): AppThunk => async (dispatch) => {
     try {
-        dispatch(setStatusAC('loading'))
+        dispatch(setPacksStatusAC('loading'))
         await packsAPI.editPackName({ _id, name })
         dispatch(updatePacksAC('success'))
-    } finally {
-        dispatch(setStatusAC('initial'))
+    } catch (e) {
+        handleError(e, dispatch)
         dispatch(updatePacksAC('initial'))
+    } finally {
+        dispatch(setPacksStatusAC('initial'))
     }
 }
 
@@ -134,13 +141,13 @@ export type PacksActionType =
     | ReturnType<typeof setPacksAC>
     | ReturnType<typeof setIsInitializedPacksAC>
     | ReturnType<typeof changePacksPageAC>
-    | ReturnType<typeof setStatusAC>
+    | SetPacksStatusACType
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setUserIdForFindPacks>
     | ReturnType<typeof updatePacksAC>
     | ReturnType<typeof editSearchPackNameValueAC>
     | ReturnType<typeof setSortParamsAC>
-
+export type SetPacksStatusACType = ReturnType<typeof setPacksStatusAC>
 const initState = {
     isInitialized: false,
     data: {
