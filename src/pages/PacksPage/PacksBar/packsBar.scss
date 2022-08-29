@@ -1,0 +1,51 @@
+.packs-bar {
+   padding-top: 70px;
+   min-height: 100%;
+   background: #ececf9;
+   max-width: 243px;
+   width: 100%;
+   padding: 33px 23px;
+   .switch-sort-packs {
+      display: flex;
+      justify-content: center;
+      &__btn {
+         text-align: center;
+         font-weight: 400;
+         font-size: 14px;
+         line-height: 17px;
+         background: #fff;
+         padding: 10px;
+         max-width: 100px;
+         width: 100%;
+         &:nth-child(1) {
+            border-radius: 3px 0 0 3px;
+         }
+         &:nth-child(2) {
+            border-radius: 0 3px 3px 0;
+         }
+      }
+      .active {
+         background: #9a91c8;
+         color: #ececf9;
+      }
+   }
+   &__profile {
+      position: relative;
+      padding: 15px 0;
+      margin-bottom: 20px;
+      .profile-person {
+         background: #9a91c8;
+      }
+      overflow: hidden;
+      .app-circular-progress {
+         background: transparent;
+      }
+   }
+   &__filter {
+      margin-top: 35px;
+      padding: 0 10px 0 3px;
+      .MuiSlider-valueLabel {
+         background: #9a91c8;
+      }
+   }
+}

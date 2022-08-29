@@ -1,76 +1,56 @@
-import { CircularProgress } from "@mui/material"
-import { useEffect, useState } from "react"
-import { NavLink, useNavigate } from "react-router-dom"
+import React, { useState } from "react"
+import { NavLink } from "react-router-dom"
+import { setLogin } from "../../../App/reducers/authReducer"
 import { CustomButton } from "../../../Components/CustomButton"
-import { setLoginTC } from "../../../store/reducers/authReducer"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
-import { _formPath } from "../../_path/_formPath"
-import { _pagesPath } from "../../_path/_pagesPath"
-import { Email } from "../Components/Email"
-import { Password } from "../Components/Password"
-import { emailValidator, passwordValidator } from "../validators"
+import { validator, ValidatorErrorType } from "../../../utils/validator"
+import { _formPath } from "../../Routes/_path/formPath"
+import { Form } from "../FormComponents/Form/Form"
 import './login.scss'
-export const Login = () => {
-    const navigate = useNavigate()
+export const Login = React.memo(() => {
     const dispath = useAppDispatch()
-    const appStatus = useAppSelector(state => state.app.appStatus)
-    const isAuth = useAppSelector(state => state.auth.isAuth)
-    useEffect(() => { if (isAuth) { navigate(_pagesPath.PACKS) } }, [isAuth, navigate])
+    const authStatus = useAppSelector(state => state.auth.authStatus)
     //state
-    const [email, setEmail] = useState<string>('')
-    const [emailError, setEmailError] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [passwordError, setPasswordError] = useState<string>('')
-    //email handlers
-    const changeEmailValue = (email: string) => {
-        setEmailError('')
-        setEmail(email)
-    }
-    const emailValidate = () => {
-        const error = emailValidator(email)
-        setEmailError(error)
-        return !error
-    }
-    //password handler
-    const changePassValue = (password: string) => {
-        setPasswordError('')
-        setPassword(password)
-    }
-    const passwordValidate = () => {
-        const error = passwordValidator(password)
-        setPasswordError(error)
-        return !error
-    }
-    const setLogin = () => {
-        if (emailValidate() && passwordValidate()) {
-            const data = {
-                email,
-                password,
-                rememberMe: true
-            }
-            dispath(setLoginTC(data))
+    const [emailValue, setEmailValue] = useState<string>('')
+    const [passwordValue, setPasswordValue] = useState<string>('')
+    const [errors, setErrors] = useState<ValidatorErrorType>({ email: null, password: null, confirmPassword: null })
+    const onSubmitForm = () => {
+        const errors = validator({ email: emailValue, password: passwordValue })
+        if (errors.email || errors.password) {
+            setErrors(errors)
+            return
         }
-
+        const data = {
+            email: emailValue,
+            password: passwordValue,
+            rememberMe: true
+        }
+        dispath(setLogin(data))
     }
     return (
-        <div className="login">
-            {(appStatus === 'loading') && <div className="login-progress"><CircularProgress /></div>}
-            <h3 className="login__title">Sign In</h3>
-            <Email value={email} error={emailError} onChange={changeEmailValue} onBlur={emailValidate} />
-            <Password label="Password" value={password} error={passwordError} onChange={changePassValue} onBlur={passwordValidate} />
+        <div className="login forms-form">
+            <Form
+                title="Sign In"
+                errorsHandler={setErrors}
+                errors={errors}
+                email={emailValue}
+                password={passwordValue}
+                onChangeEmailValue={setEmailValue}
+                onChangePassValue={setPasswordValue}
+
+            />
             <NavLink
-                to={`/form/${_formPath.PASS_RECOVERY}`}
-                className={"login__link-pass_recovery"} >
+                to={`${_formPath.FORM}${_formPath.PASS_RECOVERY}`}
+                className={"login__pass-recovery-link"} >
                 Forgot Password
             </NavLink>
             <CustomButton
-                onClick={setLogin}
-                disabled={!!emailError || !!passwordError || appStatus === 'loading'}
-                className={"login__button-login"} >
+                onClick={onSubmitForm}
+                disabled={!!errors.email || !!errors.password || authStatus === 'loading'}
+                className={"forms__submit-form"} >
                 Login
             </CustomButton>
-            <NavLink to='/' className={"login__link-info"} >Don’t have an account?</NavLink>
-            <NavLink to={`/form/${_formPath.REGISTRATION}`} className={"login__link-registration"}>Sign Up</NavLink>
+            <NavLink to={`${_formPath.FORM}${_formPath.REGISTRATION}`} className={"login__reg-link"}>Sign Up</NavLink>
         </div>
     )
-}
+})

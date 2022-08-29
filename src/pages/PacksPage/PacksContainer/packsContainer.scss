@@ -1,0 +1,40 @@
+.packs-container {
+   position: relative;
+   min-height: 500px;
+   background: #fff;
+   padding: 24px;
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   .app-circular-progress {
+      background: rgba(255, 255, 255, 0.473);
+   }
+   .packs-list {
+      padding: 3px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      width: 100%;
+      thead {
+         background: #ececf9;
+      }
+      tbody {
+         tr:nth-child(2n) {
+            background: #ececf9;
+         }
+      }
+   }
+   &__title {
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 33px;
+      color: #2d2e46;
+      margin-bottom: 15px;
+   }
+   &__navigation {
+      padding: 15px 0 0;
+      margin: 0 auto;
+   }
+}

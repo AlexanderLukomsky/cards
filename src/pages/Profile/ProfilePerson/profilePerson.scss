@@ -1,0 +1,90 @@
+.profile-person {
+   position: relative;
+   background: #d9d9f1;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   padding: 24px 0 12px;
+   width: 100%;
+   position: relative;
+   &__logout {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      button {
+         &:disabled {
+            opacity: 0.5;
+         }
+      }
+      svg {
+         color: #000;
+      }
+   }
+   &__img {
+      max-width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 5px;
+      img {
+         width: 100%;
+         height: 100%;
+      }
+   }
+   &__title {
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 27px;
+      color: #2d2e46;
+      margin-bottom: 5px;
+   }
+   &__about {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      color: #2d2e46;
+      opacity: 0.5;
+      margin-bottom: 13px;
+   }
+   &__edit-btn {
+      color: #21268f;
+      border: 1px solid #635d80;
+      border-radius: 4px;
+      background: transparent;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 14px;
+      padding: 5px;
+   }
+   &__set-edit {
+      @extend .profile-person__edit-btn;
+      margin-top: 20px;
+      max-width: 140px;
+      width: 100%;
+      text-transform: uppercase;
+      font-weight: 700;
+      &:disabled {
+         opacity: 0.5;
+      }
+   }
+   &__modal-body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      & > div {
+         width: 100%;
+      }
+   }
+   &__img-description {
+      display: inline-block;
+      margin-right: auto;
+      margin-top: 5px;
+      margin-bottom: 20px;
+      &.error {
+         color: red;
+      }
+   }
+}

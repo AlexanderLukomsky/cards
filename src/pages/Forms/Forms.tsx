@@ -1,25 +1,18 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { Error404 } from "../Error404";
-import { NewPassword } from "../NewPassword";
-import { PasswordRecovery } from "../PasswordRecovery";
-import { Registration } from "./Registration/Registration";
-import "./form.scss";
-import { _formPath } from "../_path/_formPath";
-import { Login } from "./Login/Login";
-
-export const Forms = () => (
-    < div className="form" >
-        <div className="form__container">
-            <Routes>
-                <Route path={_formPath.LOGIN} element={<Login />} />
-                <Route path={_formPath.REGISTRATION} element={<Registration />} />
-                <Route path={_formPath.PASS_RECOVERY} element={<PasswordRecovery />} />
-                <Route path={_formPath.NEW_PASS} element={<NewPassword />} />
-                <Route path="*" element={<Navigate to={'404'} />} />
-                <Route path="/" element={<div></div>} />
-                <Route path={_formPath.ERROR404} element={<Error404 />} />
-            </Routes>
-        </div>
-    </div >
-
-)
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAppSelector } from "../../store/store"
+import { FormRoutes } from "../Routes/FormRoutes"
+import { _pagesPath } from "../Routes/_path/pagesPath"
+import "./form.scss"
+export const Forms = () => {
+   const navigate = useNavigate()
+   const isAuth = useAppSelector(state => state.auth.isAuth)
+   useEffect(() => { if (isAuth) { navigate(_pagesPath.PACKS) } }, [isAuth, navigate])
+   return (
+      <div className="forms">
+         <div className="forms__container">
+            <FormRoutes />
+         </div>
+      </div>
+   )
+}

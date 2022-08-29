@@ -1,0 +1,16 @@
+.profile {
+   &__columns {
+      min-height: 50vh;
+      display: flex;
+      border-radius: 5px;
+      overflow: hidden;
+      background: #ececf9;
+   }
+   &__bar {
+      min-height: 100%;
+      background: #ececf9;
+      max-width: 243px;
+      width: 100%;
+      padding: 10px;
+   }
+}

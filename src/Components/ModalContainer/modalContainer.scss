@@ -1,0 +1,20 @@
+.modal-container {
+   &__header {
+      position: relative;
+      & > button {
+         position: absolute;
+         right: 0;
+         top: 50%;
+         transform: translateY(-50%);
+      }
+      margin-bottom: 27px;
+   }
+   &__title {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 33px;
+      text-align: center;
+      color: #2d2e46;
+   }
+}

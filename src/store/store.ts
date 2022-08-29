@@ -1,36 +1,26 @@
-import { cardsReducer } from '../pages/Cards/cardsReducer/cardsReducer';
+import { AnyAction, combineReducers } from "redux";
 import { configureStore, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { AnyAction, combineReducers } from "redux";
-import { appReducer } from "./reducers/appReducer";
-import { authReducer } from "./reducers/authReducer";
-import { newPassReducer } from "./reducers/newPassReducer";
-import { passRecoveryReducer } from "./reducers/passRecoveryReducer";
-import { profileReducer } from "../pages/ProfilePage/_profileReducer/profileReducer";
-import { registrationReducer } from "../pages/Forms/Registration/_registrationReducer/registrationReducer";
-import { PacksActionType, packsReducer } from '../pages/Packs/_packsReducer/packsReducer';
-
-//store
-export const rootReducers = combineReducers({
-    app: appReducer,
-    auth: authReducer,
-    newPass: newPassReducer,
-    passRecovery: passRecoveryReducer,
-    profile: profileReducer,
-    registration: registrationReducer,
-    packs: packsReducer,
-    cards: cardsReducer
+import { appReducer } from "../App/reducers/appReducer";
+import { authReducer } from "../App/reducers/authReducer";
+import { packsReducer } from "../pages/PacksPage/reducer/packsReducer";
+import { profileReducer } from "../pages/Profile/reducer/profileReducer";
+const rootReducers = combineReducers({
+   app: appReducer,
+   auth: authReducer,
+   packs: packsReducer,
+   profile: profileReducer
 })
 export const store = configureStore({
-    reducer: rootReducers
+   reducer: rootReducers
 })
-//custom useDispatch and useSelector
-export const useAppSelector: TypedUseSelectorHook<AppRootStoreType> = useSelector
+//useDispatch and useSelector
+export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 export const useAppDispatch: () => AppDispatchType = useDispatch
 //types Root Store, Dispatch, Thunk, Actions
-export type AppRootStoreType = ReturnType<typeof store.getState>
-export type AppDispatchType = ThunkDispatch<AppRootStoreType, unknown, AppActionsType>
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStoreType, unknown, AppActionsType>
+export type AppRootStateType = ReturnType<typeof store.getState>
+export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, AppActionsType>
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppActionsType>
 type AppActionsType =
-    | AnyAction
-    | PacksActionType
+   | AnyAction
+   // | PacksActionType

@@ -1,1 +1,0 @@
-export type StatusType = 'failed' | 'success' | 'initial' | 'loading'
