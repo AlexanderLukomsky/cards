@@ -4,9 +4,9 @@ import { AxiosError } from 'axios';
 import { authAPI, EditProfileDataType, LoginResponseType, RegisterDataType, UpdateUserType } from './../../api/auth-api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthDataType } from '../../api/auth-api';
-import { StatusType } from '../types/types';
+import { StatusType } from '../../types/types';
 import { initializedApp, setAppMessage, setAppStatus } from './appReducer';
-import { setProfileUserId } from '../../pages/Profile/reducer/profileReducer';
+import { setProfileUserId } from '../../pages/ProfilePage/reducer/profileReducer';
 export const authInitState = {
    authData: {} as LoginResponseType,
    isAuth: false,

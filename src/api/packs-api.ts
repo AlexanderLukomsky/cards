@@ -3,7 +3,10 @@ import { _instance } from "./instance"
 export const packsAPI = {
    getPacks(requestParams?: RequestModelType) {
       return _instance.get<PacksResponseDataType>('/cards/pack', { params: requestParams })
-   }
+   },
+   addNewPack(name: string) { return _instance.post('/cards/pack', { cardsPack: { name } }) },
+   deletePack(id: string) { return _instance.delete(`/cards/pack?id=${id}`) },
+   editPackName(cardsPack: { _id: string, name: string }) { return _instance.put(`/cards/pack`, { cardsPack }) }
 }
 export type PacksResponseDataType = {
    cardPacks: PacksType[]
@@ -36,8 +39,8 @@ export type PacksType = {
 export type RequestModelType = {
    pageCount?: number
    page?: number
-   min?: number
-   max?: number
+   min?: number | null
+   max?: number | null
    packName?: string | null,
    user_id?: string | null
 }

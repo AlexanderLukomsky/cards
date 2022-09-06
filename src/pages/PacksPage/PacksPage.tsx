@@ -1,35 +1,54 @@
-import { ChangeEvent, useEffect } from "react"
-import { Navigate } from "react-router-dom"
-import { _instance } from "../../api/instance"
-import { Header } from "../../Components/Header/Header"
+import { ChangeEvent, useCallback, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { Header } from "../Header/Header"
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { _pagesPath } from "../Routes/_path/pagesPath"
 import { PacksBar } from "./PacksBar/PacksBar"
-import { getPacks, setPage, setSearchPackNameValue } from "./reducer/packsReducer"
+import { getPacks, setPage, setPageCount, setSearchPackNameValue } from "./reducer/packsReducer"
 import "./packsPage.scss"
-import { PacksContainer } from "./PacksContainer/PacksContainer"
+import { Packs } from "./Packs/Packs"
+import { PageCountType } from "../../types/types"
 export const PacksPage = () => {
    const isAuth = useAppSelector(state => state.auth.isAuth)
    const dispatch = useAppDispatch()
    const { packs } = useAppSelector(state => state)
+   const navigate = useNavigate()
    useEffect(() => {
+      if (!isAuth) {
+         navigate(_pagesPath.MAIN)
+         return
+      }
       dispatch(getPacks({}))
-   }, [packs.isAuthUserPacks, packs.data.filterValues, packs.data.page, packs.data.searchPackNameValue])
+   }, [dispatch, isAuth, navigate,
+      packs.isAuthUserPacks,
+      packs.data.filterValues,
+      packs.data.page,
+      packs.data.searchPackNameValue,
+      packs.data.pageCount,
+      packs.updatePack
+   ])
    const onChangePage = (e: ChangeEvent<unknown>, page: number) => {
       dispatch(setPage({ page }))
    }
-   const searchPacks = (value: string) => {
+   const onSearchPacks = useCallback((value: string) => {
       dispatch(setSearchPackNameValue({ searchPackNameValue: value }))
+   }, [dispatch])
+   const onChagePageCount = (value: number) => {
+      //value only 5 || 10 || 15
+      const pageCount = value as PageCountType
+      dispatch(setPageCount({ pageCount }))
    }
-   if (!isAuth) return <Navigate to={_pagesPath.MAIN} />
+   if (!isAuth) { return <></> }
    return (
-      <div className="packs">
+      <div className="packs-page">
          <div className="container">
             <Header />
-            <div className="packs__columns">
+            <div className="packs-page__columns">
                <PacksBar />
-               <PacksContainer
-                  setSearchValue={searchPacks}
+               <Packs
+                  progressStatus={packs.packsStatus}
+                  onChagePageCount={onChagePageCount}
+                  onSearchPacks={onSearchPacks}
                   packs={packs.data.cardPacks}
                   onChangePage={onChangePage}
                   title='Packs list'

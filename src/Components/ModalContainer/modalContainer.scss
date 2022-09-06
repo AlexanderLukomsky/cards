@@ -17,4 +17,43 @@
       text-align: center;
       color: #2d2e46;
    }
+   &__body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      & > div {
+         width: 100%;
+      }
+      input {
+         padding: 5px;
+      }
+      .app-circular-progress {
+         background-color: transparent;
+      }
+      .error {
+         label {
+            color: rgb(160, 20, 20);
+            margin-left: 5px;
+         }
+         & ::before {
+            border-bottom: 2px solid rgb(160, 20, 20);
+         }
+         & ::after {
+            border-bottom: 2px solid rgb(160, 20, 20);
+         }
+      }
+   }
+   &__footer {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      & :first-child {
+         margin-right: auto;
+      }
+      & :last-child {
+         margin-right: 0;
+      }
+   }
 }

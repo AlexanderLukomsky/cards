@@ -1,27 +1,43 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { AppCircularProgress } from "../../../Components/AppCircularProgress/AppCircularProgress"
-import { PacksCountFilter } from "../PacksCountFilter/PacksCountFilter"
+import { PacksCountFilter } from "./PacksCountFilter/PacksCountFilter"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
-import { ProfilePerson } from "../../Profile/ProfilePerson/ProfilePerson"
-import { SwitchSortPacks } from "../SwitchSortPacks/SwitchSortPacks"
+import { ProfilePerson } from "../../ProfilePage/ProfileBar/ProfilePerson/ProfilePerson"
+import { SwitchSortPacks } from "./SwitchSortPacks/SwitchSortPacks"
 import "./packsBar.scss"
 import { setFilterValues } from "../reducer/packsReducer"
 export const PacksBar = React.memo(() => {
    const dispatch = useAppDispatch()
    const { packs } = useAppSelector(state => state)
-   const [values, setValues] = useState({ min: 0, max: 0 })
-   useEffect(() => {
-      setValues(packs.data.filterValues)
-   }, [packs.data.filterValues])
-   const onChangeFilterHandler = ((event: Event, values: number | number[]) => {
-      const newValues = values as number[]
-      setValues({ min: newValues[0], max: newValues[1] })
-   });
-   const onMouseSetFilterValues = () => {
+   const [values, setValues] = useState(packs.data.filterValues)
+   const [isChanged, setIsChanged] = useState(false)
+   const setStateFilterValues = () => {
       dispatch(setFilterValues(values))
    }
+   useEffect(() => {
+      if (isChanged) { setStateFilterValues() }
+   }, [isChanged])
+   const onChangeFilterValues = (event: Event, values: number | number[]) => {
+      const valuesAsArray = values as number[]
+      const currentValues = {
+         min: valuesAsArray[0],
+         max: valuesAsArray[1]
+      }
+      if (currentValues.max < 1) {
+         return
+      }
+      setValues(currentValues)
+   }
+   const onMouseUpHandler = () => {
+      setIsChanged(true)
+      window.removeEventListener('mouseup', onMouseUpHandler)
+   }
+   const onMouseDownHandler = () => {
+      setIsChanged(false)
+      window.addEventListener('mouseup', onMouseUpHandler)
+   }
    return (
-      <div className="packs-bar">
+      <div className="packs__bar packs-bar">
          <SwitchSortPacks />
          {
             packs.isAuthUserPacks && <div className="packs-bar__profile">
@@ -29,19 +45,22 @@ export const PacksBar = React.memo(() => {
                <ProfilePerson offEditMode={true} />
             </div>
          }
-         <div className="packs-bar__filter">
-            {
-               packs.isInitialized && <PacksCountFilter
-                  onChange={onChangeFilterHandler}
-                  onMouseUp={onMouseSetFilterValues}
-                  min={packs.data.minCardsCount}
-                  max={packs.data.maxCardsCount}
-                  values={[
-                     values.min,
-                     values.max
-                  ]} />
-            }
-         </div>
+         {
+            packs.data.maxCardsCount > 1 && <div className="packs-bar__filter">
+               {
+                  packs.isInitialized && <PacksCountFilter
+                     onTouchEnd={setStateFilterValues}
+                     onMouseDown={onMouseDownHandler}
+                     onChange={onChangeFilterValues}
+                     min={packs.data.minCardsCount}
+                     max={packs.data.maxCardsCount}
+                     values={[
+                        values.min,
+                        values.max
+                     ]} />
+               }
+            </div>
+         }
       </div>
    )
 })

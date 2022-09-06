@@ -1,13 +1,14 @@
+import { Dispatch } from 'redux';
+import { PageCountType } from './../../../types/types';
 import { AxiosError } from 'axios';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AppRootStateType } from './../../../store/store';
 import { packsAPI, PacksType, RequestModelType, PacksResponseDataType } from './../../../api/packs-api';
-import { _instance } from './../../../api/instance';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { StatusType } from '../../../App/types/types';
-import { setAppMessage, setAppStatus } from '../../../App/reducers/appReducer';
-const MIN_FILTER_VALUE = 0;
-const MAX_FILTER_VALUE = 110;
+import { StatusType } from '../../../types/types';
+import { handleAppNetworkError } from '../../../utils/appHandler';
+export const MIN_FILTER_VALUE = 0;
+export const MAX_FILTER_VALUE = 110;
 const initState = {
    isInitialized: false,
    isAuthUserPacks: false,
@@ -27,6 +28,7 @@ const initState = {
       searchPackName: null as string | null
    },
    packsStatus: 'idle' as StatusType,
+   updatePack: false
 }
 const slice = createSlice({
    name: 'packs',
@@ -46,24 +48,41 @@ const slice = createSlice({
       },
       setSearchPackNameValue(state, action: PayloadAction<{ searchPackNameValue: string }>) {
          state.data.searchPackNameValue = action.payload.searchPackNameValue
+      },
+      setPageCount(state, action: PayloadAction<{ pageCount: PageCountType }>) {
+         state.data.pageCount = action.payload.pageCount
+      },
+      setPacksStatus(state, action: PayloadAction<{ packsStatus: StatusType }>) {
+         state.packsStatus = action.payload.packsStatus
+      },
+      setIsInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
+         state.isInitialized = action.payload.isInitialized
       }
    },
    extraReducers: (builder) => {
-      builder.addCase(getPacks.pending, (state) => {
-         state.packsStatus = 'loading'
-      })
       builder.addCase(getPacks.fulfilled, (state, action) => {
-         state.packsStatus = 'success'
-         state.isInitialized = true
          state.data = { ...state.data, ...action.payload }
       })
-      builder.addCase(getPacks.rejected, (state, action) => {
-         state.packsStatus = 'failed'
-         state.isAuthUserPacks = false
+      builder.addCase(addNewPack.fulfilled, (state) => {
+         state.updatePack = !state.updatePack
+      })
+      builder.addCase(deletePack.fulfilled, (state) => {
+         state.updatePack = !state.updatePack
+      })
+      builder.addCase(editPackName.fulfilled, (state) => {
+         state.updatePack = !state.updatePack
       })
    }
 })
-export const { setIsAuthUserPacks, setFilterValues, setPage, setSearchPackNameValue } = slice.actions
+export const {
+   setIsAuthUserPacks,
+   setFilterValues,
+   setPage,
+   setSearchPackNameValue,
+   setPageCount,
+   setPacksStatus,
+   setIsInitialized,
+} = slice.actions
 
 export const getPacks = createAsyncThunk<PacksResponseDataType, RequestModelType, { rejectValue: { error: string }, }>(
    'packs/getPacks',
@@ -79,20 +98,69 @@ export const getPacks = createAsyncThunk<PacksResponseDataType, RequestModelType
          packName: packs.data.searchPackNameValue ? packs.data.searchPackNameValue : null,
          ...requestModel
       }
+      dispatch(setPacksStatus({ packsStatus: 'loading' }))
       try {
          const res = await packsAPI.getPacks(requestParams)
+         dispatch(setPacksStatus({ packsStatus: 'success' }))
+         dispatch(setIsInitialized({ isInitialized: true }))
          return res.data
       } catch (err: any) {
-         const error: string = (err as AxiosError).response ? err.response.data.error :
-            'An error has occurred. Please try again later'
-         dispatch(setAppStatus({ appStatus: 'failed' }))
-         dispatch(setAppMessage({ appMessage: error }))
-         return rejectWithValue({ error: error })
+         const error: AxiosError<any> = err
+         handleAppNetworkError(error, dispatch)
+         dispatch(setPacksStatus({ packsStatus: 'failed' }))
+         dispatch(setIsInitialized({ isInitialized: false }))
+         return rejectWithValue({ error: error.message })
       }
    }
 )
-
-
+export const addNewPack = createAsyncThunk(
+   'packs/add-new-pack',
+   async (name: string, { dispatch, rejectWithValue }) => {
+      dispatch(setPacksStatus({ packsStatus: 'loading' }))
+      try {
+         const res = await packsAPI.addNewPack(name)
+         dispatch(setPacksStatus({ packsStatus: 'success' }))
+         return res.data
+      } catch (err: any) {
+         const error: AxiosError = err
+         handleAppNetworkError(error, dispatch)
+         dispatch(setPacksStatus({ packsStatus: 'failed' }))
+         return rejectWithValue({ error: error.message })
+      }
+   }
+)
+export const deletePack = createAsyncThunk(
+   'packs/delete-pack',
+   async (id: string, { dispatch, rejectWithValue }) => {
+      dispatch(setPacksStatus({ packsStatus: 'loading' }))
+      try {
+         const res = await packsAPI.deletePack(id)
+         dispatch(setPacksStatus({ packsStatus: 'success' }))
+         return res.data
+      } catch (err: any) {
+         const error: AxiosError = err
+         handleAppNetworkError(error, dispatch)
+         dispatch(setPacksStatus({ packsStatus: 'failed' }))
+         return rejectWithValue({ error: error.message })
+      }
+   }
+)
+export const editPackName = createAsyncThunk(
+   'packs/edit-pack-name',
+   async (cardsPack: { _id: string, name: string }, { dispatch, rejectWithValue }) => {
+      dispatch(setPacksStatus({ packsStatus: 'loading' }))
+      try {
+         const res = await packsAPI.editPackName(cardsPack)
+         dispatch(setPacksStatus({ packsStatus: 'success' }))
+         return res.data
+      } catch (err: any) {
+         const error: AxiosError = err
+         handleAppNetworkError(error, dispatch)
+         dispatch(setPacksStatus({ packsStatus: 'failed' }))
+         return rejectWithValue({ error: error.message })
+      }
+   }
+)
 export const packsReducer = slice.reducer
 type DataType = PacksResponseDataType & {
    filterValues: {

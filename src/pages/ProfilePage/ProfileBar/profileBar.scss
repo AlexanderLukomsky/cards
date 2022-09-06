@@ -1,0 +1,7 @@
+@import "../../PacksPage/PacksBar/packsBar.scss";
+.profile-bar {
+   @extend .packs-bar;
+   &__filter {
+      @extend .packs-bar__filter;
+   }
+}

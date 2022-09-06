@@ -1,15 +1,17 @@
+import { cardsReducer } from './../pages/CardsPage/reducer/cardsReducer';
 import { AnyAction, combineReducers } from "redux";
 import { configureStore, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { appReducer } from "../App/reducers/appReducer";
 import { authReducer } from "../App/reducers/authReducer";
 import { packsReducer } from "../pages/PacksPage/reducer/packsReducer";
-import { profileReducer } from "../pages/Profile/reducer/profileReducer";
+import { profileReducer } from "../pages/ProfilePage/reducer/profileReducer";
 const rootReducers = combineReducers({
    app: appReducer,
    auth: authReducer,
    packs: packsReducer,
-   profile: profileReducer
+   profile: profileReducer,
+   cards: cardsReducer
 })
 export const store = configureStore({
    reducer: rootReducers
