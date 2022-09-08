@@ -1,7 +1,7 @@
 import { AppRootStateType } from './../../../store/store';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { StatusType } from './../../../types/types';
+import { StatusType } from '../../../commonTypes/types';
 import { cardsAPI, CardsResponeDataType, AddCardModelType } from './../../../api/cards-api';
 import { createSlice } from '@reduxjs/toolkit';
 import { handleAppNetworkError } from '../../../utils/appHandler';

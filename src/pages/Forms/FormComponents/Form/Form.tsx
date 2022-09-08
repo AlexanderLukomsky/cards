@@ -5,7 +5,6 @@ import { Email } from "../Email/Email"
 import { FormProgress } from "../FormProgress/FormProgress"
 import { FormTitle } from "../FormTitle/FormTitle"
 import { Password } from "../Password/Password"
-
 export const Form: React.FC<PropsType> = React.memo(({
    onChangeEmailValue, onChangePassValue, onChangeConfirmPassValue, errorsHandler,
    email, password, confirmPassword, errors,

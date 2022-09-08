@@ -2,6 +2,6 @@ export const _formPath = {
     FORM: '/form/',
     LOGIN: 'login',
     REGISTRATION: 'registration',
-    PASS_RECOVERY: 'recovery-password',
-    //  NEW_PASS: 'new-password',
+    FORGOT_PASS: 'forgot-pass',
+    NEW_PASS: 'new-password/:token',
 }

@@ -16,13 +16,6 @@ export const AppRoutes = () => {
             <Route path={_pagesPath.PROFILE} element={<Profile />} />
             <Route path={_pagesPath.PACKS} element={<PacksPage />} />
             <Route path={_pagesPath.CARDS} element={<CardsPage />} />
-            {/* 
-                <Route path="/Cards" element={<Navigate to={_pagesPath.MAIN} />} />
-               
-                <Route path={_pagesPath.PACKS} element={<PacksPage />} />
-              
-              
-                <Route path="*" element={<Error404 />} /> */}
          </Routes>
       </>
    )

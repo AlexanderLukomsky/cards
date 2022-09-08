@@ -1,10 +1,10 @@
 import { AppDispatchType } from './../../store/store';
 import { AxiosResponse } from 'axios';
 import { AxiosError } from 'axios';
-import { authAPI, EditProfileDataType, LoginResponseType, RegisterDataType, UpdateUserType } from './../../api/auth-api';
+import { authAPI, EditProfileDataType, ForgotPasswordDataType, LoginResponseType, NewPasswordDataType, RegisterDataType, UpdateUserType } from './../../api/auth-api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthDataType } from '../../api/auth-api';
-import { StatusType } from '../../types/types';
+import { StatusType } from '../../commonTypes/types';
 import { initializedApp, setAppMessage, setAppStatus } from './appReducer';
 import { setProfileUserId } from '../../pages/ProfilePage/reducer/profileReducer';
 export const authInitState = {
@@ -41,6 +41,12 @@ const slice = createSlice({
       builder.addCase(initializedApp.fulfilled, (state, action) => {
          state.isAuth = true
          state.authData = action.payload
+      })
+      builder.addCase(forgotPassword.fulfilled, (state) => {
+         state.authStatus = 'success'
+      })
+      builder.addCase(setNewPassword.fulfilled, (state) => {
+         state.authStatus = 'success'
       })
    }
 })
@@ -82,7 +88,14 @@ export const setLogin = createAsyncThunk<LoginResponseType, AuthDataType, { reje
          return rejectWithValue({ error: error });
       }
    })
-
+export const forgotPassword = createAsyncThunk<{}, ForgotPasswordDataType, { dispatch: AppDispatchType, rejectValue: { error: string } }>(
+   'auth/password-recovery',
+   (data: ForgotPasswordDataType, { dispatch, rejectWithValue }) => authThunkHandler(authAPI.forgotPassword(data), dispatch, rejectWithValue)
+)
+export const setNewPassword = createAsyncThunk<{}, NewPasswordDataType, { dispatch: AppDispatchType, rejectValue: { error: string } }>(
+   'auth/set-new-password',
+   (data: NewPasswordDataType, { dispatch, rejectWithValue }) => authThunkHandler(authAPI.newPassword(data), dispatch, rejectWithValue)
+)
 const authThunkHandler =
    async (asyncFn: Promise<AxiosResponse<LoginResponseType | UpdateUserType>>,
       dispatch: AppDispatchType,

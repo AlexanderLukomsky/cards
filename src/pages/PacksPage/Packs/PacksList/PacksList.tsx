@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { PacksType } from "../../../../api/packs-api";
 import { AppCircularProgress } from "../../../../Components/AppCircularProgress/AppCircularProgress";
 import { TableHeadContainer } from "../../../../Components/Table/TableHeadContainer/TableHeadContainer";
-import { StatusType } from "../../../../types/types";
+import { StatusType } from "../../../../commonTypes/types";
 import { PacksCardsTrainingModal } from "../PacksModals/PacksCardsTrainingModal/PacksCardsTrainingModal";
 import { PacksListContainer } from "./PacksListContainer/PacksListContainer";
 export const PacksList: React.FC<PropsType> = React.memo(({ packs, progressStatus }) => {

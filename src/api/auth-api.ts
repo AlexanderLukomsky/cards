@@ -15,6 +15,12 @@ export const authAPI = {
    },
    updateUser(data: EditProfileDataType) {
       return _instance.put<UpdateUserType>('/auth/me', data)
+   },
+   forgotPassword(data: ForgotPasswordDataType) {
+      return _instance.post<UpdateUserType>('/auth/forgot', data)
+   },
+   newPassword(data: NewPasswordDataType) {
+      return _instance.post<UpdateUserType>('/auth/set-new-password', data)
    }
 }
 export type LoginResponseType = {
@@ -47,4 +53,13 @@ export type RegisterDataType = {
 export type EditProfileDataType = {
    name: string
    avatar?: string
+}
+export type ForgotPasswordDataType = {
+   email: string
+   from: string
+   message: string
+}
+export type NewPasswordDataType = {
+   password: string
+   resetPasswordToken: string
 }

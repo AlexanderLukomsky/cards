@@ -1,12 +1,11 @@
 import { CardsType, cardsAPI } from './../../../api/cards-api';
-import { Dispatch } from 'redux';
-import { PageCountType } from './../../../types/types';
+import { PageCountType } from '../../../commonTypes/types';
 import { AxiosError } from 'axios';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AppRootStateType, AppDispatchType, AppThunk } from './../../../store/store';
+import { AppRootStateType } from './../../../store/store';
 import { packsAPI, PacksType, RequestModelType, PacksResponseDataType } from './../../../api/packs-api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { StatusType } from '../../../types/types';
+import { StatusType } from '../../../commonTypes/types';
 import { handleAppNetworkError } from '../../../utils/appHandler';
 export const MIN_FILTER_VALUE = 0;
 export const MAX_FILTER_VALUE = 110;

@@ -7,7 +7,7 @@ import { PacksBar } from "./PacksBar/PacksBar"
 import { getPacks, setPage, setPageCount, setSearchPackNameValue } from "./reducer/packsReducer"
 import "./packsPage.scss"
 import { Packs } from "./Packs/Packs"
-import { PageCountType } from "../../types/types"
+import { PageCountType } from "../../commonTypes/types"
 export const PacksPage = () => {
    const isAuth = useAppSelector(state => state.auth.isAuth)
    const dispatch = useAppDispatch()

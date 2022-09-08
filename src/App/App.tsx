@@ -1,5 +1,6 @@
 import { CircularProgress } from '@mui/material';
 import { useEffect } from 'react';
+import { HashRouter } from 'react-router-dom';
 import '../common/styles/App.scss';
 import { AppProgress } from '../Components/AppProgress';
 import { AppSnackBar } from '../Components/AppSnackBar/AppSnackBar';
@@ -9,7 +10,6 @@ import { initializedApp } from './reducers/appReducer';
 export function App() {
   const dispatch = useAppDispatch()
   const appState = useAppSelector(state => state.app)
-  const packsStatus = useAppSelector(state => state.packs.packsStatus)
   useEffect(() => {
     dispatch(initializedApp())
   }, [dispatch])

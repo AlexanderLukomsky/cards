@@ -40,7 +40,7 @@ export const Login = React.memo(() => {
 
             />
             <NavLink
-                to={`${_formPath.FORM}${_formPath.PASS_RECOVERY}`}
+                to={`${_formPath.FORM}${_formPath.FORGOT_PASS}`}
                 className={"login__pass-recovery-link"} >
                 Forgot Password
             </NavLink>

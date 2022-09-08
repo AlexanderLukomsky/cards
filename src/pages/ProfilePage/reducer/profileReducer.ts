@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { packsAPI, PacksResponseDataType, PacksType } from "../../../api/packs-api"
-import { PageCountType, StatusType } from "../../../types/types"
+import { PageCountType, StatusType } from "../../../commonTypes/types"
 import { AppRootStateType } from "../../../store/store"
 import { MAX_FILTER_VALUE, MIN_FILTER_VALUE } from "../../PacksPage/reducer/packsReducer"
 const initialState = {

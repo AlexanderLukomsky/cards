@@ -7,7 +7,7 @@ import { ProfileBar } from "./ProfileBar/ProfileBar"
 import { ChangeEvent, useEffect } from "react"
 import { getProfilePacks, setProfilePage, setProfilePageCount, setProfileSeacrhPackName } from "./reducer/profileReducer"
 import { Packs } from "../PacksPage/Packs/Packs"
-import { PageCountType } from "../../types/types"
+import { PageCountType } from "../../commonTypes/types"
 export const Profile = () => {
    const dispatch = useAppDispatch()
    const userName = useAppSelector(state => state.auth.authData.name)

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { authAPI } from '../../api/auth-api';
 import { setProfileUserId } from '../../pages/ProfilePage/reducer/profileReducer';
-import { StatusType } from '../../types/types';
+import { StatusType } from '../../commonTypes/types';
 import { registration } from './authReducer';
 const initialState = {
    appStatus: 'idle' as StatusType,

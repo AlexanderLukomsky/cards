@@ -6,7 +6,7 @@ import { PacksSearch } from "./PacksSearch/PacksSearch"
 import { PacksPagination } from "./PacksPagination/PaginationPacks"
 import "./packs.scss"
 import { CustomSelect } from "../../../Components/CustomSelect/CustomSelect"
-import { StatusType } from "../../../types/types"
+import { StatusType } from "../../../commonTypes/types"
 import { PacksAddNewPackModal } from "./PacksModals/PacksAddNewPackModal/PacksAddNewPackModal"
 import { ListTitle } from "../../../Components/ListTitle/ListTitle"
 export const Packs: React.FC<PropsType> = (
