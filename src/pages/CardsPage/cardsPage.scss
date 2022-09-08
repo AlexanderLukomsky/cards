@@ -7,10 +7,33 @@
       border-radius: 8px;
       padding: 24px;
       &__header {
+         position: relative;
          display: flex;
          margin-bottom: 20px;
          button {
             min-width: fit-content;
+         }
+      }
+      &__search-settings {
+         position: absolute;
+         background-color: transparent;
+         z-index: -1000;
+         top: 20%;
+         left: 0;
+         opacity: 0;
+         transition: all ease-in 0.3s;
+         padding: 20px 10px 10px 10px;
+         &.open {
+            background-color: #fefeff;
+            top: 100%;
+            z-index: 1000;
+            transition: all ease-in 0.3s;
+            opacity: 1;
+         }
+         &_close {
+            position: absolute;
+            top: 0;
+            right: 0;
          }
       }
       &__title-box {

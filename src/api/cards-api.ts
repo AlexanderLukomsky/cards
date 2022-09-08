@@ -8,6 +8,9 @@ export const cardsAPI = {
    },
    addCard(model: AddCardModelType) {
       return _instance.post('cards/card', { card: model })
+   },
+   setGrade(params: { grade: number, card_id: string }) {
+      return _instance.put('cards/grade', params)
    }
 }
 export type CardsResponeDataType = {

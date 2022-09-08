@@ -11,7 +11,8 @@ const initState = {
    isInitialized: false,
    cardsStatus: 'idle' as StatusType,
    updateCards: false,
-   searchCardsName: null as null | string
+   searchCardsName: null as null | string,
+   searchBy: 'question'
 }
 const slice = createSlice({
    name: 'cards',
@@ -28,6 +29,9 @@ const slice = createSlice({
       },
       setPageCount(state, action: PayloadAction<{ pageCount: number }>) {
          state.data.pageCount = action.payload.pageCount
+      },
+      setSearchBy(state, action: PayloadAction<{ searchBy: string }>) {
+         state.searchBy = action.payload.searchBy
       }
    },
    extraReducers: (builder) => {
@@ -39,12 +43,12 @@ const slice = createSlice({
          state.updateCards = !state.updateCards
       })
       builder.addCase(searchCards.fulfilled, (state, action) => {
-         state.data.cards = action.payload.cards
+         state.data = action.payload
       })
    }
 })
 export const cardsReducer = slice.reducer
-export const { setCardsStatus, setCardsPage, setSearchCardsName, setPageCount } = slice.actions
+export const { setCardsStatus, setCardsPage, setSearchCardsName, setPageCount, setSearchBy } = slice.actions
 export const getCards = createAsyncThunk(
    'cards/get-cards',
    async (id: string, { rejectWithValue, dispatch, getState }) => {
@@ -86,33 +90,19 @@ export const addNewCard = createAsyncThunk(
 export const searchCards = createAsyncThunk(
    'cards/search-cards',
    async (cardsPack_id: string, { dispatch, rejectWithValue, getState }) => {
-      const { searchCardsName } = (getState() as AppRootStateType).cards
+      const { cards } = (getState() as AppRootStateType)
       const requestParams = {
          cardsPack_id,
          page: 1,
-         pageCount: 300,
+         pageCount: cards.data.pageCount,
+         cardQuestion: null as null | string,
+         cardAnswer: null as null | string
       }
+      cards.searchBy === 'question' ? requestParams.cardQuestion = cards.searchCardsName : requestParams.cardAnswer = cards.searchCardsName
       dispatch(setCardsStatus({ cardsStatus: 'loading' }))
       try {
-         const questionRes = await cardsAPI.getCards({ ...requestParams, cardQuestion: searchCardsName })
+         const questionRes = await cardsAPI.getCards(requestParams)
          await new Promise((res) => { (setTimeout(() => res(''), 500)) })
-         try {
-            const answerRes = await cardsAPI.getCards({ ...requestParams, cardAnswer: searchCardsName })
-            for (let q = 0; questionRes.data.cards.length > q; q++) {
-               for (let a = 0; answerRes.data.cards.length > a; a++) {
-                  if (questionRes.data.cards[q]._id === answerRes.data.cards[a]._id) {
-                     answerRes.data.cards.splice(a, 1)
-                  }
-               }
-            }
-            dispatch(setCardsStatus({ cardsStatus: 'success' }))
-            return {
-               cards: [...questionRes.data.cards, ...answerRes.data.cards]
-            }
-         } catch (err: any) {
-            const error: AxiosError = err
-            handleAppNetworkError(error, dispatch)
-         }
          dispatch(setCardsStatus({ cardsStatus: 'success' }))
          return questionRes.data
       } catch (err: any) {

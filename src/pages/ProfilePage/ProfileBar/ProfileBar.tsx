@@ -7,33 +7,43 @@ import { setProfileFilterValues } from "../reducer/profileReducer"
 export const ProfileBar = () => {
    const dispatch = useAppDispatch()
    const { profile } = useAppSelector(state => state)
-   const [values, setValues] = useState({ min: 0, max: 0 })
+   const [values, setValues] = useState(profile.data.filterValues)
+   const [isChanged, setIsChanged] = useState(false)
+
    useEffect(() => {
-      setValues(profile.data.filterValues)
-   }, [profile.data.filterValues])
-   const onChangeFilterHandler = ((event: Event, values: number | number[]) => {
+      if (isChanged) { onSetProfileFilterValues() }
+   }, [isChanged])
+   const onChangeFilterValues = (event: Event, values: number | number[]) => {
       const valuesAsArray = values as number[]
       const currentValues = {
          min: valuesAsArray[0],
          max: valuesAsArray[1]
       }
-      if (currentValues.min < 1) {
+      if (currentValues.max < 1) {
          return
       }
       setValues(currentValues)
-   });
-   const onMouseSetFilterValues = () => {
+   }
+   const onSetProfileFilterValues = () => {
       dispatch(setProfileFilterValues(values))
+   }
+   const onMouseUpHandler = () => {
+      setIsChanged(true)
+      window.removeEventListener('mouseup', onMouseUpHandler)
+   }
+   const onMouseDownHandler = () => {
+      setIsChanged(false)
+      window.addEventListener('mouseup', onMouseUpHandler)
    }
    return (
       <div className="profile__bar profile-bar">
          <ProfilePerson />
          <div className="profile-bar__filter">
             {
-               profile.data.maxCardsCount > 1 && <PacksCountFilter
-                  onMouseDown={() => { }}
-                  onTouchEnd={() => { }}
-                  onChange={onChangeFilterHandler}
+               (profile.data.maxCardsCount > 1 && profile.data.minCardsCount !== profile.data.maxCardsCount) && <PacksCountFilter
+                  onMouseDown={onMouseDownHandler}
+                  onTouchEnd={onSetProfileFilterValues}
+                  onChange={onChangeFilterValues}
                   min={profile.data.minCardsCount}
                   max={profile.data.maxCardsCount}
                   values={[

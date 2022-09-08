@@ -1,14 +1,16 @@
+import { CardsType, cardsAPI } from './../../../api/cards-api';
 import { Dispatch } from 'redux';
 import { PageCountType } from './../../../types/types';
 import { AxiosError } from 'axios';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AppRootStateType } from './../../../store/store';
+import { AppRootStateType, AppDispatchType, AppThunk } from './../../../store/store';
 import { packsAPI, PacksType, RequestModelType, PacksResponseDataType } from './../../../api/packs-api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { StatusType } from '../../../types/types';
 import { handleAppNetworkError } from '../../../utils/appHandler';
 export const MIN_FILTER_VALUE = 0;
 export const MAX_FILTER_VALUE = 110;
+const randomNumber = (count: number) => Math.floor(Math.random() * (count - 1))
 const initState = {
    isInitialized: false,
    isAuthUserPacks: false,
@@ -23,12 +25,19 @@ const initState = {
       },
       searchPackNameValue: null
    } as DataType,
-
-   requestParams: {
-      searchPackName: null as string | null
-   },
    packsStatus: 'idle' as StatusType,
-   updatePack: false
+   updatePack: false,
+   selectedPack: {
+      params: {
+         cardsPack_id: '',
+         cardsCount: 0,
+         name: '',
+      },
+      cards: [{}] as CardsType[],
+      isInitialized: false,
+      status: 'idle' as StatusType,
+      cardNumber: 0,
+   }
 }
 const slice = createSlice({
    name: 'packs',
@@ -57,6 +66,10 @@ const slice = createSlice({
       },
       setIsInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
          state.isInitialized = action.payload.isInitialized
+      },
+      // selected pack
+      setSelectedPack(state, action: PayloadAction<{ cardsPack_id: string, cardsCount: number, name: string }>) {
+         state.selectedPack.params = action.payload
       }
    },
    extraReducers: (builder) => {
@@ -72,9 +85,27 @@ const slice = createSlice({
       builder.addCase(editPackName.fulfilled, (state) => {
          state.updatePack = !state.updatePack
       })
+      builder.addCase(getTrainingCards.fulfilled, (state, action) => {
+         state.selectedPack.cards = action.payload
+         state.selectedPack.cardNumber = randomNumber(state.selectedPack.params.cardsCount)
+         state.selectedPack.isInitialized = true
+         state.selectedPack.status = 'success'
+      })
+      builder.addCase(getTrainingCards.pending, (state, action) => {
+         state.selectedPack.isInitialized = false
+         state.selectedPack.status = 'loading'
+      })
+      builder.addCase(setCardNumber.pending, (state, action) => {
+         state.selectedPack.status = 'loading'
+      })
+      builder.addCase(setCardNumber.fulfilled, (state, action) => {
+         state.selectedPack.status = 'success'
+         state.selectedPack.cardNumber = action.payload
+      })
    }
 })
 export const {
+   setSelectedPack,
    setIsAuthUserPacks,
    setFilterValues,
    setPage,
@@ -159,6 +190,34 @@ export const editPackName = createAsyncThunk(
          dispatch(setPacksStatus({ packsStatus: 'failed' }))
          return rejectWithValue({ error: error.message })
       }
+   }
+)
+export const getTrainingCards = createAsyncThunk(
+   'packs/set-pack-cards',
+   async (_, { rejectWithValue, getState }) => {
+      const params = (getState() as AppRootStateType).packs.selectedPack.params
+      const reqParams = {
+         cardsPack_id: params.cardsPack_id,
+         page: 1,
+         pageCount: params.cardsCount
+      }
+      try {
+         const res = await cardsAPI.getCards(reqParams)
+         return res.data.cards
+      } catch (err: any) {
+         return rejectWithValue('')
+      }
+   }
+)
+export const setCardNumber = createAsyncThunk(
+   'packs/set-card-number',
+   async ({ cardNumber }: { cardNumber: number }) => {
+      await new Promise((res, rej) => {
+         setTimeout(() => {
+            return res(cardNumber)
+         }, 500)
+      })
+      return cardNumber
    }
 )
 export const packsReducer = slice.reducer

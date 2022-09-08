@@ -46,7 +46,7 @@ export const PacksBar = React.memo(() => {
             </div>
          }
          {
-            packs.data.maxCardsCount > 1 && <div className="packs-bar__filter">
+            (packs.data.maxCardsCount > 1 && packs.data.minCardsCount !== packs.data.maxCardsCount) && <div className="packs-bar__filter">
                {
                   packs.isInitialized && <PacksCountFilter
                      onTouchEnd={setStateFilterValues}
