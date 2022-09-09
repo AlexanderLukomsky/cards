@@ -1,5 +1,5 @@
 import moment from "moment";
-import React from "react";
+import React, { useEffect } from "react";
 import { IconContainerProps, Rating, TableBody, TableCell, TableRow } from "@mui/material";
 
 import { styled } from '@mui/material/styles';
@@ -80,7 +80,9 @@ const customIcons: {
    },
 };
 
-function IconContainer(props: IconContainerProps) {
-   const { value, ...other } = props;
+const IconContainer = React.memo((props: IconContainerProps) => {
+   let { value, ...other } = props;
+   useEffect(() => { value = props.value }, [props.value])
+
    return <span {...other}>{customIcons[value].icon}</span>;
-}
+})
