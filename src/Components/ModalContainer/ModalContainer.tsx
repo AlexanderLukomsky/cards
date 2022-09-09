@@ -18,7 +18,7 @@ const style = {
    }
 };
 
-export const ModalContainer: React.FC<PropsType> = React.memo(({ isOpenModal = false, onClose, title, children, cancelBtnProps, confirmBtnProps }) => {
+export const ModalContainer: React.FC<PropsType> = React.memo(({ isOpenModal = false, onClose, title, children, firstBtnProps, secondBtnProps }) => {
 
    return (
       <Modal
@@ -37,8 +37,8 @@ export const ModalContainer: React.FC<PropsType> = React.memo(({ isOpenModal = f
                   {children}
                </div>
                <div className='modal-container__footer'>
-                  {cancelBtnProps && <Button variant='outlined' color='secondary' {...cancelBtnProps} >{cancelBtnProps.title}</Button>}
-                  {confirmBtnProps && <Button variant='contained' color='primary' {...confirmBtnProps} >{confirmBtnProps.title}</Button>}
+                  {firstBtnProps && <Button variant='outlined' color='secondary' {...firstBtnProps} >{firstBtnProps.title}</Button>}
+                  {secondBtnProps && <Button variant='contained' color='primary' {...secondBtnProps} >{secondBtnProps.title}</Button>}
                </div>
             </>
          </Box>
@@ -50,7 +50,7 @@ type PropsType = {
    isOpenModal: boolean
    onClose: () => void
    children: React.ReactNode
-   cancelBtnProps?: ButtonProps
-   confirmBtnProps?: ButtonProps
+   firstBtnProps?: ButtonProps
+   secondBtnProps?: ButtonProps
 }
 

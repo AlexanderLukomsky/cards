@@ -44,8 +44,8 @@ export const PacksAddNewPackModal = React.memo(() => {
             isOpenModal={openModal}
             onClose={onCloseModal}
             title='Add new pack'
-            cancelBtnProps={{ title: 'Cancel', onClick: onCloseModal }}
-            confirmBtnProps={{ title: 'Save', onClick: onAddNewPack, disabled: packsStatus === 'loading' }}
+            firstBtnProps={{ title: 'Cancel', onClick: onCloseModal }}
+            secondBtnProps={{ title: 'Save', onClick: onAddNewPack, disabled: packsStatus === 'loading' }}
          >
             {packsStatus === 'loading' && <AppCircularProgress />}
             <TextField variant="standard" className={error ? 'error' : ''}

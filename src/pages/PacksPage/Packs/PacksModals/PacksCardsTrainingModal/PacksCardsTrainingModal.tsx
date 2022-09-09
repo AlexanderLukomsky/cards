@@ -43,14 +43,14 @@ export const PacksCardsTrainingModal: React.FC<PropsType> = React.memo(({ onClos
          onClose={onCloseModal}
          title={`Learn “${selectedPack.params.name}”`}
 
-         cancelBtnProps={
+         firstBtnProps={
             {
                title: 'Random Card', onClick: nextCard,
                disabled: selectedPack.status === 'loading' || selectedPack.params.cardsCount <= 1,
                color: "error", variant: "contained"
             }
          }
-         confirmBtnProps={
+         secondBtnProps={
             {
                title: 'confirm', onClick: onConfirmClickHandler,
                disabled: selectedPack.status === 'loading'

@@ -51,8 +51,8 @@ export const PacksEditPackNameModal: React.FC<PropsType> = ({ packName, packId }
                isOpenModal={openModal}
                onClose={onCloseModal}
                title='Name pack name'
-               cancelBtnProps={{ title: 'Cancel', onClick: onCloseModal, color: "secondary" }}
-               confirmBtnProps={{ title: 'Save', onClick: onEditPackName, disabled: packsStatus === 'loading', color: "primary" }}
+               firstBtnProps={{ title: 'Cancel', onClick: onCloseModal, color: "secondary" }}
+               secondBtnProps={{ title: 'Save', onClick: onEditPackName, disabled: packsStatus === 'loading', color: "primary" }}
             >
                <TextField variant="standard" className={error ? 'error' : ''}
                   label={`${error ? error : 'Name pack name'}`}

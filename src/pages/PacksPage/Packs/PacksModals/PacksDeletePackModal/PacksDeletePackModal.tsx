@@ -28,8 +28,8 @@ export const PacksDeletePackModal: React.FC<PropsType> = React.memo(({ packName,
          isOpenModal={openModal}
          onClose={onCloseModal}
          title='Delete Pack'
-         cancelBtnProps={{ title: 'Cancel', onClick: onCloseModal, color: "success" }}
-         confirmBtnProps={{ title: 'Delete', onClick: onDeletePack, disabled: packsStatus === 'loading', color: "error" }}
+         firstBtnProps={{ title: 'Cancel', onClick: onCloseModal, color: "success" }}
+         secondBtnProps={{ title: 'Delete', onClick: onDeletePack, disabled: packsStatus === 'loading', color: "error" }}
       >
          <div className='packs__delete-modal-text'>
             Do you really want to remove<span> Pack Name - {packName}? </span>

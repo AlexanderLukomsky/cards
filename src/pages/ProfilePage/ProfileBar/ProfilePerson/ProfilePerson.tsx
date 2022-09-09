@@ -74,8 +74,8 @@ export const ProfilePerson: React.FC<PropsType> = React.memo(({ offEditMode }) =
             isOpenModal={isEditMode}
             onClose={onCloseHandler}
             title='Edit Profile'
-            cancelBtnProps={{ title: 'Cancel', onClick: onCloseHandler }}
-            confirmBtnProps={{ title: 'Save', onClick: setEditedProfile, disabled: error }}
+            firstBtnProps={{ title: 'Cancel', onClick: onCloseHandler }}
+            secondBtnProps={{ title: 'Save', onClick: setEditedProfile, disabled: error }}
          >
             {auth.authStatus === 'loading' && <AppCircularProgress />}
             <TextField variant="standard" label={'new profile img'} value={imgUrl} onChange={onChangeImgHandler} />

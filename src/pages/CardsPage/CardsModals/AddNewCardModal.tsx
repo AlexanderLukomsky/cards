@@ -60,8 +60,8 @@ export const AddNewCardModal: React.FC<PropsType> = React.memo(({ cardsPack_id }
             isOpenModal={openModal}
             onClose={onCloseModal}
             title='Card Info'
-            cancelBtnProps={{ title: 'Cancel', onClick: onCloseModal }}
-            confirmBtnProps={{ title: 'Save', onClick: onAddNewCard, disabled: packsStatus === 'loading' }}
+            firstBtnProps={{ title: 'Cancel', onClick: onCloseModal }}
+            secondBtnProps={{ title: 'Save', onClick: onAddNewCard, disabled: packsStatus === 'loading' }}
          >
             {packsStatus === 'loading' && <AppCircularProgress />}
             <TextField variant="standard" className={errors.questionError ? 'error' : ''}
