@@ -1,6 +1,5 @@
 import { CircularProgress } from '@mui/material';
 import { useEffect } from 'react';
-import { HashRouter } from 'react-router-dom';
 import '../common/styles/App.scss';
 import { AppProgress } from '../Components/AppProgress';
 import { AppSnackBar } from '../Components/AppSnackBar/AppSnackBar';
@@ -19,9 +18,7 @@ export function App() {
   return (
     <div className="App">
       {(appState.appStatus === 'loading') && <AppProgress />}
-      {/* <HashRouter> */}
       <AppRoutes />
-      {/* </HashRouter> */}
       <AppSnackBar />
     </div>
   );
