@@ -38,7 +38,7 @@ export const PacksAddNewPackModal = React.memo(() => {
       setPackName(e.currentTarget.value)
    }
    return <>
-      <Button variant="contained" color="secondary" onClick={onOpenModal}>Add new pack</Button>
+      <Button className="add-new-pack-btn" variant="contained" color="secondary" onClick={onOpenModal}>Add new pack</Button>
       {
          openModal && <ModalContainer
             isOpenModal={openModal}

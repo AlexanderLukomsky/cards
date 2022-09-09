@@ -39,28 +39,33 @@ export const PacksBar = React.memo(() => {
    return (
       <div className="packs__bar packs-bar">
          <SwitchSortPacks />
-         {
-            packs.isAuthUserPacks && <div className="packs-bar__profile">
-               {packs.packsStatus === 'loading' && <AppCircularProgress />}
-               <ProfilePerson offEditMode={true} />
-            </div>
-         }
-         {
-            (packs.data.maxCardsCount > 1 && packs.data.minCardsCount !== packs.data.maxCardsCount) && <div className="packs-bar__filter">
-               {
-                  packs.isInitialized && <PacksCountFilter
-                     onTouchEnd={setStateFilterValues}
-                     onMouseDown={onMouseDownHandler}
-                     onChange={onChangeFilterValues}
-                     min={packs.data.minCardsCount}
-                     max={packs.data.maxCardsCount}
-                     values={[
-                        values.min,
-                        values.max
-                     ]} />
-               }
-            </div>
-         }
+         <div>
+            {
+               packs.isAuthUserPacks && <div className="packs-bar__profile">
+                  {packs.packsStatus === 'loading' && <AppCircularProgress />}
+                  <ProfilePerson offEditMode={true} />
+               </div>
+            }
+         </div>
+         <div className="packs-bar__filter-container">
+            {
+               (packs.data.maxCardsCount > 1 && packs.data.minCardsCount !== packs.data.maxCardsCount) && <div className="packs-bar__filter">
+                  {
+                     packs.isInitialized && <PacksCountFilter
+                        onTouchEnd={setStateFilterValues}
+                        onMouseDown={onMouseDownHandler}
+                        onChange={onChangeFilterValues}
+                        min={packs.data.minCardsCount}
+                        max={packs.data.maxCardsCount}
+                        values={[
+                           values.min,
+                           values.max
+                        ]} />
+                  }
+               </div>
+            }
+         </div>
+
       </div>
    )
 })

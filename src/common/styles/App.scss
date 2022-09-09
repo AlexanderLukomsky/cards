@@ -38,3 +38,8 @@
    justify-content: center;
    z-index: 1000;
 }
+@media screen and (max-width: 680px) {
+   .container {
+      padding: 0;
+   }
+}

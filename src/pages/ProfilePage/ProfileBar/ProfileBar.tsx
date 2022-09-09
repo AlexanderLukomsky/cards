@@ -38,19 +38,21 @@ export const ProfileBar = () => {
    return (
       <div className="profile__bar profile-bar">
          <ProfilePerson />
-         <div className="profile-bar__filter">
-            {
-               (profile.data.maxCardsCount > 1 && profile.data.minCardsCount !== profile.data.maxCardsCount) && <PacksCountFilter
-                  onMouseDown={onMouseDownHandler}
-                  onTouchEnd={onSetProfileFilterValues}
-                  onChange={onChangeFilterValues}
-                  min={profile.data.minCardsCount}
-                  max={profile.data.maxCardsCount}
-                  values={[
-                     values.min,
-                     values.max
-                  ]} />
-            }
+         <div className="profile-bar__filter-container">
+            <div className="profile-bar__filter">
+               {
+                  (profile.data.maxCardsCount > 1 && profile.data.minCardsCount !== profile.data.maxCardsCount) && <PacksCountFilter
+                     onMouseDown={onMouseDownHandler}
+                     onTouchEnd={onSetProfileFilterValues}
+                     onChange={onChangeFilterValues}
+                     min={profile.data.minCardsCount}
+                     max={profile.data.maxCardsCount}
+                     values={[
+                        values.min,
+                        values.max
+                     ]} />
+               }
+            </div>
          </div>
       </div>
    )

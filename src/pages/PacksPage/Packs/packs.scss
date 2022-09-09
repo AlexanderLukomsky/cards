@@ -98,3 +98,150 @@
       }
    }
 }
+@media screen and (max-width: 990px) {
+   .packs {
+      padding: 5px;
+      &__header {
+         margin: 0 0 5px;
+      }
+      .packs-list {
+         &__pack-name {
+            max-width: 250px;
+            padding: 10px;
+         }
+      }
+   }
+}
+@media screen and (max-width: 760px) {
+   .packs {
+      padding: 5px;
+      .packs-list {
+         .MuiTableHead-root {
+            .MuiTableRow-root {
+               .MuiTableCell-root {
+                  padding: 15px 5px;
+                  text-align: center;
+               }
+            }
+         }
+         &__user-name {
+            max-width: 70px;
+            overflow: scroll;
+            padding: 10px;
+         }
+      }
+   }
+}
+@media screen and (max-width: 580px) {
+   .packs {
+      .packs-list {
+         &__pack-name {
+            max-width: 150px;
+         }
+      }
+      &__footer {
+         padding: 5px 0px;
+         .MuiPaginationItem-ellipsis {
+            min-width: 10px;
+            max-width: 10px;
+            padding: 0;
+            margin: 0;
+         }
+      }
+   }
+}
+@media screen and (max-width: 500px) {
+   .packs {
+      &__footer {
+         justify-content: center;
+         .MuiFormControl-root {
+            .MuiInputBase-root {
+               font-size: 12px;
+               .MuiSelect-select {
+                  padding: 6px 20px 5px 8px !important;
+               }
+               svg {
+                  right: 1px;
+               }
+            }
+         }
+      }
+   }
+}
+@media screen and (max-width: 470px) {
+   .packs {
+      &__search {
+         margin-right: 5px;
+      }
+      &__header {
+         .add-new-pack-btn {
+            display: block;
+            background-color: transparent;
+            box-shadow: none;
+            height: 30px;
+            font-size: 0;
+            padding: 0;
+
+            &:hover {
+               background: none;
+               box-shadow: none;
+            }
+            span {
+               content: "";
+               width: 30px;
+               height: 30px;
+               background: url("../../../common/assets/addIcon.svg");
+               border-radius: 50%;
+               top: 50%;
+               left: 50%;
+               transform: translate(-50%, -50%);
+            }
+         }
+      }
+      .packs-list {
+         &__pack-name {
+            max-width: 135px;
+         }
+         &__user-name {
+            max-width: 50px;
+         }
+         &__update-date {
+            padding: 0;
+            overflow: scroll;
+            text-align: center;
+            & > :nth-child(2) {
+               span {
+                  display: none;
+               }
+            }
+            & > :last-child {
+               display: block;
+            }
+         }
+         .MuiTableCell-root {
+            padding: 5px 5px;
+         }
+      }
+      &__footer {
+         flex-wrap: wrap;
+         margin: 0;
+         .MuiPagination-root {
+            margin: 0 10px 0 0;
+            padding: 10px 0;
+            button {
+               min-width: 22px;
+               padding: 0;
+            }
+            .MuiPaginationItem-previousNext {
+               max-width: 20px;
+               min-width: 20px;
+            }
+            .MuiPaginationItem-firstLast {
+               max-width: 20px;
+               min-width: 20px;
+               margin: 0;
+            }
+         }
+      }
+   }
+}

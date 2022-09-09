@@ -58,3 +58,13 @@
       }
    }
 }
+@media screen and (max-width: 580px) {
+   .main {
+      &__columns {
+         justify-content: center;
+      }
+      &__column {
+         display: none;
+      }
+   }
+}

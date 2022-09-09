@@ -15,7 +15,9 @@ export const PacksListContainer: React.FC<PropsType> = React.memo(({ packs, open
    const authId = useAppSelector(state => state.auth.authData._id)
 
    const formatDate = (date: Date) => {
-      return moment(date).format("DD.MM.YYYY")
+      const formatedDateAsArr = moment(date).format("DD.MM.YYYY").split('.')
+      console.log(formatedDateAsArr);
+      return formatedDateAsArr
    }
    const goToCards = (id: string) => {
       navigate(_pagesPath.CARDSMAIN + id)
@@ -30,8 +32,14 @@ export const PacksListContainer: React.FC<PropsType> = React.memo(({ packs, open
             <TableRow key={p._id}>
                <TableCell onClick={() => { goToCards(p._id) }} className="packs-list__pack-name" component="th" scope="row">{p.name}</TableCell>
                <TableCell align="center">{p.cardsCount}</TableCell>
-               <TableCell align="right">{formatDate(p.updated)}</TableCell>
-               <TableCell align="center">{p.user_name}</TableCell>
+               <TableCell align="center" className="packs-list__update-date">
+                  {
+                     formatDate(p.updated).map((d, i, arr) => i < arr.length - 1 ?
+                        <span key={i}>{d}<span>.</span></span> :
+                        <span key={i}>{d}</span>)
+                  }
+               </TableCell>
+               <TableCell align="center" className="packs-list__user-name">{p.user_name}</TableCell>
                <TableCell align="center">
                   {
                      authId === p.user_id && <>
