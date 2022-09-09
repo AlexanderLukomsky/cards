@@ -42,10 +42,39 @@
       }
    }
    &__filter {
+      width: 100%;
       margin-top: 35px;
       padding: 0 10px 0 3px;
       .MuiSlider-valueLabel {
          background: #9a91c8;
+      }
+   }
+}
+@media screen and (max-width: 990px) {
+   .packs-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 20px;
+      max-width: 100%;
+      .switch-sort-packs {
+         display: flex;
+         flex-direction: column;
+         &__btn {
+            height: 30px;
+         }
+      }
+      &__filter {
+         width: 250px;
+      }
+      &__profile {
+         .profile-person {
+            background: transparent;
+            border: 1px solid #9a91c8;
+         }
+         padding: 0;
+         margin: 0;
+         background-color: transparent;
       }
    }
 }

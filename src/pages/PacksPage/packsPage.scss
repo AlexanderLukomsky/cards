@@ -8,3 +8,10 @@
       background: #ececf9;
    }
 }
+@media screen and (max-width: 990px) {
+   .packs-page {
+      &__columns {
+         flex-direction: column;
+      }
+   }
+}

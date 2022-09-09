@@ -7,3 +7,11 @@
       background: #ececf9;
    }
 }
+
+@media screen and (max-width: 990px) {
+   .profile-page {
+      &__columns {
+         flex-direction: column;
+      }
+   }
+}

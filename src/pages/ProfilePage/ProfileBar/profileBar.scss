@@ -5,3 +5,16 @@
       @extend .packs-bar__filter;
    }
 }
+@media screen and (max-width: 990px) {
+   .profile-bar {
+      padding: 0;
+
+      .profile-person {
+         max-width: fit-content;
+      }
+      &__filter {
+         max-width: 200px;
+         margin: 0 15px 0 15px;
+      }
+   }
+}
