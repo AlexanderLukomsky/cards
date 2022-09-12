@@ -19,7 +19,6 @@ const style = {
 };
 
 export const ModalContainer: React.FC<PropsType> = React.memo(({ isOpenModal = false, onClose, title, children, firstBtnProps, secondBtnProps }) => {
-
    return (
       <Modal
          open={isOpenModal}
@@ -32,7 +31,9 @@ export const ModalContainer: React.FC<PropsType> = React.memo(({ isOpenModal = f
                <div className='modal-container__header'>
                   <h3 className='modal-container__title'>
                      <div className='modal-container__title-name'>{title.name}</div>
-                     {!!title.text && <span className='modal-container__title-text'>{title.text}</span>}
+                     {!!title.text && <span style={{ overflowX: title.text.length > 33 ? 'scroll' : 'initial' }} className='modal-container__title-text'>
+                        {title.text}
+                     </span>}
                   </h3>
                   <IconButton onClick={onClose}><CloseIcon /></IconButton>
                </div>
