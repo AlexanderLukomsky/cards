@@ -16,7 +16,6 @@ export const PacksListContainer: React.FC<PropsType> = React.memo(({ packs, open
 
    const formatDate = (date: Date) => {
       const formatedDateAsArr = moment(date).format("DD.MM.YYYY").split('.')
-      console.log(formatedDateAsArr);
       return formatedDateAsArr
    }
    const goToCards = (id: string) => {

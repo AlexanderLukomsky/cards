@@ -54,12 +54,12 @@ export const AddNewCardModal: React.FC<PropsType> = React.memo(({ cardsPack_id }
       setAnswer(e.currentTarget.value)
    }
    return <>
-      <Button variant="contained" color="secondary" onClick={onOpenModal}>Add new card</Button>
+      <Button className="add-new-card" variant="contained" color="secondary" onClick={onOpenModal}>Add new card</Button>
       {
          openModal && <ModalContainer
             isOpenModal={openModal}
             onClose={onCloseModal}
-            title='Card Info'
+            title={{ name: 'Card Info' }}
             firstBtnProps={{ title: 'Cancel', onClick: onCloseModal }}
             secondBtnProps={{ title: 'Save', onClick: onAddNewCard, disabled: packsStatus === 'loading' }}
          >

@@ -43,7 +43,7 @@ export const PacksAddNewPackModal = React.memo(() => {
          openModal && <ModalContainer
             isOpenModal={openModal}
             onClose={onCloseModal}
-            title='Add new pack'
+            title={{ name: 'Add new pack' }}
             firstBtnProps={{ title: 'Cancel', onClick: onCloseModal }}
             secondBtnProps={{ title: 'Save', onClick: onAddNewPack, disabled: packsStatus === 'loading' }}
          >

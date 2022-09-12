@@ -3,9 +3,8 @@
       position: relative;
       & > button {
          position: absolute;
-         right: 0;
-         top: 50%;
-         transform: translateY(-50%);
+         right: -15px;
+         top: -25px;
       }
       margin-bottom: 27px;
    }
@@ -14,8 +13,17 @@
       font-weight: 600;
       font-size: 22px;
       line-height: 33px;
-      text-align: center;
       color: #2d2e46;
+      max-width: 348px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &-text {
+         max-width: 250px;
+         overflow: scroll;
+         text-align: center;
+         margin-left: 5px;
+      }
    }
    &__body {
       position: relative;
@@ -56,4 +64,6 @@
          margin-right: 0;
       }
    }
+}
+@media screen and (max-width: 990px) {
 }

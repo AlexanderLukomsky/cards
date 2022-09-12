@@ -13,23 +13,35 @@ import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfi
 import { CardsType } from "../../../../api/cards-api";
 export const CardsListContainer: React.FC<PropsType> = React.memo(({ cards }) => {
    const formatDate = (date: Date) => {
-      return moment(date).format("DD.MM.YYYY")
+      const formatedDateAsArr = moment(date).format("DD.MM.YYYY").split('.')
+      return formatedDateAsArr
    }
+   console.log(cards);
    return (
       <TableBody>
          {
             cards.map(c =>
                <TableRow key={c._id}>
-                  <TableCell component="th" scope="row">{c.question}</TableCell>
-                  <TableCell align="center">{c.answer}</TableCell>
-                  <TableCell align="right">{formatDate(new Date())}</TableCell>
+                  <TableCell align="center" className="cards-list__question" component="th" scope="row">{c.question}</TableCell>
+                  <TableCell className="cards-list__answer" align="center">{c.answer}</TableCell>
+                  <TableCell className="cards-list__update-date" align="center" >{
+                     formatDate(c.updated)
+                        .map((d, i, arr) => i < arr.length - 1 ?
+                           <span key={i}>{d}<span>.</span></span> :
+                           <span key={i}>{d}</span>)
+                  }</TableCell>
                   <TableCell align="center">
                      <StyledRating
                         readOnly
                         name="highlight-selected-only"
-                        defaultValue={c.grade}
-                        IconContainerComponent={IconContainer}
-                        getLabelText={(value: number) => customIcons[value].label}
+                        defaultValue={Math.round(c.grade)}
+                        IconContainerComponent={
+                           (props) => <IconContainer
+                              value={props.value}
+                              className={props.className}
+                              defaultValue={Math.round(c.grade)}
+                           />
+                        }
                         highlightSelectedOnly
                      />
                   </TableCell>
@@ -82,7 +94,11 @@ const customIcons: {
 
 const IconContainer = React.memo((props: IconContainerProps) => {
    let { value, ...other } = props;
-   useEffect(() => { value = props.value }, [props.value])
-
-   return <span {...other}>{customIcons[value].icon}</span>;
+   let className: string
+   if (other.defaultValue! > 0) {
+      className = other.defaultValue === value ? ' active' : ''
+   } else {
+      className = value === 1 ? ' base' : ''
+   }
+   return <span  {...other} className={`${other.className}${className}`}>{customIcons[value].icon}</span>;
 })

@@ -41,8 +41,7 @@ export const PacksCardsTrainingModal: React.FC<PropsType> = React.memo(({ onClos
       <ModalContainer
          isOpenModal={isOpen}
          onClose={onCloseModal}
-         title={`Learn “${selectedPack.params.name}”`}
-
+         title={{ name: 'Learn:', text: `“${selectedPack.params.name}”` }}
          firstBtnProps={
             {
                title: 'Random Card', onClick: nextCard,
@@ -67,9 +66,15 @@ export const PacksCardsTrainingModal: React.FC<PropsType> = React.memo(({ onClos
             </div> :
             selectedPack.isInitialized &&
             <div className='packs__training-modal'>
-               <div className='packs__training-modal__text'>
-                  <p><span> Question:</span>"{randomCard.question}"</p>
-                  <p><span>Answer:</span>"{randomCard.answer}"</p>
+               <div className='packs__training-modal__text modal-text'>
+                  <p className='modal-text__question'>
+                     <span className='modal-text__question-title'>Question:</span>
+                     <span className='modal-text__question-text'>{randomCard.question}</span>
+                  </p>
+                  <p className='modal-text__answer'>
+                     <span className='modal-text__answer-title'>Answer:</span>
+                     <span className='modal-text__answer-text'>{randomCard.answer}</span>
+                  </p>
                </div>
                <div className='packs__training-modal__form'>
                   <FormControl >

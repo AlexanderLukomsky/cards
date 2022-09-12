@@ -32,6 +32,9 @@ const slice = createSlice({
       },
       setSearchBy(state, action: PayloadAction<{ searchBy: string }>) {
          state.searchBy = action.payload.searchBy
+      },
+      setIsInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
+         state.isInitialized = action.payload.isInitialized
       }
    },
    extraReducers: (builder) => {
@@ -48,7 +51,7 @@ const slice = createSlice({
    }
 })
 export const cardsReducer = slice.reducer
-export const { setCardsStatus, setCardsPage, setSearchCardsName, setPageCount, setSearchBy } = slice.actions
+export const { setCardsStatus, setCardsPage, setSearchCardsName, setPageCount, setSearchBy, setIsInitialized } = slice.actions
 export const getCards = createAsyncThunk(
    'cards/get-cards',
    async (id: string, { rejectWithValue, dispatch, getState }) => {

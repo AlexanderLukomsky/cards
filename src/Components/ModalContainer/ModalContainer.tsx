@@ -30,7 +30,10 @@ export const ModalContainer: React.FC<PropsType> = React.memo(({ isOpenModal = f
          <Box sx={style.box}>
             <>
                <div className='modal-container__header'>
-                  <h3 className='modal-container__title'>{title}</h3>
+                  <h3 className='modal-container__title'>
+                     <div className='modal-container__title-name'>{title.name}</div>
+                     {!!title.text && <span className='modal-container__title-text'>{title.text}</span>}
+                  </h3>
                   <IconButton onClick={onClose}><CloseIcon /></IconButton>
                </div>
                <div className='modal-container__body'>
@@ -46,7 +49,10 @@ export const ModalContainer: React.FC<PropsType> = React.memo(({ isOpenModal = f
    );
 })
 type PropsType = {
-   title: string
+   title: {
+      name: string,
+      text?: string
+   }
    isOpenModal: boolean
    onClose: () => void
    children: React.ReactNode

@@ -1,0 +1,40 @@
+.cards-list {
+   &__question {
+      max-width: 350px;
+      word-break: break-all;
+   }
+   &__answer {
+      max-width: 350px;
+      word-break: break-all;
+   }
+}
+@media screen and (max-width: 760px) {
+   .cards-list {
+      &__update-date {
+         overflow: scroll;
+         text-align: center;
+         & > :nth-child(2) {
+            span {
+               display: none;
+            }
+         }
+         & > :last-child {
+            display: block;
+         }
+      }
+      .MuiTableCell-root {
+         padding: 5px;
+      }
+   }
+}
+@media screen and (max-width: 580px) {
+   .MuiRating-root {
+      span {
+         span {
+            &:not(.active, .base) {
+               display: none;
+            }
+         }
+      }
+   }
+}

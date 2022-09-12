@@ -27,7 +27,7 @@ export const PacksDeletePackModal: React.FC<PropsType> = React.memo(({ packName,
       {openModal && <ModalContainer
          isOpenModal={openModal}
          onClose={onCloseModal}
-         title='Delete Pack'
+         title={{ name: 'Delete Pack' }}
          firstBtnProps={{ title: 'Cancel', onClick: onCloseModal, color: "success" }}
          secondBtnProps={{ title: 'Delete', onClick: onDeletePack, disabled: packsStatus === 'loading', color: "error" }}
       >

@@ -50,7 +50,7 @@ export const PacksEditPackNameModal: React.FC<PropsType> = ({ packName, packId }
             openModal && <ModalContainer
                isOpenModal={openModal}
                onClose={onCloseModal}
-               title='Name pack name'
+               title={{ name: 'Name pack name' }}
                firstBtnProps={{ title: 'Cancel', onClick: onCloseModal, color: "secondary" }}
                secondBtnProps={{ title: 'Save', onClick: onEditPackName, disabled: packsStatus === 'loading', color: "primary" }}
             >

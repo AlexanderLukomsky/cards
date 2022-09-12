@@ -6,7 +6,7 @@ import { Header } from "../Header/Header";
 import { _pagesPath } from "../Routes/_path/pagesPath";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import "./cardsPage.scss"
-import { getCards, searchCards, setCardsPage, setSearchCardsName, setPageCount, setSearchBy } from "./reducer/cardsReducer";
+import { getCards, searchCards, setCardsPage, setSearchCardsName, setPageCount, setSearchBy, setIsInitialized } from "./reducer/cardsReducer";
 import { FormControlLabel, IconButton, Radio, RadioGroup } from "@mui/material";
 import { CardsList } from "./CardsList/CardsList";
 import { AppCircularProgress } from "../../Components/AppCircularProgress/AppCircularProgress";
@@ -29,6 +29,7 @@ export const CardsPage = () => {
          return
       }
       return () => {
+         dispatch(setIsInitialized({ isInitialized: false }))
          dispatch(setSearchCardsName({ searchCardsName: null }))
       }
    }, [navigate, auth.isAuth, dispatch])

@@ -73,7 +73,7 @@ export const ProfilePerson: React.FC<PropsType> = React.memo(({ offEditMode }) =
          <ModalContainer
             isOpenModal={isEditMode}
             onClose={onCloseHandler}
-            title='Edit Profile'
+            title={{ name: 'Edit Profile' }}
             firstBtnProps={{ title: 'Cancel', onClick: onCloseHandler }}
             secondBtnProps={{ title: 'Save', onClick: setEditedProfile, disabled: error }}
          >
