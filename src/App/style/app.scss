@@ -1,9 +1,8 @@
-@import "./reset";
+@import "app/common/styles/reset";
 .App {
    position: relative;
    background: grey;
    min-height: 100vh;
-   background: linear-gradient(180deg, #e6d4de 0%, #9890c7 100%);
 }
 .container {
    max-width: 1200px;

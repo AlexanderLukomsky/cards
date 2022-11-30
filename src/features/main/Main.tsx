@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from '../../store/store';
-import { Login } from '../Forms/Login/Login';
-import { _formPath } from '../Routes/_path/formPath';
-import { _pagesPath } from '../Routes/_path/pagesPath';
-import './main.scss';
+
+import { appPath } from 'common/routes/path';
 
 export const Main = (): JSX.Element => {
   const [btnStyle, setBtnStyle] = useState<' base' | ' intervalColor'>(' base');
@@ -15,7 +13,7 @@ export const Main = (): JSX.Element => {
 
   useEffect(() => {
     if (isAuth) {
-      navigate(_pagesPath.PACKS);
+      navigate(appPath.PACKS);
     }
   }, [isAuth, navigate]);
   useEffect(() => {
@@ -41,14 +39,12 @@ export const Main = (): JSX.Element => {
         <div className="main__columns container">
           <div className="main__column">
             <div className={`main__reg-btn${btnStyle}`}>
-              <NavLink to={`${_formPath.FORM}${_formPath.REGISTRATION}`}>
+              {/* <NavLink to={`${appPath.FORM}${appPath.REGISTRATION}`}>
                 REGISTRATION
-              </NavLink>
+              </NavLink> */}
             </div>
           </div>
-          <div className="main__column-login">
-            <Login />
-          </div>
+          <div className="main__column-login">{/* <Login /> */}</div>
         </div>
       </div>
     </div>
