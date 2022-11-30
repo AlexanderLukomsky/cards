@@ -1,25 +1,29 @@
 import { useEffect } from 'react';
 
 import { CircularProgress } from '@mui/material';
+import { useSelector } from 'react-redux';
 
-import 'app/style/app.scss';
 import { AppProgress } from '../components/AppProgress';
 import { AppSnackBar } from '../components/AppSnackBar/AppSnackBar';
-import { useAppDispatch, useAppSelector } from '../store/store';
-
-import { initializedApp } from './reducers/appReducer';
+import { useAppDispatch } from '../store/store';
 
 import { AppRoutes } from 'common/routes';
+import { selectAppStatus, selectIsInitializedApp } from 'common/selectors';
+import { initializeApp } from 'store/reducers';
+
+import 'app/style/app.scss';
 
 export const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const appState = useAppSelector(state => state.app);
+
+  const isInitialized = useSelector(selectIsInitializedApp);
+  const appStatus = useSelector(selectAppStatus);
 
   useEffect(() => {
-    dispatch(initializedApp());
+    dispatch(initializeApp());
   }, [dispatch]);
 
-  if (!appState.isInitializedApp) {
+  if (!isInitialized) {
     return (
       <div className="app-initialized">
         <CircularProgress color="secondary" size="100px" thickness={1.5} />
@@ -28,10 +32,14 @@ export const App = (): JSX.Element => {
   }
 
   return (
-    <div className="App">
-      {appState.appStatus === 'loading' && <AppProgress />}
-      <AppRoutes />
-      <AppSnackBar />
+    <div className="app">
+      <Header />
+      <div className="container">
+        <AppRoutes />
+        <AppSnackBar />
+      </div>
+
+      {appStatus === 'pending' && <AppProgress />}
     </div>
   );
 };

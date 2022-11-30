@@ -1,0 +1,19 @@
+.login-info {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   &__nickname {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #000000;
+      border-bottom: 1px dashed #000000;
+      margin-right: 12px;
+   }
+   &__avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+   }
+}

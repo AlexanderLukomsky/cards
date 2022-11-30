@@ -1,19 +1,22 @@
-import { configureStore, ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { AnyAction, combineReducers } from 'redux';
 
-import { appReducer } from '../app/reducers/appReducer';
 import { authReducer } from '../app/reducers/authReducer';
-import { cardsReducer } from '../pages/CardsPage/reducer/cardsReducer';
-import { packsReducer } from '../pages/PacksPage/reducer/packsReducer';
-import { profileReducer } from '../pages/ProfilePage/reducer/profileReducer';
+
+import { appReducer } from './reducers';
+import { AppDispatchType, AppRootStateType } from './type';
+
+// import { cardsReducer } from '../pages/CardsPage/reducer/cardsReducer';
+// import { packsReducer } from '../pages/PacksPage/reducer/packsReducer';
+// import { profileReducer } from '../pages/ProfilePage/reducer/profileReducer';
 
 const rootReducers = combineReducers({
   app: appReducer,
   auth: authReducer,
-  packs: packsReducer,
-  profile: profileReducer,
-  cards: cardsReducer,
+  // packs: packsReducer,
+  // profile: profileReducer,
+  // cards: cardsReducer,
 });
 
 export const store = configureStore({
@@ -23,8 +26,7 @@ export const store = configureStore({
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector;
 export const useAppDispatch: () => AppDispatchType = useDispatch;
 // types Root Store, Dispatch, Thunk, Actions
-export type AppRootStateType = ReturnType<typeof store.getState>;
-export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, AppActionsType>;
+
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   AppRootStateType,
