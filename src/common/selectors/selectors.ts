@@ -5,8 +5,11 @@ export const selectIsInitializedApp = (state: AppRootStateType): boolean =>
   state.app.isInitialized;
 
 export const selectAppStatus = (state: AppRootStateType): StatusType => state.app.status;
+
 export const selectIsAuth = (state: AppRootStateType): boolean => state.auth.isAuth;
 
-export const selectUserAvatar = (state: AppRootStateType): string =>
+export const selectUserAvatar = (state: AppRootStateType): string | undefined =>
   state.auth.data.avatar;
-export const selectUserName = (state: AppRootStateType): string => state.auth.data.name;
+
+export const selectUserName = (state: AppRootStateType): string | undefined =>
+  state.auth.data.name;

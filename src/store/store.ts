@@ -2,14 +2,8 @@ import { configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { AnyAction, combineReducers } from 'redux';
 
-import { authReducer } from '../app/reducers/authReducer';
-
-import { appReducer } from './reducers';
+import { appReducer, authReducer } from './reducers';
 import { AppDispatchType, AppRootStateType } from './type';
-
-// import { cardsReducer } from '../pages/CardsPage/reducer/cardsReducer';
-// import { packsReducer } from '../pages/PacksPage/reducer/packsReducer';
-// import { profileReducer } from '../pages/ProfilePage/reducer/profileReducer';
 
 const rootReducers = combineReducers({
   app: appReducer,
@@ -34,4 +28,3 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   AppActionsType
 >;
 type AppActionsType = AnyAction;
-// | PacksActionType
