@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
 
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { useAppSelector } from '../../store/store';
-
 import { appPath } from 'common/routes/path';
+import { selectIsAuth } from 'common/selectors';
 
 export const Main = (): JSX.Element => {
   const [btnStyle, setBtnStyle] = useState<' base' | ' intervalColor'>(' base');
   const navigate = useNavigate();
-  const isAuth = useAppSelector(state => state.auth.isAuth);
+  const isAuth = useSelector(selectIsAuth);
 
   useEffect(() => {
     if (isAuth) {
       navigate(appPath.PACKS);
     }
   }, [isAuth, navigate]);
+
   useEffect(() => {
     const id = setInterval(() => {
       if (btnStyle === ' base') {

@@ -13,3 +13,8 @@ export const selectUserAvatar = (state: AppRootStateType): string | undefined =>
 
 export const selectUserName = (state: AppRootStateType): string | undefined =>
   state.auth.data.name;
+
+export const selectAuthNotice = (state: AppRootStateType): string => state.auth.notice;
+
+export const selectAuthStatus = (state: AppRootStateType): StatusType =>
+  state.auth.status;

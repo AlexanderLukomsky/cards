@@ -1,0 +1,1 @@
+export { LoaderFullSize } from './LoaderFullSize';

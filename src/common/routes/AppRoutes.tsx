@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { appPath } from './path';
 
+import { Login } from 'features/auth/login';
 import { Main } from 'features/main';
 
 export const AppRoutes = (): JSX.Element => {
@@ -9,10 +10,7 @@ export const AppRoutes = (): JSX.Element => {
     <Routes>
       <Route path={appPath.MAIN} element={<Main />} />
       <Route path="/" element={<Navigate to={appPath.MAIN} />} />
-      {/* <Route path={appPath.FORM} element={<Forms />} />
-      <Route path={appPath.PROFILE} element={<Profile />} />
-      <Route path={appPath.PACKS} element={<PacksPage />} />
-      <Route path={appPath.CARDS} element={<CardsPage />} /> */}
+      <Route path={appPath.LOGIN} element={<Login />} />
     </Routes>
   );
 };

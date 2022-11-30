@@ -1,2 +1,2 @@
-export { authReducer, setAuthData } from './authReducer';
-export { type AuthDataType } from './type';
+export { authReducer, setAuthData, setNotice } from './authReducer';
+export type { AuthDataType, LoginRequestType } from './type';

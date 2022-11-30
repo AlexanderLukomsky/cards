@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import { setAuthData } from '../auth-reducer';
+
 import { authAPI } from 'api';
 import { StatusType } from 'common/types';
 

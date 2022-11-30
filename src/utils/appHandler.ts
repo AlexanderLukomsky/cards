@@ -1,23 +1,24 @@
-import { AxiosError } from "axios";
-import { Dispatch } from "redux";
-import { setAppMessage, setAppStatus } from "../app/reducers/appReducer";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { AxiosError } from 'axios';
+import { Dispatch } from 'redux';
 
-export const handleAppNetworkError = (
-  err: AxiosError<any>,
-  dispatch: Dispatch
-) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const handleAppNetworkError = (err: AxiosError<any>, dispatch: Dispatch): void => {
+  // eslint-disable-next-line no-nested-ternary, @typescript-eslint/no-unused-vars
   const error: string = err.response?.data
     ? err.response.data.error
     : err.message
     ? err.message
-    : "An error has occurred. Please try again later";
-  dispatch(setAppStatus({ appStatus: "failed" }));
-  dispatch(setAppMessage({ appMessage: error }));
+    : 'An error has occurred. Please try again later';
+
+  // dispatch(selectAppStatus({ appStatus: 'failed' }));
+  // dispatch(setAppMessage({ appMessage: error }));
 };
 export const handleAppSuccessProgress = (
   appMessage: string,
-  dispatch: Dispatch
-) => {
-  dispatch(setAppStatus({ appStatus: "success" }));
-  dispatch(setAppMessage({ appMessage }));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  dispatch: Dispatch,
+): void => {
+  // dispatch(setAppStatus({ appStatus: 'success' }));
+  // dispatch(setAppMessage({ appMessage }));
 };
