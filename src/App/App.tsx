@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { AppRoutes } from 'common/routes';
 import { selectAppStatus, selectIsInitializedApp } from 'common/selectors';
 import { Header } from 'components/header';
 import { LoaderFullSize } from 'components/loader-full-size';
+import { AppRoutes } from 'components/routes';
 import { useAppDispatch } from 'store/hooks';
 import { initializeApp } from 'store/reducers';
 

@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
+import { LoginForm } from './login-form/LoginForm';
 import style from './login.module.scss';
-import { LoginForm } from './LoginForm/LoginForm';
 
-import { appPath } from 'common/routes/path';
 import { selectAuthNotice, selectAuthStatus, selectIsAuth } from 'common/selectors';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
+import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
 import { setNotice } from 'store/reducers/auth-reducer';
 

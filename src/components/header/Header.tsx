@@ -2,10 +2,10 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import logo from 'common/assets/icons/incubatorLogo.svg';
-import { appPath } from 'common/routes/path';
 import { selectIsAuth } from 'common/selectors';
 import './header.scss';
 import { LoginInfo } from 'components/login-info';
+import { appPath } from 'components/routes/path';
 
 export const Header = (): JSX.Element => {
   const isAuth = useSelector(selectIsAuth);

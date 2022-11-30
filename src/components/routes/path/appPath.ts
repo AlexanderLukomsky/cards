@@ -1,6 +1,5 @@
 export enum appPath {
   MAIN = '/main',
-  AUTH = '/auth/*',
   PROFILE = '/profile',
   PACKS = '/packs',
   CARDS = '/cards/:id',

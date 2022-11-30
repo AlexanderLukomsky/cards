@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-expressions */
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import { AuthDataType, LoginRequestType } from './type';
 
-import { authAPI } from 'api';
+import { authAPI, NewPasswordDataType, RegistrationDataType } from 'api';
 import { StatusType } from 'common/types';
 
 const slice = createSlice({
@@ -22,6 +23,9 @@ const slice = createSlice({
     setNotice: (state, action: PayloadAction<{ notice: string }>) => {
       state.notice = action.payload.notice;
     },
+    setStatus(state, action: PayloadAction<{ status: StatusType }>) {
+      state.status = action.payload.status;
+    },
   },
   extraReducers: builder => {
     builder
@@ -35,17 +39,57 @@ const slice = createSlice({
       .addCase(setLogout.rejected, state => {
         state.status = 'failed';
       })
+
       .addCase(setLogin.pending, state => {
         state.status = 'pending';
       })
-      .addCase(setLogin.fulfilled, state => {
+      .addCase(setLogin.fulfilled, (state, action) => {
         state.status = 'succeeded';
+        state.data = action.payload;
       })
       .addCase(setLogin.rejected, (state, action) => {
         state.status = 'failed';
         action.payload
           ? (state.notice = action.payload)
           : (state.notice = 'unexpected error');
+      })
+
+      .addCase(registration.pending, state => {
+        state.status = 'pending';
+      })
+      .addCase(registration.fulfilled, state => {
+        state.status = 'succeeded';
+      })
+      .addCase(registration.rejected, (state, action) => {
+        state.notice = action.payload
+          ? action.payload.error
+          : 'unknown error, please try again later';
+        state.status = 'failed';
+      })
+
+      .addCase(setNewPassword.pending, state => {
+        state.status = 'pending';
+      })
+      .addCase(setNewPassword.fulfilled, state => {
+        state.status = 'succeeded';
+      })
+      .addCase(setNewPassword.rejected, (state, action) => {
+        state.notice = action.payload
+          ? action.payload.error
+          : 'unknown error, please try again later';
+      })
+
+      .addCase(restorePassword.pending, state => {
+        state.status = 'pending';
+      })
+      .addCase(restorePassword.fulfilled, state => {
+        state.status = 'succeeded';
+      })
+      .addCase(restorePassword.rejected, (state, action) => {
+        state.status = 'failed';
+        state.notice = action.payload
+          ? action.payload.error
+          : 'unknown error, please try again later';
       });
   },
 });
@@ -72,11 +116,9 @@ export const setLogin = createAsyncThunk<
   AuthDataType,
   LoginRequestType,
   { rejectValue: string }
->('login/setLogin', async (data, { rejectWithValue, dispatch }) => {
+>('login/setLogin', async (data, { rejectWithValue }) => {
   try {
     const res = await authAPI.login(data);
-
-    dispatch(setAuthData({ data: res.data }));
 
     return res.data;
   } catch (err: any) {
@@ -85,5 +127,60 @@ export const setLogin = createAsyncThunk<
       : '';
 
     return rejectWithValue(error);
+  }
+});
+
+export const registration = createAsyncThunk<
+  unknown,
+  RegistrationDataType,
+  { rejectValue: { error: string } }
+>('registration/send', async (data, { rejectWithValue }) => {
+  try {
+    await authAPI.registration({ email: data.email, password: data.password });
+  } catch (err: any) {
+    const error = err.response ? err.response.data.error : 'Unexpected error';
+
+    return rejectWithValue({ error });
+  }
+});
+
+export const setNewPassword = createAsyncThunk<
+  unknown,
+  NewPasswordDataType,
+  { rejectValue: { error: string } }
+>('newPassword/set', async (data, { rejectWithValue }) => {
+  try {
+    await authAPI.newPassword({
+      password: data.password,
+      resetPasswordToken: data.resetPasswordToken,
+    });
+  } catch (err: any) {
+    const error = err.response ? err.response.data.error : 'Unexpected error';
+
+    return rejectWithValue({ error });
+  }
+});
+
+export const restorePassword = createAsyncThunk<
+  unknown,
+  string,
+  { rejectValue: { error: string } }
+>('restorePassword/send', async (email, { rejectWithValue }) => {
+  try {
+    const data = {
+      email,
+      from: 'test-front-admin <ai73a@yandex.by>',
+      message: `<div style="background-color: lime; padding: 15px">
+                password recovery link: 
+                <a href=''>
+                link</a>
+                </div>`,
+    };
+
+    await authAPI.restorePassword(data);
+  } catch (err: any) {
+    const error = err.response ? err.response.data.error : 'Unexpected error';
+
+    return rejectWithValue({ error });
   }
 });

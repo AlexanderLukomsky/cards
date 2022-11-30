@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { appPath } from 'common/routes/path';
 import { selectIsAuth } from 'common/selectors';
+import { appPath } from 'components/routes/path';
 
 export const Main = (): JSX.Element => {
   const [btnStyle, setBtnStyle] = useState<' base' | ' intervalColor'>(' base');

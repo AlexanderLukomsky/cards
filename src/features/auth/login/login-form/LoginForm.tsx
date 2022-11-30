@@ -6,7 +6,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 import style from './loginForm.module.scss';
 
-import { appPath } from 'common/routes/path';
 import { StatusType } from 'common/types';
 import { validator } from 'common/utils';
 import {
@@ -16,6 +15,7 @@ import {
   FormTitle,
 } from 'components/form-components';
 import { LoaderFullSize } from 'components/loader-full-size';
+import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
 import { setLogin } from 'store/reducers/auth-reducer/authReducer';
 

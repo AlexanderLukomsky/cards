@@ -2,8 +2,8 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import defaultAva from 'common/assets/images/defaultAva.png';
-import { appPath } from 'common/routes/path';
 import { selectUserAvatar, selectUserName } from 'common/selectors';
+import { appPath } from 'components/routes/path';
 import './loginInfo.scss';
 
 export const LoginInfo = (): JSX.Element => {
