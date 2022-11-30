@@ -17,7 +17,9 @@ root.render(
     </BrowserRouter>
   </Provider>,
 );
-/// gh page render
+
+// for gh pages
+
 // root.render(
 //   <Provider store={store}>
 //     <HashRouter>
