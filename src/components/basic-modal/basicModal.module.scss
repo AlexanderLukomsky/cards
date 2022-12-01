@@ -1,0 +1,57 @@
+.modal {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: #ffffff;
+   border-radius: 2px;
+   max-width: 395px;
+   width: 100%;
+   &__header {
+      padding-bottom: 19px;
+      border-bottom: 1px solid #d9d9d9;
+      padding: 19px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+   &__title {
+      color: #000000;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 22px;
+   }
+   &__close {
+      background-color: transparent;
+   }
+   &__body {
+      padding: 0 24px;
+   }
+   &__footer {
+      padding: 0 24px 36px;
+      display: flex;
+      justify-content: space-between;
+      .cancel_button,
+      .confirm_button {
+         border-radius: 30px;
+         height: 36px;
+      }
+      .cancel_button {
+         letter-spacing: 0.01em;
+         font-weight: 500;
+         line-height: 20px;
+         color: #000000;
+         opacity: 0.8;
+         border-color: #fcfcfc;
+         box-shadow: 0px 2px 10px rgba(109, 109, 109, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+         min-width: 113px;
+         &:hover {
+            opacity: 1;
+            border-color: #fcfcfc;
+         }
+      }
+      .confirm_button {
+         min-width: 136px;
+      }
+   }
+}

@@ -1,1 +1,1 @@
-export { type StatusType } from './types';
+export type { StatusType, Nullable } from './types';

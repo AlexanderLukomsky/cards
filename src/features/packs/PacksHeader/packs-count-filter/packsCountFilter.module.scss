@@ -1,0 +1,30 @@
+.filter {
+   max-width: 252px;
+   width: 100%;
+   &__title {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      color: #000000;
+      margin-bottom: 8px;
+   }
+   &__display_value {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+      line-height: 20px;
+      font-weight: 600;
+      color: #000000;
+      background: #ffffff;
+      border: 1px solid #d9d9d9;
+      border-radius: 2px;
+   }
+   &__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+}

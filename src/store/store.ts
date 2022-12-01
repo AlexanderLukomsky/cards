@@ -1,12 +1,13 @@
 import { configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { AnyAction, combineReducers } from 'redux';
 
-import { appReducer, authReducer } from './reducers';
+import { appReducer, authReducer, packsReducer } from './reducers';
 import { AppRootStateType } from './type';
 
 const rootReducers = combineReducers({
   app: appReducer,
   auth: authReducer,
+  packs: packsReducer,
 });
 
 export const store = configureStore({

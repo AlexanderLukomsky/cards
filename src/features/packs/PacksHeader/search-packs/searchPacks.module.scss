@@ -1,0 +1,40 @@
+.search {
+   max-width: 413px;
+   width: 100%;
+   &__container {
+      position: relative;
+      height: 36px;
+   }
+   &__icon {
+      position: absolute;
+      top: 50%;
+      left: 17.14px;
+      transform: translateY(-50%);
+      path {
+         fill: rgba(0, 0, 0, 0.5);
+      }
+   }
+   &__title {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      color: #000000;
+      margin-bottom: 8px;
+   }
+   &__value {
+      background: #ffffff;
+      border: 1px solid #d9d9d9;
+      border-radius: 2px;
+      height: 100%;
+      width: 100%;
+      padding-left: 40px;
+      &::placeholder {
+         color: rgba(0, 0, 0, 0.5);
+         font-size: 14px;
+         opacity: 0.5;
+      }
+      &:focus {
+         border-color: rgba(0, 0, 0, 0.3);
+      }
+   }
+}

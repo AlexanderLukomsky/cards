@@ -1,0 +1,13 @@
+td.action {
+   min-width: 100px;
+   padding: 6px 5px;
+   :nth-child(2) {
+      margin: 0 10px;
+   }
+   button {
+      background-color: transparent;
+      &:disabled {
+         opacity: 0.5;
+      }
+   }
+}

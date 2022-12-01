@@ -1,61 +1,39 @@
 import { instance } from './instance';
 
+import { PacksDataType } from 'store/reducers/packs-reducer';
+
 export const packsAPI = {
-  getPacks(requestParams?: RequestModelType) {
-    return instance.get<PacksResponseDataType>('/cards/pack', {
-      params: requestParams,
-    });
+  getPacks: (params: GetPacksType) => {
+    return instance.get<PacksDataType>('/cards/pack', { params });
   },
-
-  addNewPack(name: string) {
-    return instance.post('/cards/pack', { cardsPack: { name } });
+  createNewPack: (cardsPack: CreateNewPackType) => {
+    return instance.post('/cards/pack', { cardsPack });
   },
-
-  deletePack(id: string) {
+  deletePack: (id: string) => {
     return instance.delete(`/cards/pack?id=${id}`);
   },
-
-  updatePackName: (cardsPack: UpdatePackNameRequestType) => {
+  updatePackName: (cardsPack: UpdatePackNameType) => {
     return instance.put('/cards/pack', { cardsPack });
   },
 };
-export type PacksResponseDataType = {
-  cardPacks: PacksType[];
-  cardPacksTotalCount: number;
-  maxCardsCount: number;
-  minCardsCount: number;
+type GetPacksType = {
   page: number;
   pageCount: number;
-  token: string;
-  tokenDeathTime: number;
+  min: number | null;
+  max: number | null;
+  packName: string | null;
+  sortPacks: string | null;
+  user_id: string | null;
+  // then
+
+  block?: boolean;
 };
-export type PacksType = {
-  cardsCount: number;
-  created: string;
-  deckCover: string;
-  grade: number;
-  more_id: string;
+export type CreateNewPackType = {
   name: string;
-  path: string;
   private: boolean;
-  rating: number;
-  shots: number;
-  type: string;
-  updated: Date;
-  user_id: string;
-  user_name: string;
-  __v: number;
-  _id: string;
+  deckCover: string | null;
 };
-export type RequestModelType = {
-  pageCount?: number;
-  page?: number;
-  min?: number | null;
-  max?: number | null;
-  packName?: string | null;
-  user_id?: string | null;
-};
-export type UpdatePackNameRequestType = {
+export type UpdatePackNameType = {
   _id: string;
   name: string;
   deckCover?: string | null;

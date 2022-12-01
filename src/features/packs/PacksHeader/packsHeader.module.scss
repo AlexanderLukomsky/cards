@@ -1,0 +1,18 @@
+.header {
+   &__head {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+   }
+   &__title {
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 27px;
+   }
+   &__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 24px;
+   }
+}

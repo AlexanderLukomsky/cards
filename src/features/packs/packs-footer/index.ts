@@ -1,0 +1,1 @@
+export { PacksFooter } from './PacksFooter';
