@@ -1,7 +1,14 @@
 import { configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { AnyAction, combineReducers } from 'redux';
 
-import { appReducer, authReducer, packsReducer, profileReducer } from './reducers';
+import {
+  appReducer,
+  authReducer,
+  cardsReducer,
+  learningReducer,
+  packsReducer,
+  profileReducer,
+} from './reducers';
 import { AppRootStateType } from './type';
 
 const rootReducers = combineReducers({
@@ -9,13 +16,13 @@ const rootReducers = combineReducers({
   auth: authReducer,
   packs: packsReducer,
   profile: profileReducer,
+  learning: learningReducer,
+  cards: cardsReducer,
 });
 
 export const store = configureStore({
   reducer: rootReducers,
 });
-
-// types Root Store, Dispatch, Thunk, Actions
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,

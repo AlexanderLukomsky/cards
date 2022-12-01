@@ -2,6 +2,7 @@ import { Nullable } from '../types/types';
 
 import { StatusType } from 'common/types';
 import { AppRootStateType } from 'store';
+import { CardType } from 'store/reducers/cards-reducer';
 import { PacksStateType, SortType } from 'store/reducers/packs-reducer';
 
 export const selectIsInitializedApp = (state: AppRootStateType): boolean =>
@@ -53,3 +54,39 @@ export const selectProfileStatus = (state: AppRootStateType): StatusType =>
 
 export const selectProfileNotice = (state: AppRootStateType): string =>
   state.profile.notice;
+
+export const selectLearningIsInitialized = (state: AppRootStateType): boolean =>
+  state.learning.isInitialized;
+
+export const selectLearningStatus = (state: AppRootStateType): StatusType =>
+  state.learning.status;
+
+export const selectLearningNotice = (state: AppRootStateType): string =>
+  state.learning.notice;
+
+export const selectLearningCard = (state: AppRootStateType): CardType[] =>
+  state.learning.data;
+
+export const selectLearningStepBy = (state: AppRootStateType): boolean =>
+  state.learning.sortStepByStep;
+
+export const selectLearningPackName = (state: AppRootStateType): string =>
+  state.learning.packName;
+
+export const selectCardsStatus = (state: AppRootStateType): StatusType =>
+  state.cards.status;
+
+export const selectCardsPackUserId = (state: AppRootStateType): string =>
+  state.cards.data.packUserId;
+
+export const selectCardsNotice = (state: AppRootStateType): string =>
+  state.cards.data.packUserId;
+
+export const selectCardsPackName = (state: AppRootStateType): string =>
+  state.cards.data.packName;
+
+export const selectCardsPackDeckCover = (state: AppRootStateType): string =>
+  state.cards.data.packDeckCover;
+
+export const selectCardsTotalCount = (state: AppRootStateType): number =>
+  state.cards.data.cardsTotalCount;

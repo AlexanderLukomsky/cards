@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { setAuthData } from '../auth-reducer';
 
@@ -14,19 +14,27 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(initializeApp.pending, state => {
-      state.status = 'pending';
-    });
+    const setPendingStatus = (state: AppStateType, action: PayloadAction<any>): void => {
+      state.status = action.payload;
+    };
 
-    builder.addCase(initializeApp.fulfilled, state => {
-      state.status = 'succeeded';
-      state.isInitialized = true;
-    });
+    builder
+      .addCase(
+        initializeApp.pending,
+        (state: AppStateType, action: PayloadAction<any>): void => {
+          console.log(action);
+          setPendingStatus(state, action);
+        },
+      )
 
-    builder.addCase(initializeApp.rejected, state => {
-      state.status = 'idle';
-      state.isInitialized = true;
-    });
+      .addCase(initializeApp.fulfilled, state => {
+        state.status = 'succeeded';
+        state.isInitialized = true;
+      })
+      .addCase(initializeApp.rejected, state => {
+        state.status = 'idle';
+        state.isInitialized = true;
+      });
   },
 });
 
@@ -47,3 +55,5 @@ export const initializeApp = createAsyncThunk<
     return rejectWithValue('Unauthorized');
   }
 });
+
+type AppStateType = typeof initialState;

@@ -1,0 +1,20 @@
+export type CardType = {
+  answer: string;
+  answerImg: string | null;
+  answerVideo: string;
+  cardsPack_id: string;
+  comments: string;
+  created: string;
+  grade: number;
+  more_id: string;
+  question: string;
+  questionImg: string | null;
+  questionVideo: string;
+  rating: number;
+  shots: number;
+  type: string;
+  updated: string;
+  user_id: string;
+  __v: number;
+  _id: string;
+};

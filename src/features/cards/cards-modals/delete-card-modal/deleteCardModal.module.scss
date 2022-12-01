@@ -1,0 +1,17 @@
+.deleteCard {
+   .text {
+      font-size: 14px;
+      line-height: 24px;
+      color: #000000;
+      margin: 30px 0 37px;
+   }
+   .card_name {
+      font-weight: 700;
+   }
+   > div:last-child {
+      button:last-child {
+         background: #ff3636;
+         box-shadow: 0px 4px 18px rgba(255, 54, 54, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+      }
+   }
+}

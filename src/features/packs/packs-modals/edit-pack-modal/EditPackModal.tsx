@@ -11,7 +11,7 @@ import { BasicModal } from 'components/basic-modal';
 
 export const EditPackModal: FC<EditPackModalPropsType> = ({
   isOpen,
-  onClosehandler,
+  onCloseHandler,
   isLoading,
   setEditedPackHandler,
   packName,
@@ -34,7 +34,7 @@ export const EditPackModal: FC<EditPackModalPropsType> = ({
   const onClose = (): void => {
     setErrorMessage('');
     setIsPrivate(false);
-    onClosehandler();
+    onCloseHandler();
   };
   const setEditedPack = (): void => {
     if (packName.trim()) {
@@ -122,7 +122,7 @@ export const EditPackModal: FC<EditPackModalPropsType> = ({
 type EditPackModalPropsType = {
   isLoading: boolean;
   isOpen: boolean;
-  onClosehandler: () => void;
+  onCloseHandler: () => void;
   packName: string;
   setEditedPackHandler: (isPrivate: boolean) => void;
   cover: string | null;

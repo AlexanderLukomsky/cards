@@ -1,8 +1,11 @@
 import { instance } from './instance';
 
+import { CardType } from 'store/reducers/cards-reducer';
+import { DataType } from 'store/reducers/cards-reducer/cardsReducer';
+
 export const cardsAPI = {
-  addCard(model: AddCardModelType) {
-    return instance.post('cards/card', { card: model });
+  addCard(card: AddNewCardRequestType) {
+    return instance.post('cards/card', { card });
   },
 
   deleteCard(id: string) {
@@ -13,8 +16,8 @@ export const cardsAPI = {
     return instance.put(`cards/card`, { card });
   },
 
-  getCards(requestParams: RequestParamsType) {
-    return instance.get<CardsResponseDataType>(`/cards/card?cardsPack`, {
+  getCards(requestParams: CardGetType) {
+    return instance.get<DataType>(`/cards/card?cardsPack`, {
       params: requestParams,
     });
   },
@@ -28,7 +31,7 @@ export type EditCardRequestType = {
   comments?: string;
 } & Pick<AddNewCardRequestType, 'question' | 'answer'>;
 export type CardsResponseDataType = {
-  cards: CardsType[];
+  cards: CardType[];
   packUserId: string;
   page: number;
   pageCount: number;
@@ -39,33 +42,16 @@ export type CardsResponseDataType = {
   tokenDeathTime: Date;
   packName: string;
 };
-export type CardsType = {
-  _id: string;
+
+export type CardGetType = {
   cardsPack_id: string;
-  user_id: string;
-  answer: string;
-  question: string;
-  grade: number;
-  shots: number;
-  comments: string;
-  type: string;
-  rating: number;
-  more_id: string;
-  created: Date;
-  updated: Date;
-  __v: number;
-};
-export type RequestParamsType = {
-  cardsPack_id: string;
-  page: number;
-  pageCount: number;
-  cardAnswer?: string | null;
+  min?: number | null;
+  max?: number | null;
+  page?: number | null;
+  pageCount?: number | null;
   cardQuestion?: string | null;
-};
-export type AddCardModelType = {
-  question: string;
-  answer: string;
-  cardsPack_id: string;
+  direction?: number | null;
+  value?: string | null;
 };
 
 export type AddNewCardRequestType = {
@@ -79,4 +65,10 @@ export type AddNewCardRequestType = {
   questionImg?: string;
   questionVideo?: string;
   answerVideo?: string;
+};
+export type UpdatePackNameRequestType = {
+  _id: string;
+  name: string;
+  deckCover?: string | null;
+  private: boolean;
 };

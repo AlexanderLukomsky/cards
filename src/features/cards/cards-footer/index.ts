@@ -1,0 +1,1 @@
+export { CardsFooter } from './cardsFooter';

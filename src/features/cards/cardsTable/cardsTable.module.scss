@@ -1,0 +1,82 @@
+.container {
+  width: 100%;
+  height: 100%;
+  margin-top: 27px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+
+  .table {
+    margin-top: 24px;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+
+    .tableHeader {
+      background-color: #ededed;
+    }
+
+    .headerTitle {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      color: rgb(0, 0, 0);
+    }
+  }
+
+  .title {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 27px;
+    display: flex;
+    justify-items: end;
+
+    .owner {
+      font-size: 12px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+
+  .searchBlock {
+    margin-top: 28px;
+
+    .searchTitle {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+    }
+  }
+}
+
+.headerBlock {
+  display: flex;
+  justify-content: space-between;
+
+  .button {
+    min-width: 190px;
+    border-radius: 30px;
+    height: 36px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+.toolsIcon {
+  display: flex;
+  width: 50px;
+  gap: 15px;
+
+  .Icon {
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+.packCover{
+  width: 170px;
+  border-radius: 10px;
+}
+.questionImg{
+  width: 100px;
+}
