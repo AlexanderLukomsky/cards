@@ -7,7 +7,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import style from './loginForm.module.scss';
 
 import { StatusType } from 'common/types';
-import { validator } from 'common/utils';
+import { validationForm } from 'common/utils';
 import {
   FormEmail,
   FormFooter,
@@ -42,7 +42,7 @@ export const LoginForm: FC<LoginFormPropsType> = ({ loginStatus }) => {
       rememberMe: false,
     },
     validate: values => {
-      return validator(values);
+      return validationForm(values);
     },
     onSubmit: async values => {
       const action = await dispatch(setLogin(values));

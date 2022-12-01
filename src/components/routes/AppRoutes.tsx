@@ -7,12 +7,16 @@ import { NewPassword } from 'features/auth/new-password';
 import { Registration } from 'features/auth/registration';
 import { RestorePassword } from 'features/auth/restore-password';
 import { Main } from 'features/main';
+import { Packs } from 'features/packs';
+import { Profile } from 'features/profile';
 
 export const AppRoutes = (): JSX.Element => {
   return (
     <Routes>
       <Route path={appPath.MAIN} element={<Main />} />
       <Route path="/" element={<Navigate to={appPath.MAIN} />} />
+      <Route path={appPath.PACKS} element={<Packs />} />
+      <Route path={appPath.PROFILE} element={<Profile />} />
 
       <Route path={appPath.LOGIN} element={<Login />} />
       <Route path={appPath.REGISTRATION} element={<Registration />} />

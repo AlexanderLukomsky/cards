@@ -12,4 +12,8 @@ export {
   selectMaxCardsCount,
   selectSearchPacksName,
   selectPacksParamsUserId,
+  selectAuthName,
+  selectAuthEmail,
+  selectProfileStatus,
+  selectProfileNotice,
 } from './selectors';

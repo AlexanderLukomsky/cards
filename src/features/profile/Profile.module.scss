@@ -1,0 +1,85 @@
+.container {
+  background: #f9f9fa;
+  min-height: 100vh;
+  padding: 60px;
+  margin:  auto;
+  .link {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+    display: flex;
+    gap: 10px;
+    img {
+      width: 24px;
+      height: 24px;
+      padding: 5px;
+    }
+  }
+  .block {
+    width: 413px;
+    height: 100%;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
+    margin: 20vh auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+
+    h3 {
+      margin-top: 15px;
+      font-size: 22px;
+      line-height: 27px;
+      font-weight: 600;
+    }
+
+    .avatarBlock {
+      width: 95px;
+      height: 95px;
+      margin-top: 30px;
+
+      .avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 47px;
+      }
+
+      .photoIcon {
+        position: relative;
+        bottom: 36px;
+        left: 63px;
+        z-index: 2;
+        cursor: pointer;
+        &:hover{
+          filter: invert(100%);
+        }
+      }
+    }
+
+    .name {
+      margin-top: 17px;
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 24px;
+    }
+
+    .email {
+      margin-top: 14px;
+      font-size: 14px;
+      line-height: 24px;
+      color: rgba(0, 0, 0, 0.7);
+    }
+
+    .button {
+      margin-top: 41px;
+      margin-bottom: 36px;
+      border-radius: 30px;
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
+      padding-right: 20px;
+      padding-left: 20px;
+    }
+  }
+}

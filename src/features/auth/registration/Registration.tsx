@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import style from './registration.module.scss';
 
 import { selectAuthNotice, selectAuthStatus } from 'common/selectors';
-import { validator } from 'common/utils';
+import { validationForm } from 'common/utils';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
 import {
   FormEmail,
@@ -55,7 +55,7 @@ export const Registration = (): JSX.Element => {
       confirmPassword: '',
     },
     validate: values => {
-      return validator(values);
+      return validationForm(values);
     },
     onSubmit: async values => {
       const action = await dispatch(

@@ -23,7 +23,7 @@ export const authAPI = {
     return instance.post('/auth/set-new-password', data);
   },
 
-  updateProfile(data: UpdateProfileDataType) {
+  updateProfile(data: UpdateProfileType) {
     return instance.put<{ updatedUser: AuthDataType }>('auth/me', data);
   },
 
@@ -32,7 +32,7 @@ export const authAPI = {
   },
 };
 
-export type UpdateProfileDataType = {
+export type UpdateProfileType = {
   name?: string;
   avatar?: string;
 };

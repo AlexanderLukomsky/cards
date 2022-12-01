@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
+import { PacksFooter } from './packs-footer';
 import { PacksTable } from './packs-table';
 import style from './packs.module.scss';
-import { PacksFooter } from './PacksFooter/PacksFooter';
-import { PacksHeader } from './PacksHeader/PacksHeader';
+import { PacksHeader } from './PacksHeader';
 
 import { selectIsAuth } from 'common/selectors';
 import { selectPacks } from 'common/selectors/selectors';

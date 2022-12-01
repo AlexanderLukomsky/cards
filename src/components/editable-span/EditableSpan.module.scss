@@ -1,0 +1,20 @@
+.penImg{
+  position: relative;
+  margin-left:5px;
+  bottom:-15px;
+  cursor:pointer;
+  &:hover{
+    filter: invert(50%);
+  }
+}
+.inputField {
+  width: 347px;
+  .saveButton {
+    position: relative;
+    margin-left:5px;
+    bottom:-15px;
+  }
+  .input {
+    width: 80%;
+  }
+}

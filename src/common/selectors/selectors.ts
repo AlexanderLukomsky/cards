@@ -11,12 +11,19 @@ export const selectAppStatus = (state: AppRootStateType): StatusType => state.ap
 
 export const selectIsAuth = (state: AppRootStateType): boolean => state.auth.isAuth;
 
+export const selectAuthAvatar = (state: AppRootStateType): undefined | string =>
+  state.auth.data.avatar;
+
 export const selectAuthUserId = (state: AppRootStateType): string => state.auth.data._id;
 
 export const selectAuthNotice = (state: AppRootStateType): string => state.auth.notice;
 
 export const selectAuthStatus = (state: AppRootStateType): StatusType =>
   state.auth.status;
+
+export const selectAuthName = (state: AppRootStateType): string => state.auth.data.name;
+
+export const selectAuthEmail = (state: AppRootStateType): string => state.auth.data.email;
 
 export const selectUserAvatar = (state: AppRootStateType): string | undefined =>
   state.auth.data.avatar;
@@ -40,3 +47,9 @@ export const selectSearchPacksName = (state: AppRootStateType): Nullable<string>
 
 export const selectPacksParamsUserId = (state: AppRootStateType): Nullable<string> =>
   state.packs.params.user_id;
+
+export const selectProfileStatus = (state: AppRootStateType): StatusType =>
+  state.profile.status;
+
+export const selectProfileNotice = (state: AppRootStateType): string =>
+  state.profile.notice;
