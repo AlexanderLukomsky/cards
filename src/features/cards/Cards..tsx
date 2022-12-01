@@ -2,6 +2,7 @@ import { CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 
+import { CardsTable } from './cards-table';
 import styles from './cards.module.scss';
 
 import backIcon from 'common/assets/icons/back.png';

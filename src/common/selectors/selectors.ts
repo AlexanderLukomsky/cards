@@ -90,3 +90,12 @@ export const selectCardsPackDeckCover = (state: AppRootStateType): string =>
 
 export const selectCardsTotalCount = (state: AppRootStateType): number =>
   state.cards.data.cardsTotalCount;
+
+export const selectCardsPageCount = (state: AppRootStateType): number =>
+  state.cards.data.pageCount;
+
+export const selectCardsCurrentPage = (state: AppRootStateType): number =>
+  state.cards.data.page;
+
+export const selectCardsFromData = (state: AppRootStateType): CardType[] =>
+  state.cards.data.cards;

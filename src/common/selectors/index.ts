@@ -28,4 +28,7 @@ export {
   selectCardsPackName,
   selectCardsPackDeckCover,
   selectCardsTotalCount,
+  selectCardsPageCount,
+  selectCardsCurrentPage,
+  selectCardsFromData,
 } from './selectors';

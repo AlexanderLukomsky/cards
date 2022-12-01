@@ -1,0 +1,1 @@
+export { TableCardHead } from './TableCardHead';

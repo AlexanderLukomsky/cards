@@ -154,7 +154,7 @@ export const PacksTable: FC<PacksTablePropsType> = ({ packs, status }) => {
         cover={selectedPack.deckCover ? selectedPack.deckCover : null}
         isLoading={status === 'pending'}
         packName={selectedPack.packName}
-        onClosehandler={onCloseEditModal}
+        onCloseHandler={onCloseEditModal}
         onUpdatePack={onUpdatePackHandler}
         isOpen={isOpenEditModal}
         setEditedPackHandler={setEditPack}
