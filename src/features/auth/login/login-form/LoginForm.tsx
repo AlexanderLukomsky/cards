@@ -37,8 +37,8 @@ export const LoginForm: FC<LoginFormPropsType> = ({ loginStatus }) => {
   };
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: '12qqqq3@mail.ru',
+      password: '12312311',
       rememberMe: false,
     },
     validate: values => {

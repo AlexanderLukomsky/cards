@@ -7,4 +7,4 @@ export {
   restorePassword,
   setLogout,
 } from './authReducer';
-export type { AuthDataType, LoginRequestType } from './type';
+export type { AuthDataType } from './type';

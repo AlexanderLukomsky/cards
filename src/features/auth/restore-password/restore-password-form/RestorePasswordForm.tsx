@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 
 import style from './restorePasswordForm.module.scss';
 
+import { StatusType } from 'common/types';
 import { validationForm } from 'common/utils';
 import { FormEmail, FormFooter, FormTitle } from 'components/form-components';
 import { appPath } from 'components/routes/path';
@@ -12,6 +13,7 @@ import { restorePassword } from 'store/reducers/auth-reducer';
 
 export const RestorePasswordForm: FC<RestorePasswordFormPropsType> = ({
   onSubmitHandler,
+  status,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -59,6 +61,7 @@ export const RestorePasswordForm: FC<RestorePasswordFormPropsType> = ({
         buttonTitle="Send Instructions"
         linkTitle="Try logging in"
         pathTo={appPath.LOGIN}
+        disabled={status === 'pending'}
       >
         <p>Did you remember your password?</p>
       </FormFooter>
@@ -68,4 +71,5 @@ export const RestorePasswordForm: FC<RestorePasswordFormPropsType> = ({
 
 type RestorePasswordFormPropsType = {
   onSubmitHandler: (value: string) => void;
+  status: StatusType;
 };

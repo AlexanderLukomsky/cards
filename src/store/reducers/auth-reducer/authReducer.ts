@@ -1,11 +1,16 @@
-/* eslint-disable no-unused-expressions */
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction, isAnyOf } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { AuthDataType, LoginRequestType } from './type';
+import { AuthDataType } from './type';
 
-import { authAPI, NewPasswordDataType, RegistrationDataType } from 'api';
+import { authAPI } from 'api';
+import {
+  LoginRequestDataType,
+  NewPasswordRequestDataType,
+  RegistrationRequestDataType,
+} from 'api/auth-api';
 import { StatusType } from 'common/types';
+import { getResponseErrorMessage } from 'common/utils';
 
 const slice = createSlice({
   name: 'auth',
@@ -28,77 +33,74 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder
-      .addCase(setLogout.pending, state => {
-        state.status = 'pending';
-      })
-      .addCase(setLogout.fulfilled, state => {
-        state.data = {} as AuthDataType;
-        state.isAuth = false;
-      })
-      .addCase(setLogout.rejected, state => {
-        state.status = 'failed';
-      })
+    const setPendingStatus = (state: AuthStateType): void => {
+      state.status = 'pending';
+    };
 
-      .addCase(setLogin.pending, state => {
-        state.status = 'pending';
-      })
+    const handleReject = (
+      state: AuthStateType,
+      action: PayloadAction<string | undefined>,
+    ): void => {
+      state.status = 'failed';
+
+      if (action.payload) {
+        state.notice = action.payload;
+      } else {
+        state.notice = 'unknown error, please try again later';
+      }
+    };
+
+    builder
       .addCase(setLogin.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.isAuth = true;
         state.data = action.payload;
       })
-      .addCase(setLogin.rejected, (state, action) => {
-        state.status = 'failed';
-        action.payload
-          ? (state.notice = action.payload)
-          : (state.notice = 'unexpected error');
+
+      .addCase(setLogout.fulfilled, state => {
+        state.data = {} as AuthDataType;
+        state.isAuth = false;
+        state.status = 'succeeded';
       })
 
-      .addCase(registration.pending, state => {
-        state.status = 'pending';
-      })
       .addCase(registration.fulfilled, state => {
         state.status = 'succeeded';
       })
-      .addCase(registration.rejected, (state, action) => {
-        state.notice = action.payload
-          ? action.payload.error
-          : 'unknown error, please try again later';
-        state.status = 'failed';
-      })
 
-      .addCase(setNewPassword.pending, state => {
-        state.status = 'pending';
-      })
       .addCase(setNewPassword.fulfilled, state => {
         state.status = 'succeeded';
       })
-      .addCase(setNewPassword.rejected, (state, action) => {
-        state.notice = action.payload
-          ? action.payload.error
-          : 'unknown error, please try again later';
-      })
 
-      .addCase(restorePassword.pending, state => {
-        state.status = 'pending';
-      })
       .addCase(restorePassword.fulfilled, state => {
         state.status = 'succeeded';
-      })
-      .addCase(restorePassword.rejected, (state, action) => {
-        state.status = 'failed';
-        state.notice = action.payload
-          ? action.payload.error
-          : 'unknown error, please try again later';
       });
+    builder.addMatcher(
+      isAnyOf(
+        setLogout.pending,
+        setLogin.pending,
+        registration.pending,
+        restorePassword.pending,
+        setNewPassword.pending,
+      ),
+      setPendingStatus,
+    );
+    builder.addMatcher(
+      isAnyOf(
+        setLogin.rejected,
+        setLogout.rejected,
+        restorePassword.rejected,
+        setNewPassword.rejected,
+        registration.rejected,
+      ),
+      handleReject,
+    );
   },
 });
 
 export const authReducer = slice.reducer;
 export const { setAuthData, setNotice } = slice.actions;
 
-export const setLogout = createAsyncThunk(
+export const setLogout = createAsyncThunk<unknown, undefined, { rejectValue: string }>(
   'auth/logout',
   async (_, { rejectWithValue }) => {
     try {
@@ -115,7 +117,7 @@ export const setLogout = createAsyncThunk(
 
 export const setLogin = createAsyncThunk<
   AuthDataType,
-  LoginRequestType,
+  LoginRequestDataType,
   { rejectValue: string }
 >('login/setLogin', async (data, { rejectWithValue }) => {
   try {
@@ -123,9 +125,7 @@ export const setLogin = createAsyncThunk<
 
     return res.data;
   } catch (err: any) {
-    const error: string = (err as AxiosError).response?.data
-      ? err.response.data.error
-      : '';
+    const error: string = getResponseErrorMessage(err);
 
     return rejectWithValue(error);
   }
@@ -133,55 +133,53 @@ export const setLogin = createAsyncThunk<
 
 export const registration = createAsyncThunk<
   unknown,
-  RegistrationDataType,
-  { rejectValue: { error: string } }
+  RegistrationRequestDataType,
+  { rejectValue: string }
 >('registration/send', async (data, { rejectWithValue }) => {
   try {
     await authAPI.registration({ email: data.email, password: data.password });
   } catch (err: any) {
     const error = err.response ? err.response.data.error : 'Unexpected error';
 
-    return rejectWithValue({ error });
+    return rejectWithValue(error);
   }
 });
 
 export const setNewPassword = createAsyncThunk<
   unknown,
-  NewPasswordDataType,
-  { rejectValue: { error: string } }
+  NewPasswordRequestDataType,
+  { rejectValue: string }
 >('newPassword/set', async (data, { rejectWithValue }) => {
   try {
-    await authAPI.newPassword({
-      password: data.password,
-      resetPasswordToken: data.resetPasswordToken,
-    });
+    await authAPI.newPassword(data);
   } catch (err: any) {
     const error = err.response ? err.response.data.error : 'Unexpected error';
 
-    return rejectWithValue({ error });
+    return rejectWithValue(error);
   }
 });
 
-export const restorePassword = createAsyncThunk<
-  unknown,
-  string,
-  { rejectValue: { error: string } }
->('restorePassword/send', async (email, { rejectWithValue }) => {
-  try {
-    const data = {
-      email,
-      from: 'test-front-admin <ai73a@yandex.by>',
-      message: `<div style="background-color: lime; padding: 15px">
+export const restorePassword = createAsyncThunk<unknown, string, { rejectValue: string }>(
+  'restorePassword/send',
+  async (email, { rejectWithValue }) => {
+    try {
+      const data = {
+        email,
+        from: 'test-front-admin <ai73a@yandex.by>',
+        message: `<div style="background-color: lime; padding: 15px">
                 password recovery link: 
                 <a href=''>
                 link</a>
                 </div>`,
-    };
+      };
 
-    await authAPI.restorePassword(data);
-  } catch (err: any) {
-    const error = err.response ? err.response.data.error : 'Unexpected error';
+      await authAPI.restorePassword(data);
+    } catch (err: any) {
+      const error = err.response ? err.response.data.error : 'Unexpected error';
 
-    return rejectWithValue({ error });
-  }
-});
+      return rejectWithValue(error);
+    }
+  },
+);
+
+type AuthStateType = ReturnType<typeof slice.getInitialState>;

@@ -1,10 +1,10 @@
-import { CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import { NewPasswordForm } from './new-password-form';
 
 import { selectAuthNotice, selectAuthStatus } from 'common/selectors';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
+import { LoaderFullSize } from 'components/loader-full-size';
 import { ParticlesContainer } from 'components/particles-container';
 import { useAppDispatch } from 'store/hooks';
 import { setNotice } from 'store/reducers/auth-reducer';
@@ -13,7 +13,7 @@ import './newPassword.scss';
 export const NewPassword = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const status = useSelector(selectAuthStatus);
+  const authStatus = useSelector(selectAuthStatus);
 
   const notice = useSelector(selectAuthNotice);
 
@@ -24,16 +24,14 @@ export const NewPassword = (): JSX.Element => {
   return (
     <div className="new-password-page">
       <ParticlesContainer />
-      {status === 'pending' && (
-        <CircularProgress style={{ zIndex: '3', position: 'absolute' }} />
-      )}
-      <NewPasswordForm />
+      <NewPasswordForm status={authStatus} />
       <CustomizedSnackbar
         message={notice}
         isOpen={!!notice}
         onClose={onCloseSnackbar}
-        isError={status === 'failed'}
+        isError={authStatus === 'failed'}
       />
+      {authStatus === 'pending' && <LoaderFullSize />}
     </div>
   );
 };

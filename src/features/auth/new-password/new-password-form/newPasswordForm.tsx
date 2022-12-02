@@ -1,14 +1,17 @@
+import { FC } from 'react';
+
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 
 import style from './newPasswordForm.module.scss';
 
+import { StatusType } from 'common/types';
 import { validationForm } from 'common/utils';
 import { FormFooter, FormPassword } from 'components/form-components';
 import { useAppDispatch } from 'store/hooks';
 import { setNewPassword } from 'store/reducers/auth-reducer';
 
-export const NewPasswordForm = (): JSX.Element => {
+export const NewPasswordForm: FC<NewPasswordFormPropsType> = ({ status }) => {
   const dispatch = useAppDispatch();
 
   const params = useParams();
@@ -52,7 +55,15 @@ export const NewPasswordForm = (): JSX.Element => {
       <p className={style.text}>
         Create new password and we will send you further instructions to email
       </p>
-      <FormFooter onClick={formik.submitForm} buttonTitle="Create new password" />
+      <FormFooter
+        onClick={formik.submitForm}
+        buttonTitle="Create new password"
+        disabled={status === 'pending'}
+      />
     </div>
   );
+};
+
+type NewPasswordFormPropsType = {
+  status?: StatusType;
 };

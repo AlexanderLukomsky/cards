@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction, isAnyOf } from '@reduxjs/toolkit';
 
 import { PacksDataType, SortType } from './type';
 
-import { CreateNewPackType, packsAPI, UpdatePackNameType } from 'api';
+import { packsAPI } from 'api';
+import { CreateNewPackRequestDataType, UpdatePackRequestDataType } from 'api/packs-api';
 import { StatusType } from 'common/types';
 import { getResponseErrorMessage } from 'common/utils';
 import { AppRootStateType } from 'store/type';
@@ -67,21 +68,6 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    // pending CRUD operation
-    builder
-      .addCase(getPacks.pending, state => {
-        state.status = 'pending';
-      })
-      .addCase(addNewPack.pending, state => {
-        state.status = 'pending';
-      })
-      .addCase(deletePack.pending, state => {
-        state.status = 'pending';
-      })
-      .addCase(editPackName.pending, state => {
-        state.status = 'pending';
-      });
-    // fulfilled CRUD operation
     builder
       .addCase(getPacks.fulfilled, (state, action) => {
         state.data = action.payload;
@@ -97,32 +83,35 @@ const slice = createSlice({
       .addCase(editPackName.fulfilled, state => {
         state.status = 'succeeded';
       });
-    // reject packs CRUD operation
-    builder
-      .addCase(getPacks.rejected, (state, action) => {
+
+    builder.addMatcher(
+      isAnyOf(
+        getPacks.pending,
+        addNewPack.pending,
+        deletePack.pending,
+        editPackName.pending,
+      ),
+      (state: PacksStateType) => {
+        state.status = 'pending';
+      },
+    );
+    builder.addMatcher(
+      isAnyOf(
+        getPacks.rejected,
+        addNewPack.rejected,
+        deletePack.rejected,
+        editPackName.rejected,
+      ),
+      (state: PacksStateType, action: PayloadAction<string | undefined>): void => {
         state.status = 'failed';
+
         if (action.payload) {
           state.notice = action.payload;
+        } else {
+          state.notice = 'unknown error, please try again later';
         }
-      })
-      .addCase(addNewPack.rejected, (state, action) => {
-        state.status = 'failed';
-        if (action.payload) {
-          state.notice = action.payload;
-        }
-      })
-      .addCase(deletePack.rejected, (state, action) => {
-        state.status = 'failed';
-        if (action.payload) {
-          state.notice = action.payload;
-        }
-      })
-      .addCase(editPackName.rejected, (state, action) => {
-        state.status = 'failed';
-        if (action.payload) {
-          state.notice = action.payload;
-        }
-      });
+      },
+    );
   },
 });
 
@@ -154,7 +143,7 @@ export const getPacks = createAsyncThunk<
 });
 export const addNewPack = createAsyncThunk<
   unknown,
-  CreateNewPackType,
+  CreateNewPackRequestDataType,
   { rejectValue: string }
 >('packs/add-new-pack', async (data, { dispatch, rejectWithValue }) => {
   try {
@@ -181,7 +170,7 @@ export const deletePack = createAsyncThunk<unknown, string, { rejectValue: strin
 );
 export const editPackName = createAsyncThunk<
   unknown,
-  UpdatePackNameType,
+  UpdatePackRequestDataType,
   { rejectValue: string }
 >('packs/edit-pack-name', async (data, { dispatch, rejectWithValue }) => {
   try {

@@ -8,6 +8,7 @@ import './restore-password.scss';
 import { selectAuthNotice, selectAuthStatus } from 'common/selectors';
 import { CheckEmail } from 'components/check-email';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
+import { LoaderFullSize } from 'components/loader-full-size';
 import { ParticlesContainer } from 'components/particles-container';
 import { useAppDispatch } from 'store/hooks';
 import { setNotice } from 'store/reducers/auth-reducer';
@@ -18,7 +19,7 @@ export const RestorePassword = (): JSX.Element => {
   const [email, setEmail] = useState<string>('');
   const [isSucceeded, setIsSucceeded] = useState(false);
 
-  const status = useSelector(selectAuthStatus);
+  const authStatus = useSelector(selectAuthStatus);
 
   const notice = useSelector(selectAuthNotice);
 
@@ -36,14 +37,15 @@ export const RestorePassword = (): JSX.Element => {
       {isSucceeded ? (
         <CheckEmail email={email} />
       ) : (
-        <RestorePasswordForm onSubmitHandler={handleSubmitForm} />
+        <RestorePasswordForm onSubmitHandler={handleSubmitForm} status={authStatus} />
       )}
       <CustomizedSnackbar
         message={notice}
         isOpen={!!notice}
         onClose={onCloseSnackbar}
-        isError={status === 'failed'}
+        isError={authStatus === 'failed'}
       />
+      {authStatus === 'pending' && <LoaderFullSize />}
     </div>
   );
 };
