@@ -1,0 +1,30 @@
+@import "common/styles/mixins";
+
+.check-email {
+  position: relative;
+  background: #ffffff;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  max-width: 413px;
+  padding: 35px 33px 42px;
+  width: 100%;
+  @include flexWithHeight(column, center, center, nowrap, fit-content);
+
+  &__text {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+    opacity: 0.5;
+    margin-top: 31px;
+    > span {
+      padding-left: 5px;
+    }
+  }
+
+  button.form-footer__button {
+    text-transform: uppercase;
+  }
+}

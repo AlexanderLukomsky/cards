@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from 'react';
 
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { Button, CircularProgress, TextField } from '@mui/material';
+import { CircularProgress, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ import style from './new-password.module.scss';
 
 import { selectAuthNotice, selectAuthStatus } from 'common/selectors';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
+import { FormFooter, FormTitle } from 'components/form-components';
 import { useAppDispatch } from 'store/hooks';
 import { setNewPassword, setNotice } from 'store/reducers/auth-reducer';
 
@@ -46,7 +47,7 @@ export const NewPassword = (): JSX.Element => {
           <CircularProgress style={{ zIndex: '3', position: 'absolute' }} />
         )}
         <div className={style.block}>
-          <h3>Create new password</h3>
+          <FormTitle title="Create new password" />
           <div className={style.inputBlock}>
             <TextField
               onChange={onChangeHandler}
@@ -65,9 +66,7 @@ export const NewPassword = (): JSX.Element => {
             </span>
           </div>
           <p>Create new password and we will send you further instructions to email</p>
-          <Button onClick={onClickHandler} className={style.button} variant="contained">
-            Create new password
-          </Button>
+          <FormFooter onClick={onClickHandler} buttonTitle="Create new password" />
         </div>
       </div>
       <CustomizedSnackbar
