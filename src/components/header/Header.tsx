@@ -12,7 +12,7 @@ export const Header = (): JSX.Element => {
 
   return (
     <div className="header">
-      <div className="container">
+      <div className="container header__container">
         <NavLink to={appPath.MAIN}>
           <img className="header__logo" src={logo} alt="incubator logo" />
         </NavLink>

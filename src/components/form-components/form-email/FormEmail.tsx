@@ -2,6 +2,7 @@ import { FC } from 'react';
 
 import { TextField } from '@mui/material';
 import { FieldInputProps } from 'formik';
+import './formEmail.scss';
 
 export const FormEmail: FC<FormEmailPropsType> = ({
   isError,

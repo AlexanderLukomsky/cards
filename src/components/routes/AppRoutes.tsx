@@ -15,6 +15,7 @@ export const AppRoutes = (): JSX.Element => {
     <Routes>
       <Route path={appPath.MAIN} element={<Main />} />
       <Route path="/" element={<Navigate to={appPath.MAIN} />} />
+
       <Route path={appPath.PACKS} element={<Packs />} />
       <Route path={appPath.PROFILE} element={<Profile />} />
 

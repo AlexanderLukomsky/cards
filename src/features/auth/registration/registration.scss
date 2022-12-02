@@ -1,0 +1,5 @@
+@import "common/styles/mixins";
+
+.registration-page {
+  @include flexWithHeight(column, center, center, nowrap, 100vh);
+}

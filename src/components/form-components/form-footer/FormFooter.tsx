@@ -2,6 +2,7 @@ import { FC, ReactNode } from 'react';
 
 import { Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import './formFooter.scss';
 
 export const FormFooter: FC<FormFooterPropsType> = ({
   buttonTitle,

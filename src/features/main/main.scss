@@ -1,0 +1,4 @@
+@import "common/styles/mixins";
+.main-page {
+  @include flexWithHeight(column, center, flex-end, nowrap, 100vh);
+}

@@ -77,7 +77,6 @@ const slice = createSlice({
       .addCase(deleteCard.pending, setStatusPending)
       .addCase(editCard.pending, setStatusPending)
       .addCase(dataSort.pending, setStatusPending)
-      .addCase(dataSort.pending, setStatusPending)
       .addCase(editPackNameFromCards.pending, setStatusPending)
       .addCase(deletePackFromCards.pending, setStatusPending)
 

@@ -1,0 +1,5 @@
+@import "common/styles/mixins";
+
+.login-page {
+   @include flexWithHeight(column, center, center, nowrap, 100vh);
+}

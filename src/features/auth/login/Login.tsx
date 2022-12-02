@@ -2,13 +2,14 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 import { LoginForm } from './login-form/LoginForm';
-import style from './login.module.scss';
 
 import { selectAuthNotice, selectAuthStatus, selectIsAuth } from 'common/selectors';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
+import { ParticlesContainer } from 'components/particles-container';
 import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
 import { setNotice } from 'store/reducers/auth-reducer';
+import './login.scss';
 
 export const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -26,7 +27,8 @@ export const Login = (): JSX.Element => {
   }
 
   return (
-    <div className={style.login}>
+    <div className="login-page">
+      <ParticlesContainer />
       <LoginForm loginStatus={loginStatus} />
       <CustomizedSnackbar
         message={authNotice}

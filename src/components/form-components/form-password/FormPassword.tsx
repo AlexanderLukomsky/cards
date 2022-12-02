@@ -5,6 +5,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { TextField, IconButton } from '@mui/material';
 import { FieldInputProps } from 'formik';
 
+import './formPassword.scss';
+
 export const FormPassword: FC<FormPasswordPropsType> = ({
   isError,
   errorText,

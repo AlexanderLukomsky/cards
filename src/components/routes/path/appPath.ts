@@ -1,15 +1,15 @@
 export enum appPath {
-  MAIN = '/main',
+  MAIN = '/cards',
   PROFILE = '/profile',
   PACKS = '/packs',
-  CARDS = '/cards/:id',
-  CARDS_DEFAULT = '/cards/',
+  CARDS = '/cards-decks/:id',
+  CARDS_DEFAULT = '/cards-decks/',
   LEARNING = '/learning/:id',
   LEARNING_DEFAULT = '/learning/',
   ERROR_PAGE = '/ErrorPage',
 
-  LOGIN = '/auth/login',
-  REGISTRATION = '/auth/registration',
-  RESTORE_PASSWORD = '/auth/restore-password',
-  NEW_PASSWORD = '/auth/new-password/:token',
+  LOGIN = '/login',
+  REGISTRATION = '/registration',
+  RESTORE_PASSWORD = '/restore-password',
+  NEW_PASSWORD = '/new-password/:token',
 }

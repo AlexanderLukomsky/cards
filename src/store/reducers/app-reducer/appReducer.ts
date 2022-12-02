@@ -22,7 +22,6 @@ const slice = createSlice({
       .addCase(
         initializeApp.pending,
         (state: AppStateType, action: PayloadAction<any>): void => {
-          console.log(action);
           setPendingStatus(state, action);
         },
       )

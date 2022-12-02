@@ -1,0 +1,8 @@
+@mixin flexWithHeight($flexDirection, $justifyContent, $alignItems, $flexWrap, $height) {
+  display: flex;
+  flex-direction: $flexDirection;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+  flex-wrap: $flexWrap;
+  height: $height;
+}

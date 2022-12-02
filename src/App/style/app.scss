@@ -1,12 +1,12 @@
 @import "common/styles/reset";
+@import "common/styles/mixins";
 .app {
    position: relative;
-   background-color: #f9f9fa;
+   background: #f9f9fa;
    min-height: 100vh;
 }
 .container {
    max-width: 1280px;
-   width: 100%;
    padding: 0 30px;
    margin: 0 auto;
 }

@@ -1,10 +1,9 @@
 import { FC } from 'react';
 
-import { Checkbox } from '@mui/material';
 import { useFormik } from 'formik';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-import style from './loginForm.module.scss';
+import style from './registrationForm.module.scss';
 
 import { StatusType } from 'common/types';
 import { validationForm } from 'common/utils';
@@ -17,21 +16,30 @@ import {
 import { LoaderFullSize } from 'components/loader-full-size';
 import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
-import { setLogin } from 'store/reducers/auth-reducer/authReducer';
+import { registration } from 'store/reducers/auth-reducer';
 
-export const LoginForm: FC<LoginFormPropsType> = ({ loginStatus }) => {
+export const RegistrationForm: FC<RegistrationFormPropsType> = ({
+  registrationStatus,
+}) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
   const onEmailFocusHandler = (): void => {
     formik.setTouched({
       email: false,
       password: formik.touched.password && !!formik.errors.password,
+      confirmPassword: formik.touched.confirmPassword && !!formik.errors.confirmPassword,
     });
   };
   const onPasswordFocusHandler = (): void => {
     formik.setTouched({
       password: false,
+      email: formik.touched.email && !!formik.errors.email,
+      confirmPassword: formik.touched.confirmPassword && !!formik.errors.confirmPassword,
+    });
+  };
+  const onConfirmPassFocusHandler = (): void => {
+    formik.setTouched({
+      confirmPassword: false,
+      password: formik.touched.password && !!formik.errors.password,
       email: formik.touched.email && !!formik.errors.email,
     });
   };
@@ -39,23 +47,25 @@ export const LoginForm: FC<LoginFormPropsType> = ({ loginStatus }) => {
     initialValues: {
       email: '',
       password: '',
-      rememberMe: false,
+      confirmPassword: '',
     },
     validate: values => {
       return validationForm(values);
     },
     onSubmit: async values => {
-      const action = await dispatch(setLogin(values));
+      const action = await dispatch(
+        registration({ email: values.email, password: values.password }),
+      );
 
-      if (setLogin.fulfilled.match(action)) {
-        navigate(appPath.PROFILE);
+      if (registration.rejected.match(action)) {
+        <Navigate to={appPath.MAIN} />;
       }
     },
   });
 
   return (
-    <div className={style.login_form}>
-      <FormTitle title="Sign in" />
+    <div className={style.registration_form}>
+      <FormTitle title="Sign up" />
       <form className={style.form} onSubmit={formik.handleSubmit}>
         <FormEmail
           isError={formik.touched.email && !!formik.errors.email}
@@ -71,30 +81,30 @@ export const LoginForm: FC<LoginFormPropsType> = ({ loginStatus }) => {
           fieldProps={formik.getFieldProps('password')}
           className={style.form__password}
         />
-
-        <label className={style.form__remember} htmlFor="rememberMe">
-          <Checkbox id="rememberMe" {...formik.getFieldProps('rememberMe')} />
-          Remember me
-        </label>
-        <NavLink to={appPath.RESTORE_PASSWORD} className={style.form__forgot}>
-          Forgot Password?
-        </NavLink>
+        <FormPassword
+          isError={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+          errorText={formik.errors.confirmPassword}
+          onFocus={onConfirmPassFocusHandler}
+          fieldProps={formik.getFieldProps('confirmPassword')}
+          className={style.form__password}
+          label="Confirm password"
+        />
         <FormFooter
           className={style.form__footer}
           onClick={formik.submitForm}
-          buttonTitle="Sign In"
-          linkTitle="Sign Up"
-          pathTo={appPath.REGISTRATION}
-          disabled={loginStatus === 'pending'}
+          buttonTitle="Sign Up"
+          linkTitle="Sign In"
+          pathTo={appPath.LOGIN}
+          disabled={registrationStatus === 'pending'}
         >
-          Don&apos;t have an account yet?
+          Already have an account
         </FormFooter>
       </form>
-      {loginStatus === 'pending' && <LoaderFullSize />}
+      {registrationStatus === 'pending' && <LoaderFullSize />}
     </div>
   );
 };
 
-type LoginFormPropsType = {
-  loginStatus: StatusType;
+type RegistrationFormPropsType = {
+  registrationStatus: StatusType;
 };
