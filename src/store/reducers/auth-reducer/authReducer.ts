@@ -45,6 +45,7 @@ const slice = createSlice({
       })
       .addCase(setLogin.fulfilled, (state, action) => {
         state.status = 'succeeded';
+        state.isAuth = true;
         state.data = action.payload;
       })
       .addCase(setLogin.rejected, (state, action) => {

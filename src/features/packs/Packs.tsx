@@ -71,10 +71,6 @@ export const Packs = (): JSX.Element => {
     packsState.params,
     packsState.isSettings,
     isAuth,
-    navigate,
-    params,
-    setSearchParams,
-    initSettings,
   ]);
 
   return (
