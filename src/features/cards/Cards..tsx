@@ -5,11 +5,7 @@ import { CardsTable } from './cards-table';
 import styles from './cards.module.scss';
 
 import backIcon from 'common/assets/icons/back.png';
-import {
-  selectCardsIsInitialized,
-  selectCardsNotice,
-  selectCardsStatus,
-} from 'common/selectors';
+import { selectCardsNotice, selectCardsStatus } from 'common/selectors';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
 import { LoaderFullSize } from 'components/loader-full-size';
 import { appPath } from 'components/routes/path';
@@ -22,15 +18,10 @@ export const Cards = (): JSX.Element => {
   const status = useSelector(selectCardsStatus);
 
   const notice = useSelector(selectCardsNotice);
-  const isInitialized = useSelector(selectCardsIsInitialized);
 
   const handleCloseSnackbar = (): void => {
     dispatch(setNotice({ notice: '' }));
   };
-
-  if (!isInitialized) {
-    return <LoaderFullSize />;
-  }
 
   return (
     <div className={styles.container}>

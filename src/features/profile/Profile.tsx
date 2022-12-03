@@ -1,10 +1,10 @@
 import { ChangeEvent } from 'react';
 
-import { Button, CircularProgress } from '@mui/material';
+import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { Navigate, NavLink } from 'react-router-dom';
 
-import styles from './Profile.module.scss';
+import style from './Profile.module.scss';
 
 import backIcon from 'common/assets/icons/back.png';
 import logoutIcon from 'common/assets/icons/logout.png';
@@ -19,6 +19,9 @@ import {
 import { convertImageToBase64 } from 'common/utils';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
 import { EditableSpan } from 'components/editable-span';
+import { FormTitle } from 'components/form-components';
+import { LoaderFullSize } from 'components/loader-full-size';
+import { ParticlesContainer } from 'components/particles-container';
 import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
 import { logout, setNotice, updateProfile } from 'store/reducers/auth-reducer';
@@ -34,15 +37,14 @@ export const Profile = (): JSX.Element => {
   const status = useSelector(selectAuthStatus);
   const notice = useSelector(selectAuthNotice);
 
-  if (!isAuth) {
-    return <Navigate to={appPath.LOGIN} />;
-  }
   const handleLogoutClick = (): void => {
     dispatch(logout());
   };
-  const handleNameChange = (name: string): void => {
+
+  const handleSaveButtonClick = (name: string): void => {
     dispatch(updateProfile({ name }));
   };
+
   const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { files } = e.currentTarget;
 
@@ -51,55 +53,61 @@ export const Profile = (): JSX.Element => {
         errorHandler: (error: string) => {
           dispatch(setNotice({ notice: error }));
         },
-        successHandler: image => {
-          dispatch(updateProfile({ avatar: image }));
+        successHandler: avatar => {
+          dispatch(updateProfile({ avatar }));
         },
       });
     }
   };
-  const onCloseSnackbar = (): void => {
+
+  const handleCloseSnackbar = (): void => {
     dispatch(setNotice({ notice: '' }));
   };
 
+  if (!isAuth) {
+    return <Navigate to={appPath.LOGIN} />;
+  }
+
   return (
-    <div className={styles.container}>
-      <NavLink to={appPath.PACKS} className={styles.link}>
-        <img src={backIcon} alt="" /> Back to Packs list
+    <div className={style.profile_page}>
+      <ParticlesContainer />
+      <NavLink to={appPath.PACKS} className={style.back_link}>
+        <img src={backIcon} alt="arrow back" /> Back to Packs list
       </NavLink>
-      {status === 'pending' && (
-        <CircularProgress
-          style={{ zIndex: '3', position: 'absolute', left: '50vw', top: '50vh' }}
-        />
-      )}
-      <div className={styles.block}>
-        <h3>Personal Information</h3>
-        <div className={styles.avatarBlock}>
-          <img src={avatar || defaultAva} alt="0" className={styles.avatar} />
+
+      <div className={style.profile_description}>
+        <FormTitle title="Personal Information" />
+        <div className={style.avatar_block}>
+          <img src={avatar || defaultAva} alt="user avatar" className={style.avatar} />
+
           <label>
-            <img src={photoIcon} alt="0" className={styles.photoIcon} />
+            <img src={photoIcon} alt="icon select" className={style.photo_icon} />
             <input onChange={handleAvatarChange} hidden type="file" accept="image/*" />
           </label>
         </div>
-        <div className={styles.name}>
-          <EditableSpan value={name} onChange={handleNameChange} />
-        </div>
-        <div className={styles.email}>{email}</div>
+
+        <EditableSpan value={name} onSaveButtonClickHandler={handleSaveButtonClick} />
+
+        <div className={style.email}>{email}</div>
+
         <Button
           onClick={handleLogoutClick}
-          className={styles.button}
+          className={style.button}
           variant="text"
           color="inherit"
         >
-          <img src={logoutIcon} alt="0" />
+          <img src={logoutIcon} alt="logout icon" />
           Log out
         </Button>
       </div>
+
       <CustomizedSnackbar
         message={notice}
         isOpen={!!notice}
-        onClose={onCloseSnackbar}
-        isError
+        onClose={handleCloseSnackbar}
+        isError={status === 'failed'}
       />
+      {status === 'pending' && <LoaderFullSize />}
     </div>
   );
 };

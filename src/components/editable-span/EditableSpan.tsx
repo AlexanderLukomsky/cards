@@ -2,61 +2,68 @@ import { ChangeEvent, memo, useState } from 'react';
 
 import { Button, TextField } from '@mui/material';
 
-import styles from './EditableSpan.module.scss';
+import style from './EditableSpan.module.scss';
 
 import edit from 'common/assets/icons/edit.png';
 
+export const EditableSpan = memo(
+  ({ value, onSaveButtonClickHandler }: EditableSpanPropsType) => {
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [title, setTitle] = useState(value);
+
+    const handleSetEditableModeClick = (): void => {
+      setIsEditMode(true);
+      setTitle(value);
+    };
+
+    const handleSaveButtonClick = (): void => {
+      setIsEditMode(false);
+      onSaveButtonClickHandler(title);
+    };
+
+    const handleTitleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+      setTitle(e.currentTarget.value);
+    };
+
+    if (isEditMode) {
+      return (
+        <div className={style.edit_mode}>
+          <TextField
+            value={title}
+            onChange={handleTitleChange}
+            label="Nickname"
+            variant="standard"
+            className={style.input}
+          />
+          <Button
+            variant="contained"
+            onClick={handleSaveButtonClick}
+            disabled={title.length === 0}
+            size="medium"
+          >
+            SAVE
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <span className={style.view_mode}>
+        <h3 className={style.title}>{value}</h3>
+
+        <img
+          role="presentation"
+          src={edit}
+          className={style.img}
+          alt="edit"
+          onClick={handleSetEditableModeClick}
+        />
+      </span>
+    );
+  },
+);
+
 type EditableSpanPropsType = {
   value: string;
-  onChange: (newValue: string) => void;
+  onSaveButtonClickHandler: (newValue: string) => void;
 };
-
-export const EditableSpan = memo(({ value, onChange }: EditableSpanPropsType) => {
-  const [editMode, setEditMode] = useState(false);
-  const [title, setTitle] = useState(value);
-
-  const activateEditMode = (): void => {
-    setEditMode(true);
-    setTitle(value);
-  };
-  const activateViewMode = (): void => {
-    setEditMode(false);
-    onChange(title);
-  };
-  const changeTitle = (e: ChangeEvent<HTMLInputElement>): void => {
-    setTitle(e.currentTarget.value);
-  };
-
-  return editMode ? (
-    <div className={styles.inputField}>
-      <TextField
-        value={title}
-        onChange={changeTitle}
-        autoFocus
-        label="Nickname"
-        variant="standard"
-        className={styles.input}
-      />
-      <Button
-        variant="contained"
-        className={styles.saveButton}
-        onClick={activateViewMode}
-        disabled={title.length === 0}
-        size="small"
-      >
-        SAVE
-      </Button>
-    </div>
-  ) : (
-    <span>
-      {value}
-      <img
-        role="presentation"
-        src={edit}
-        className={styles.penImg}
-        alt="edit"
-        onClick={activateEditMode}
-      />
-    </span>
-  );
-});

@@ -15,13 +15,20 @@ import { TableHeader } from './table-header';
 import {
   selectAuthUserId,
   selectCardsCurrentPage,
+  selectCardsIsInitialized,
   selectCardsPackUserId,
   selectCardsPageCount,
   selectCardsTotalCount,
 } from 'common/selectors';
 import { useDebounce } from 'common/utils';
+import { LoaderFullSize } from 'components/loader-full-size';
 import { useAppDispatch } from 'store/hooks';
-import { getCards, setPage, setPageCount } from 'store/reducers/cards-reducer';
+import {
+  getCards,
+  setIsInitialized,
+  setPage,
+  setPageCount,
+} from 'store/reducers/cards-reducer';
 
 export const CardsTable = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -34,7 +41,7 @@ export const CardsTable = (): JSX.Element => {
   const cardsTotalCount = useSelector(selectCardsTotalCount);
   const userId = useSelector(selectAuthUserId);
   const ownerId = useSelector(selectCardsPackUserId);
-
+  const isInitialized = useSelector(selectCardsIsInitialized);
   const [searchInput, setSearchInput] = useState<string>('');
   const debouncedValue = useDebounce<string>(searchInput, 700);
 
@@ -52,7 +59,15 @@ export const CardsTable = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getCards({ cardsPack_id: packId, cardQuestion: debouncedValue }));
+
+    return () => {
+      dispatch(setIsInitialized(false));
+    };
   }, [debouncedValue, pageCount, page, packId, dispatch]);
+
+  if (!isInitialized) {
+    return <LoaderFullSize />;
+  }
 
   return (
     <div className={styles.container}>

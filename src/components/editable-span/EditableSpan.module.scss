@@ -1,20 +1,28 @@
-.penImg{
-  position: relative;
-  margin-left:5px;
-  bottom:-15px;
-  cursor:pointer;
-  &:hover{
-    filter: invert(50%);
+.edit_mode {
+  width: 347px;
+  display: flex;
+  align-items: flex-end;
+
+  .input {
+    width: 100%;
+    margin-right: 10px;
   }
 }
-.inputField {
-  width: 347px;
-  .saveButton {
-    position: relative;
-    margin-left:5px;
-    bottom:-15px;
+
+.view_mode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .img {
+    margin-left: 5px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.5;
+    }
   }
-  .input {
-    width: 80%;
+  .title {
+    font-weight: 600;
+    font-size: 20px;
   }
 }

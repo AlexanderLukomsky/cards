@@ -8,6 +8,7 @@ export {
   setPage,
   dataSort,
   deleteCard,
+  setIsInitialized,
 } from './cardsReducer';
 
 export type {

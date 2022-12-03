@@ -33,6 +33,9 @@ const slice = createSlice({
     setPage(state, action: PayloadAction<number>) {
       state.page = action.payload;
     },
+    setIsInitialized: (state, action: PayloadAction<boolean>) => {
+      state.isInitialized = action.payload;
+    },
   },
   extraReducers: builder => {
     const setStatusPending = (state: CardsStateType): void => {
@@ -55,6 +58,7 @@ const slice = createSlice({
     };
 
     builder.addCase(getCards.fulfilled, (state, action) => {
+      state.isInitialized = true;
       state.data = action.payload;
       state.status = 'succeeded';
     });
@@ -94,7 +98,8 @@ const slice = createSlice({
 
 export const cardsReducer = slice.reducer;
 
-export const { setStatus, setNotice, setPageCount, setPage } = slice.actions;
+export const { setStatus, setNotice, setPageCount, setPage, setIsInitialized } =
+  slice.actions;
 
 export const getCards = createAsyncThunk<
   CardsDataType,
