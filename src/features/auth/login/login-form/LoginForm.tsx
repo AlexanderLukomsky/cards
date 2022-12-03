@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 import style from './loginForm.module.scss';
 
+import { instance } from 'api/instance';
 import { StatusType } from 'common/types';
 import { validationForm } from 'common/utils';
 import {
@@ -23,6 +24,11 @@ export const LoginForm: FC<LoginFormPropsType> = ({ loginStatus }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const PASSWORD =
+    instance.defaults.baseURL === process.env.REACT_APP_BACK_URL
+      ? '123123123'
+      : '12312311';
+
   const handleEmailFocus = (): void => {
     formik.setTouched({
       email: false,
@@ -38,7 +44,7 @@ export const LoginForm: FC<LoginFormPropsType> = ({ loginStatus }) => {
   const formik = useFormik({
     initialValues: {
       email: '12qqqq3@mail.ru',
-      password: '12312311',
+      password: PASSWORD,
       rememberMe: false,
     },
     validate: values => {

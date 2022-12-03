@@ -133,8 +133,6 @@ export const getPacks = createAsyncThunk<
     max: params.max,
   };
 
-  console.log(requestParams.page);
-
   try {
     const res = await packsAPI.getPacks(requestParams);
 
