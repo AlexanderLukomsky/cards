@@ -1,18 +1,26 @@
 {
   "files": {
-    "main.css": "/cards/static/css/main.dd5b9bd3.css",
-    "main.js": "/cards/static/js/main.d7fd1e45.js",
+    "main.css": "/cards/static/css/main.35c49ab5.css",
+    "main.js": "/cards/static/js/main.0e84c6ed.js",
     "static/js/787.cfef8d12.chunk.js": "/cards/static/js/787.cfef8d12.chunk.js",
-    "static/media/bg-main.png": "/cards/static/media/bg-main.1b14e82d5eb6b8b6cd39.png",
-    "static/media/emailImg.svg": "/cards/static/media/emailImg.b8c1e7a65059b11894d3651f0c85505d.svg",
-    "static/media/addIcon.svg": "/cards/static/media/addIcon.67d4539a9e63dde6d9bb.svg",
+    "static/media/Montserrat-VariableFont_wght.ttf": "/cards/static/media/Montserrat-VariableFont_wght.3faa3eef13649db02044.ttf",
+    "static/media/christmas-hat.png": "/cards/static/media/christmas-hat.83793edd2fc1e28f559d.png",
+    "static/media/defaultAva.png": "/cards/static/media/defaultAva.0bb5c81167ab5e877e38.png",
+    "static/media/incubatorLogo.svg": "/cards/static/media/incubatorLogo.f5da7f8bedc2bfe87aba97c3ef658738.svg",
+    "static/media/filterRemove.svg": "/cards/static/media/filterRemove.8ace35d0bbba3a3375e90825a0ecbf4c.svg",
+    "static/media/trash.svg": "/cards/static/media/trash.b791b8fa7991d0e4e9535dd5338d2caa.svg",
+    "static/media/edit.svg": "/cards/static/media/edit.2e348c1bdb88ec143e7247e644135a0c.svg",
+    "static/media/teach.svg": "/cards/static/media/teach.61316ef9f9bb14acdf57faf399645aeb.svg",
+    "static/media/searchIcon.svg": "/cards/static/media/searchIcon.21d49aad92e6d122c55fd16d8ffcadbb.svg",
     "index.html": "/cards/index.html",
-    "main.dd5b9bd3.css.map": "/cards/static/css/main.dd5b9bd3.css.map",
-    "main.d7fd1e45.js.map": "/cards/static/js/main.d7fd1e45.js.map",
+    "static/media/cross.svg": "/cards/static/media/cross.bd72ece561ff841df80e82c1a5ce8aaf.svg",
+    "static/media/drop.svg": "/cards/static/media/drop.fea3ba07db5a1e87b16c9acd04731f72.svg",
+    "main.35c49ab5.css.map": "/cards/static/css/main.35c49ab5.css.map",
+    "main.0e84c6ed.js.map": "/cards/static/js/main.0e84c6ed.js.map",
     "787.cfef8d12.chunk.js.map": "/cards/static/js/787.cfef8d12.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.dd5b9bd3.css",
-    "static/js/main.d7fd1e45.js"
+    "static/css/main.35c49ab5.css",
+    "static/js/main.0e84c6ed.js"
   ]
 }
