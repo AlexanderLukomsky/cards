@@ -79,7 +79,7 @@ export const AddNewCardModal: FC<AddNewCardModalPropsType> = ({
           questionImg,
           answer,
         };
-        const action = await dispatch(addNewCard(card));
+        const action = await dispatch(addNewCard({ ...card, question: '123' }));
 
         if (action) {
           onClose();

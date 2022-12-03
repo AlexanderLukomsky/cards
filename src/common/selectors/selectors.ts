@@ -75,10 +75,13 @@ export const selectCardsPackUserId = (state: AppRootStateType): string =>
 
 export const selectCardsNotice = (state: AppRootStateType): string => state.cards.notice;
 
+export const selectCardsIsInitialized = (state: AppRootStateType): boolean =>
+  state.cards.isInitialized;
+
 export const selectCardsPackName = (state: AppRootStateType): string =>
   state.cards.data.packName;
 
-export const selectCardsPackDeckCover = (state: AppRootStateType): string =>
+export const selectCardsPackDeckCover = (state: AppRootStateType): Nullable<string> =>
   state.cards.data.packDeckCover;
 
 export const selectCardsTotalCount = (state: AppRootStateType): number =>

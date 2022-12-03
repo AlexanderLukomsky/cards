@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 
 import { PacksFooter } from './packs-footer';
 import { PacksHeader } from './packs-header';
@@ -17,7 +17,6 @@ import { useAppDispatch } from 'store/hooks';
 import { getPacks, packsActions } from 'store/reducers/packs-reducer';
 
 export const Packs = (): JSX.Element => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const { setNotice, setPage, setPageCount, initSettings } = packsActions;
@@ -58,11 +57,6 @@ export const Packs = (): JSX.Element => {
 
       return;
     }
-    if (!isAuth) {
-      navigate(appPath.LOGIN);
-
-      return;
-    }
 
     dispatch(getPacks());
   }, [
@@ -73,28 +67,33 @@ export const Packs = (): JSX.Element => {
     packsState.params,
   ]);
 
+  if (!isAuth) {
+    return <Navigate to={appPath.LOGIN} />;
+  }
+
+  if (!packsState.isInitialized) {
+    return <LoaderFullSize />;
+  }
+
   return (
     <div className={style.packs}>
-      {packsState.isInitialized && (
-        <>
-          <PacksHeader />
-          <PacksTable status={packsState.status} packs={packsState.data.cardPacks} />
-          <PacksFooter
-            onPageChangeHandler={handleChangePage}
-            onChangePageCount={handleChangePageCount}
-            page={packsState.data.page}
-            cardPacksTotalCount={packsState.data.cardPacksTotalCount}
-            pageCount={packsState.data.pageCount}
-          />
-        </>
-      )}
-      {packsState.status === 'pending' && <LoaderFullSize />}
+      <PacksHeader />
+      <PacksTable status={packsState.status} packs={packsState.data.cardPacks} />
+      <PacksFooter
+        onPageChangeHandler={handleChangePage}
+        onChangePageCount={handleChangePageCount}
+        page={packsState.data.page}
+        cardPacksTotalCount={packsState.data.cardPacksTotalCount}
+        pageCount={packsState.data.pageCount}
+      />
+
       <CustomizedSnackbar
         message={packsState.notice}
         isOpen={!!packsState.notice}
         isError
         onClose={handleCloseSnackbar}
       />
+      {packsState.status === 'pending' && <LoaderFullSize />}
     </div>
   );
 };

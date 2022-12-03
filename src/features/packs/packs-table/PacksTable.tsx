@@ -20,7 +20,7 @@ import { StatusType } from 'common/types';
 import { dateFormat, validationImage } from 'common/utils';
 import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
-import { deletePack, editPackName, PackType } from 'store/reducers/packs-reducer';
+import { deletePack, updatePack, PackType } from 'store/reducers/packs-reducer';
 
 export const PacksTable: FC<PacksTablePropsType> = ({ packs, status }) => {
   const navigate = useNavigate();
@@ -68,10 +68,10 @@ export const PacksTable: FC<PacksTablePropsType> = ({ packs, status }) => {
   const setEditPack = async (isPrivate: boolean): Promise<void> => {
     const { packName, id, deckCover } = selectedPack;
     const action = await dispatch(
-      editPackName({ name: packName.trim(), _id: id, private: isPrivate, deckCover }),
+      updatePack({ name: packName.trim(), _id: id, private: isPrivate, deckCover }),
     );
 
-    if (editPackName.fulfilled.match(action)) {
+    if (updatePack.fulfilled.match(action)) {
       onCloseEditModal();
     }
   };

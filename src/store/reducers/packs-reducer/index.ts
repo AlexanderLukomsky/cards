@@ -3,7 +3,7 @@ export {
   getPacks,
   packsActions,
   deletePack,
-  editPackName,
+  updatePack,
   createNewPack,
 } from './packsReducer';
 

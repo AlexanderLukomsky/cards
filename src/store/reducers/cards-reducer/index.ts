@@ -1,9 +1,7 @@
 export {
   cardsReducer,
   setNotice,
-  deletePackFromCards,
   getCards,
-  editPackNameFromCards,
   editCard,
   addNewCard,
   setPageCount,
@@ -12,4 +10,10 @@ export {
   deleteCard,
 } from './cardsReducer';
 
-export type { CardType } from './types';
+export type {
+  CardType,
+  CardsDataType,
+  DeleteCardType,
+  EditCardType,
+  DataSortType,
+} from './types';

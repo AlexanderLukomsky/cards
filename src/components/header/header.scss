@@ -7,19 +7,24 @@
    height: 60px;
    background: #fcfcfc;
    box-shadow: 0px 2px 10px rgba(109, 109, 109, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
-   z-index: 100;
+   z-index: 1002;
    &__container {
       @include flexWithHeight(row, space-between, center, nowrap, 100%);
    }
    &__logo-wrapper {
       position: relative;
+      &:hover {
+         .header__logo {
+            transform: scale(1.03);
+         }
+         .header__hat {
+            transform: scale(1.03);
+         }
+      }
    }
    &__logo {
       position: relative;
       z-index: 1;
-      &:hover {
-         transform: scale(1.03);
-      }
    }
 
    &__hat {

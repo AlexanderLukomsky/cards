@@ -18,11 +18,8 @@ import {
 import { appPath } from 'components/routes/path';
 import { DeletePackModal, EditPackModal } from 'features/packs/packs-modals';
 import { useAppDispatch } from 'store/hooks';
-import {
-  deletePackFromCards,
-  editPackNameFromCards,
-  getCards,
-} from 'store/reducers/cards-reducer';
+import { getCards } from 'store/reducers/cards-reducer';
+import { deletePack, updatePack } from 'store/reducers/packs-reducer';
 
 const ITEM_HEIGHT = 36;
 
@@ -62,9 +59,9 @@ export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, status }) => {
   };
   const deleteHandler = async (): Promise<void> => {
     setAnchorEl(null);
-    const action = await dispatch(deletePackFromCards(_id));
+    const action = await dispatch(deletePack(_id));
 
-    if (deletePackFromCards.fulfilled.match(action)) {
+    if (deletePack.fulfilled.match(action)) {
       navigate(appPath.PACKS);
     }
   };
@@ -90,10 +87,10 @@ export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, status }) => {
 
     setAnchorEl(null);
     const action = await dispatch(
-      editPackNameFromCards({ name: packName, _id, private: isPrivate, deckCover }),
+      updatePack({ name: packName, _id, private: isPrivate, deckCover }),
     );
 
-    if (editPackNameFromCards.fulfilled.match(action)) {
+    if (updatePack.fulfilled.match(action)) {
       closeEditModal();
       dispatch(getCards({ cardsPack_id: _id }));
     }

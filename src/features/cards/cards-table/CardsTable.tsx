@@ -1,8 +1,9 @@
 /* eslint-disable no-magic-numbers */
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { Table, TableContainer } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import { CardsFooter } from '../cards-footer';
 
@@ -12,7 +13,9 @@ import { TableCardHead } from './table-card-head';
 import { TableHeader } from './table-header';
 
 import {
+  selectAuthUserId,
   selectCardsCurrentPage,
+  selectCardsPackUserId,
   selectCardsPageCount,
   selectCardsTotalCount,
 } from 'common/selectors';
@@ -20,28 +23,30 @@ import { useDebounce } from 'common/utils';
 import { useAppDispatch } from 'store/hooks';
 import { getCards, setPage, setPageCount } from 'store/reducers/cards-reducer';
 
-type CardsTablePropsType = {
-  isOwner: boolean;
-  packId: string;
-};
-
-export const CardsTable: FC<CardsTablePropsType> = ({ isOwner, packId }) => {
+export const CardsTable = (): JSX.Element => {
   const dispatch = useAppDispatch();
+
+  const params = useParams<{ id: string }>();
+  const packId = params.id ? params.id : '';
 
   const pageCount = useSelector(selectCardsPageCount);
   const page = useSelector(selectCardsCurrentPage);
   const cardsTotalCount = useSelector(selectCardsTotalCount);
+  const userId = useSelector(selectAuthUserId);
+  const ownerId = useSelector(selectCardsPackUserId);
 
   const [searchInput, setSearchInput] = useState<string>('');
   const debouncedValue = useDebounce<string>(searchInput, 700);
 
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>): void => {
+  const isOwner = userId === ownerId;
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setSearchInput(event.target.value);
   };
-  const onChangePageCountHandler = (pageCount: number): void => {
+  const handlePageCountChange = (pageCount: number): void => {
     dispatch(setPageCount(pageCount));
   };
-  const onChangePageHandler = (page: number): void => {
+  const handlePageChange = (page: number): void => {
     dispatch(setPage(page));
   };
 
@@ -62,7 +67,7 @@ export const CardsTable: FC<CardsTablePropsType> = ({ isOwner, packId }) => {
             height: '30px',
             border: '1px solid rgba(0, 0, 0, 0.1)',
           }}
-          onChange={onChangeHandler}
+          onChange={handleSearchChange}
           value={searchInput}
         />
       </div>
@@ -76,8 +81,8 @@ export const CardsTable: FC<CardsTablePropsType> = ({ isOwner, packId }) => {
         page={page}
         cardsTotalCount={cardsTotalCount}
         pageCount={pageCount}
-        onChangePageCount={onChangePageCountHandler}
-        onChangePage={onChangePageHandler}
+        onChangePageCount={handlePageCountChange}
+        onChangePage={handlePageChange}
       />
     </div>
   );

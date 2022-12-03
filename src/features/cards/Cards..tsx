@@ -1,14 +1,13 @@
 import { useSelector } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { CardsTable } from './cards-table';
 import styles from './cards.module.scss';
 
 import backIcon from 'common/assets/icons/back.png';
 import {
-  selectAuthUserId,
+  selectCardsIsInitialized,
   selectCardsNotice,
-  selectCardsPackUserId,
   selectCardsStatus,
 } from 'common/selectors';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
@@ -19,25 +18,26 @@ import { setNotice } from 'store/reducers/cards-reducer';
 
 export const Cards = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const params = useParams<{ id: string }>();
 
   const status = useSelector(selectCardsStatus);
-  const userId = useSelector(selectAuthUserId);
-  const ownerId = useSelector(selectCardsPackUserId);
-  const notice = useSelector(selectCardsNotice);
 
-  const packId = params.id ? params.id : '';
+  const notice = useSelector(selectCardsNotice);
+  const isInitialized = useSelector(selectCardsIsInitialized);
 
   const handleCloseSnackbar = (): void => {
     dispatch(setNotice({ notice: '' }));
   };
+
+  if (!isInitialized) {
+    return <LoaderFullSize />;
+  }
 
   return (
     <div className={styles.container}>
       <NavLink to={appPath.PACKS} className={styles.link}>
         <img src={backIcon} alt="" /> Back to Packs list
       </NavLink>
-      <CardsTable isOwner={userId === ownerId} packId={packId} />
+      <CardsTable />
       <CustomizedSnackbar
         message={notice}
         isOpen={!!notice}

@@ -17,7 +17,7 @@ export const packsAPI = {
   deletePack: (id: string) => {
     return instance.delete(`/cards/pack?id=${id}`);
   },
-  updatePackName: (data: UpdatePackRequestDataType) => {
+  updatePack: (data: UpdatePackRequestDataType) => {
     return instance.put('/cards/pack', { data });
   },
 };

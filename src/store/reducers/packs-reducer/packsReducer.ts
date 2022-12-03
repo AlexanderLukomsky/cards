@@ -81,7 +81,7 @@ const slice = createSlice({
       .addCase(deletePack.fulfilled, state => {
         state.status = 'succeeded';
       })
-      .addCase(editPackName.fulfilled, state => {
+      .addCase(updatePack.fulfilled, state => {
         state.status = 'succeeded';
       });
 
@@ -90,7 +90,7 @@ const slice = createSlice({
         getPacks.pending,
         createNewPack.pending,
         deletePack.pending,
-        editPackName.pending,
+        updatePack.pending,
       ),
       (state: PacksStateType) => {
         state.status = 'pending';
@@ -101,7 +101,7 @@ const slice = createSlice({
         getPacks.rejected,
         createNewPack.rejected,
         deletePack.rejected,
-        editPackName.rejected,
+        updatePack.rejected,
       ),
       (state: PacksStateType, action: PayloadAction<string | undefined>): void => {
         state.status = 'failed';
@@ -172,13 +172,13 @@ export const deletePack = createAsyncThunk<unknown, string, { rejectValue: strin
     }
   },
 );
-export const editPackName = createAsyncThunk<
+export const updatePack = createAsyncThunk<
   unknown,
   UpdatePackRequestDataType,
   { rejectValue: string }
 >('packs/edit-pack-name', async (data, { dispatch, rejectWithValue }) => {
   try {
-    await packsAPI.updatePackName(data);
+    await packsAPI.updatePack(data);
     dispatch(getPacks());
   } catch (err) {
     const error = getResponseErrorMessage(err);

@@ -29,4 +29,5 @@ export {
   selectCardsPageCount,
   selectCardsCurrentPage,
   selectCardsFromData,
+  selectCardsIsInitialized,
 } from './selectors';
