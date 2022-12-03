@@ -5,6 +5,8 @@ export {
   setNotice,
   setNewPassword,
   restorePassword,
-  setLogout,
+  logout,
+  login,
+  updateProfile,
 } from './authReducer';
 export type { AuthDataType } from './type';

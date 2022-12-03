@@ -10,21 +10,18 @@ import backIcon from 'common/assets/icons/back.png';
 import logoutIcon from 'common/assets/icons/logout.png';
 import photoIcon from 'common/assets/icons/photo.png';
 import defaultAva from 'common/assets/images/defaultAva.png';
+import { selectAuthEmail, selectAuthName, selectIsAuth } from 'common/selectors';
 import {
-  selectAuthEmail,
-  selectAuthName,
-  selectIsAuth,
-  selectProfileNotice,
-  selectProfileStatus,
-} from 'common/selectors';
-import { selectAuthAvatar } from 'common/selectors/selectors';
+  selectAuthAvatar,
+  selectAuthNotice,
+  selectAuthStatus,
+} from 'common/selectors/selectors';
 import { convertImageToBase64 } from 'common/utils';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
 import { EditableSpan } from 'components/editable-span';
 import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
-import { setLogout } from 'store/reducers/auth-reducer';
-import { setNotice, updateProfile } from 'store/reducers/profile-reducer';
+import { logout, setNotice, updateProfile } from 'store/reducers/auth-reducer';
 
 export const Profile = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -34,19 +31,19 @@ export const Profile = (): JSX.Element => {
   const email = useSelector(selectAuthEmail);
   const avatar = useSelector(selectAuthAvatar);
 
-  const status = useSelector(selectProfileStatus);
-  const notice = useSelector(selectProfileNotice);
+  const status = useSelector(selectAuthStatus);
+  const notice = useSelector(selectAuthNotice);
 
   if (!isAuth) {
     return <Navigate to={appPath.LOGIN} />;
   }
-  const logoutHandler = (): void => {
-    dispatch(setLogout());
+  const handleLogoutClick = (): void => {
+    dispatch(logout());
   };
-  const changeNameHandler = (name: string): void => {
+  const handleNameChange = (name: string): void => {
     dispatch(updateProfile({ name }));
   };
-  const changeAvatarHandler = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { files } = e.currentTarget;
 
     if (files && files.length) {
@@ -80,15 +77,15 @@ export const Profile = (): JSX.Element => {
           <img src={avatar || defaultAva} alt="0" className={styles.avatar} />
           <label>
             <img src={photoIcon} alt="0" className={styles.photoIcon} />
-            <input onChange={changeAvatarHandler} hidden type="file" accept="image/*" />
+            <input onChange={handleAvatarChange} hidden type="file" accept="image/*" />
           </label>
         </div>
         <div className={styles.name}>
-          <EditableSpan value={name} onChange={changeNameHandler} />
+          <EditableSpan value={name} onChange={handleNameChange} />
         </div>
         <div className={styles.email}>{email}</div>
         <Button
-          onClick={logoutHandler}
+          onClick={handleLogoutClick}
           className={styles.button}
           variant="text"
           color="inherit"

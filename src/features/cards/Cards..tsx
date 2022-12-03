@@ -1,4 +1,3 @@
-import { CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 
@@ -13,6 +12,7 @@ import {
   selectCardsStatus,
 } from 'common/selectors';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
+import { LoaderFullSize } from 'components/loader-full-size';
 import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
 import { setNotice } from 'store/reducers/cards-reducer';
@@ -28,17 +28,12 @@ export const Cards = (): JSX.Element => {
 
   const packId = params.id ? params.id : '';
 
-  const onCloseSnackbar = (): void => {
+  const handleCloseSnackbar = (): void => {
     dispatch(setNotice({ notice: '' }));
   };
 
   return (
     <div className={styles.container}>
-      {status === 'pending' && (
-        <CircularProgress
-          style={{ zIndex: '3', position: 'absolute', left: '50vw', top: '50vh' }}
-        />
-      )}
       <NavLink to={appPath.PACKS} className={styles.link}>
         <img src={backIcon} alt="" /> Back to Packs list
       </NavLink>
@@ -46,9 +41,10 @@ export const Cards = (): JSX.Element => {
       <CustomizedSnackbar
         message={notice}
         isOpen={!!notice}
-        onClose={onCloseSnackbar}
-        isError
+        onClose={handleCloseSnackbar}
+        isError={status === 'failed'}
       />
+      {status === 'pending' && <LoaderFullSize />}
     </div>
   );
 };

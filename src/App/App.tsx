@@ -8,7 +8,6 @@ import { LoaderFullSize } from 'components/loader-full-size';
 import { AppRoutes } from 'components/routes';
 import { useAppDispatch } from 'store/hooks';
 import { initializeApp } from 'store/reducers/app-reducer';
-
 import 'app/style/app.scss';
 
 export const App = (): JSX.Element => {

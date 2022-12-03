@@ -13,9 +13,7 @@ const initialState = {
     page: 1,
     pageCount: 5,
   } as PacksDataType,
-  isInitialized: false,
-  notice: '',
-  status: 'idle' as StatusType,
+
   params: {
     user_id: null as string | null,
     searchPacksName: null as string | null,
@@ -24,6 +22,9 @@ const initialState = {
     max: null as number | null,
   },
   isSettings: false,
+  isInitialized: false,
+  notice: '',
+  status: 'idle' as StatusType,
 };
 const slice = createSlice({
   name: 'packs',
@@ -74,7 +75,7 @@ const slice = createSlice({
         state.isInitialized = true;
         state.status = 'succeeded';
       })
-      .addCase(addNewPack.fulfilled, state => {
+      .addCase(createNewPack.fulfilled, state => {
         state.status = 'succeeded';
       })
       .addCase(deletePack.fulfilled, state => {
@@ -87,7 +88,7 @@ const slice = createSlice({
     builder.addMatcher(
       isAnyOf(
         getPacks.pending,
-        addNewPack.pending,
+        createNewPack.pending,
         deletePack.pending,
         editPackName.pending,
       ),
@@ -98,7 +99,7 @@ const slice = createSlice({
     builder.addMatcher(
       isAnyOf(
         getPacks.rejected,
-        addNewPack.rejected,
+        createNewPack.rejected,
         deletePack.rejected,
         editPackName.rejected,
       ),
@@ -121,6 +122,7 @@ export const getPacks = createAsyncThunk<
   { rejectValue: string }
 >('packs/get-packs', async (_, { getState, rejectWithValue }) => {
   const { data, params } = (getState() as AppRootStateType).packs;
+
   const requestParams = {
     page: data.page,
     pageCount: data.pageCount,
@@ -130,6 +132,8 @@ export const getPacks = createAsyncThunk<
     min: params.min,
     max: params.max,
   };
+
+  console.log(requestParams.page);
 
   try {
     const res = await packsAPI.getPacks(requestParams);
@@ -141,7 +145,8 @@ export const getPacks = createAsyncThunk<
     return rejectWithValue(error);
   }
 });
-export const addNewPack = createAsyncThunk<
+
+export const createNewPack = createAsyncThunk<
   unknown,
   CreateNewPackRequestDataType,
   { rejectValue: string }
@@ -155,6 +160,7 @@ export const addNewPack = createAsyncThunk<
     return rejectWithValue(error);
   }
 });
+
 export const deletePack = createAsyncThunk<unknown, string, { rejectValue: string }>(
   'packs/delete-pack',
   async (id, { dispatch, rejectWithValue }) => {

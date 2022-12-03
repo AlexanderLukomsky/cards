@@ -22,13 +22,15 @@ export const PacksCountFilter = (): JSX.Element => {
   useEffect(() => {
     setValues({ min: minCardsCount, max: maxCardsCount });
   }, [minCardsCount, maxCardsCount]);
-  const onChangeHandler = (event: Event, value: number | number[]): void => {
+
+  const handleFilterChange = (event: Event, value: number | number[]): void => {
     const valuesAsArr = value as number[];
 
     if (valuesAsArr[1] < 1) return;
     setValues({ min: valuesAsArr[0], max: valuesAsArr[1] });
   };
-  const setFilterChanges = (): void => {
+
+  const handleFilterChangeCommitted = (): void => {
     dispatch(setFilterValues(values));
   };
 
@@ -39,10 +41,10 @@ export const PacksCountFilter = (): JSX.Element => {
         <div className={style.filter__display_value}>{values.min}</div>
         <Slider
           value={[minCardsCount === maxCardsCount ? 0 : values.min, values.max]}
-          onChange={onChangeHandler}
+          onChange={handleFilterChange}
           min={minCardsCount === maxCardsCount ? 0 : minCardsCount}
           max={maxCardsCount}
-          onChangeCommitted={setFilterChanges}
+          onChangeCommitted={handleFilterChangeCommitted}
           disabled={minCardsCount === maxCardsCount}
         />
 

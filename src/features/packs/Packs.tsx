@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { PacksFooter } from './packs-footer';
+import { PacksHeader } from './packs-header';
 import { PacksTable } from './packs-table';
 import style from './packs.module.scss';
-import { PacksHeader } from './PacksHeader';
 
 import { selectIsAuth } from 'common/selectors';
 import { selectPacks } from 'common/selectors/selectors';
@@ -27,15 +27,15 @@ export const Packs = (): JSX.Element => {
   const isAuth = useSelector(selectIsAuth);
   const packsState = useSelector(selectPacks);
 
-  const onCloseSnackbar = (): void => {
+  const handleCloseSnackbar = (): void => {
     dispatch(setNotice(''));
   };
 
-  const onChangePage = (page: number): void => {
+  const handleChangePage = (page: number): void => {
     dispatch(setPage(page));
   };
 
-  const onChangePageCount = (pageCount: number): void => {
+  const handleChangePageCount = (pageCount: number): void => {
     dispatch(setPageCount(pageCount));
   };
 
@@ -63,14 +63,14 @@ export const Packs = (): JSX.Element => {
 
       return;
     }
+
     dispatch(getPacks());
   }, [
     dispatch,
     packsState.data.page,
     packsState.data.pageCount,
-    packsState.params,
     packsState.isSettings,
-    isAuth,
+    packsState.params,
   ]);
 
   return (
@@ -80,8 +80,8 @@ export const Packs = (): JSX.Element => {
           <PacksHeader />
           <PacksTable status={packsState.status} packs={packsState.data.cardPacks} />
           <PacksFooter
-            onChangePage={onChangePage}
-            onChangePageCount={onChangePageCount}
+            onPageChangeHandler={handleChangePage}
+            onChangePageCount={handleChangePageCount}
             page={packsState.data.page}
             cardPacksTotalCount={packsState.data.cardPacksTotalCount}
             pageCount={packsState.data.pageCount}
@@ -93,7 +93,7 @@ export const Packs = (): JSX.Element => {
         message={packsState.notice}
         isOpen={!!packsState.notice}
         isError
-        onClose={onCloseSnackbar}
+        onClose={handleCloseSnackbar}
       />
     </div>
   );

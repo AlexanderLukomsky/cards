@@ -11,7 +11,7 @@ import { selectPacks } from 'common/selectors/selectors';
 import { convertImageToBase64 } from 'common/utils';
 import { BasicModal } from 'components/basic-modal';
 import { useAppDispatch } from 'store/hooks';
-import { addNewPack } from 'store/reducers/packs-reducer';
+import { createNewPack } from 'store/reducers/packs-reducer';
 
 export const AddNewPackModal: FC<AddNewPackModalPropsType> = ({
   isOpen,
@@ -59,10 +59,10 @@ export const AddNewPackModal: FC<AddNewPackModalPropsType> = ({
   const onAddNewPack = async (): Promise<void> => {
     if (value.trim()) {
       const action = await dispatch(
-        addNewPack({ name: value.trim(), private: isChecked, deckCover: cover }),
+        createNewPack({ name: value.trim(), private: isChecked, deckCover: cover }),
       );
 
-      if (addNewPack.fulfilled.match(action)) {
+      if (createNewPack.fulfilled.match(action)) {
         onCancel();
       }
     } else {

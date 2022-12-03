@@ -14,8 +14,6 @@ export {
   selectPacksParamsUserId,
   selectAuthName,
   selectAuthEmail,
-  selectProfileStatus,
-  selectProfileNotice,
   selectLearningIsInitialized,
   selectLearningStatus,
   selectLearningNotice,

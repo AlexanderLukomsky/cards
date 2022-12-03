@@ -4,7 +4,7 @@ export {
   packsActions,
   deletePack,
   editPackName,
-  addNewPack,
+  createNewPack,
 } from './packsReducer';
 
 export type { PacksStateType } from './packsReducer';

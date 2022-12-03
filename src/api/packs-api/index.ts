@@ -1,6 +1,6 @@
 export { packsAPI } from './packs-api';
 export type {
-  GetPacksRequestDataType,
+  GetPacksRequestParamsType,
   UpdatePackRequestDataType,
   CreateNewPackRequestDataType,
 } from './types';

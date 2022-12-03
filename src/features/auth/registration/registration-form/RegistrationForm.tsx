@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import { useFormik } from 'formik';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import style from './registrationForm.module.scss';
 
@@ -16,27 +16,44 @@ import {
 import { LoaderFullSize } from 'components/loader-full-size';
 import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
-import { registration } from 'store/reducers/auth-reducer';
+import { registration, setNotice } from 'store/reducers/auth-reducer';
 
 export const RegistrationForm: FC<RegistrationFormPropsType> = ({
   registrationStatus,
 }) => {
   const dispatch = useAppDispatch();
-  const onEmailFocusHandler = (): void => {
+  const navigate = useNavigate();
+
+  const [isSuccessfullyReg, setIsSuccessfullyReg] = useState(false);
+
+  useEffect(() => {
+    if (isSuccessfullyReg) {
+      const id = setTimeout(() => {
+        navigate(appPath.LOGIN);
+        // eslint-disable-next-line no-magic-numbers
+      }, 3000);
+
+      return () => {
+        clearTimeout(id);
+      };
+    }
+  }, [isSuccessfullyReg, navigate]);
+
+  const handleEmailFocus = (): void => {
     formik.setTouched({
       email: false,
       password: formik.touched.password && !!formik.errors.password,
       confirmPassword: formik.touched.confirmPassword && !!formik.errors.confirmPassword,
     });
   };
-  const onPasswordFocusHandler = (): void => {
+  const handlePasswordFocus = (): void => {
     formik.setTouched({
       password: false,
       email: formik.touched.email && !!formik.errors.email,
       confirmPassword: formik.touched.confirmPassword && !!formik.errors.confirmPassword,
     });
   };
-  const onConfirmPassFocusHandler = (): void => {
+  const handleConfirmPassFocus = (): void => {
     formik.setTouched({
       confirmPassword: false,
       password: formik.touched.password && !!formik.errors.password,
@@ -57,8 +74,9 @@ export const RegistrationForm: FC<RegistrationFormPropsType> = ({
         registration({ email: values.email, password: values.password }),
       );
 
-      if (registration.rejected.match(action)) {
-        <Navigate to={appPath.MAIN} />;
+      if (registration.fulfilled.match(action)) {
+        dispatch(setNotice({ notice: 'registration completed successfully' }));
+        setIsSuccessfullyReg(true);
       }
     },
   });
@@ -70,21 +88,21 @@ export const RegistrationForm: FC<RegistrationFormPropsType> = ({
         <FormEmail
           isError={formik.touched.email && !!formik.errors.email}
           errorText={formik.errors.email}
-          onFocus={onEmailFocusHandler}
+          onFocus={handleEmailFocus}
           fieldProps={formik.getFieldProps('email')}
           className={style.form__email}
         />
         <FormPassword
           isError={formik.touched.password && !!formik.errors.password}
           errorText={formik.errors.password}
-          onFocus={onPasswordFocusHandler}
+          onFocus={handlePasswordFocus}
           fieldProps={formik.getFieldProps('password')}
           className={style.form__password}
         />
         <FormPassword
           isError={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
           errorText={formik.errors.confirmPassword}
-          onFocus={onConfirmPassFocusHandler}
+          onFocus={handleConfirmPassFocus}
           fieldProps={formik.getFieldProps('confirmPassword')}
           className={style.form__password}
           label="Confirm password"

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { useSelector } from 'react-redux';
 
 import { RegistrationForm } from './registration-form';
@@ -15,9 +17,15 @@ export const Registration = (): JSX.Element => {
   const notice = useSelector(selectAuthNotice);
   const status = useSelector(selectAuthStatus);
 
-  const onCloseSnackbar = (): void => {
+  const handleCloseSnackbar = (): void => {
     dispatch(setNotice({ notice: '' }));
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(setNotice({ notice: '' }));
+    };
+  }, [dispatch]);
 
   return (
     <div className="registration-page">
@@ -25,7 +33,7 @@ export const Registration = (): JSX.Element => {
       <RegistrationForm registrationStatus={status} />
       <CustomizedSnackbar
         message={notice}
-        onClose={onCloseSnackbar}
+        onClose={handleCloseSnackbar}
         isError={status === 'failed'}
         isOpen={!!notice}
       />

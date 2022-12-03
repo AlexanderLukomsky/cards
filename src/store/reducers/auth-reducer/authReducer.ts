@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, PayloadAction, isAnyOf } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
 
 import { AuthDataType } from './type';
 
@@ -8,6 +7,7 @@ import {
   LoginRequestDataType,
   NewPasswordRequestDataType,
   RegistrationRequestDataType,
+  UpdateProfileRequestDataType,
 } from 'api/auth-api';
 import { StatusType } from 'common/types';
 import { getResponseErrorMessage } from 'common/utils';
@@ -51,13 +51,13 @@ const slice = createSlice({
     };
 
     builder
-      .addCase(setLogin.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.isAuth = true;
         state.data = action.payload;
       })
 
-      .addCase(setLogout.fulfilled, state => {
+      .addCase(logout.fulfilled, state => {
         state.data = {} as AuthDataType;
         state.isAuth = false;
         state.status = 'succeeded';
@@ -73,24 +73,30 @@ const slice = createSlice({
 
       .addCase(restorePassword.fulfilled, state => {
         state.status = 'succeeded';
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.status = 'succeeded';
       });
     builder.addMatcher(
       isAnyOf(
-        setLogout.pending,
-        setLogin.pending,
+        logout.pending,
+        login.pending,
         registration.pending,
         restorePassword.pending,
         setNewPassword.pending,
+        updateProfile.pending,
       ),
       setPendingStatus,
     );
     builder.addMatcher(
       isAnyOf(
-        setLogin.rejected,
-        setLogout.rejected,
+        login.rejected,
+        logout.rejected,
         restorePassword.rejected,
         setNewPassword.rejected,
         registration.rejected,
+        updateProfile.rejected,
       ),
       handleReject,
     );
@@ -100,46 +106,44 @@ const slice = createSlice({
 export const authReducer = slice.reducer;
 export const { setAuthData, setNotice } = slice.actions;
 
-export const setLogout = createAsyncThunk<unknown, undefined, { rejectValue: string }>(
-  'auth/logout',
-  async (_, { rejectWithValue }) => {
-    try {
-      await authAPI.logout();
-    } catch (err: any) {
-      const error: string = (err as AxiosError).response?.data
-        ? err.response.data.error
-        : '';
-
-      return rejectWithValue(error);
-    }
-  },
-);
-
-export const setLogin = createAsyncThunk<
+export const login = createAsyncThunk<
   AuthDataType,
   LoginRequestDataType,
   { rejectValue: string }
->('login/setLogin', async (data, { rejectWithValue }) => {
+>('auth/login', async (data, { rejectWithValue }) => {
   try {
     const res = await authAPI.login(data);
 
     return res.data;
-  } catch (err: any) {
+  } catch (err) {
     const error: string = getResponseErrorMessage(err);
 
     return rejectWithValue(error);
   }
 });
 
+export const logout = createAsyncThunk<unknown, undefined, { rejectValue: string }>(
+  'auth/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      await authAPI.logout();
+    } catch (err) {
+      const error = getResponseErrorMessage(err);
+
+      return rejectWithValue(error);
+    }
+  },
+);
+
 export const registration = createAsyncThunk<
   unknown,
   RegistrationRequestDataType,
   { rejectValue: string }
->('registration/send', async (data, { rejectWithValue }) => {
+>('auth/registration', async (data, { rejectWithValue }) => {
   try {
     await authAPI.registration({ email: data.email, password: data.password });
-  } catch (err: any) {
-    const error = err.response ? err.response.data.error : 'Unexpected error';
+  } catch (err) {
+    const error = getResponseErrorMessage(err);
 
     return rejectWithValue(error);
   }
@@ -149,18 +153,18 @@ export const setNewPassword = createAsyncThunk<
   unknown,
   NewPasswordRequestDataType,
   { rejectValue: string }
->('newPassword/set', async (data, { rejectWithValue }) => {
+>('auth/newPassword', async (data, { rejectWithValue }) => {
   try {
     await authAPI.newPassword(data);
-  } catch (err: any) {
-    const error = err.response ? err.response.data.error : 'Unexpected error';
+  } catch (err) {
+    const error = getResponseErrorMessage(err);
 
     return rejectWithValue(error);
   }
 });
 
 export const restorePassword = createAsyncThunk<unknown, string, { rejectValue: string }>(
-  'restorePassword/send',
+  'auth/restorePassword',
   async (email, { rejectWithValue }) => {
     try {
       const data = {
@@ -174,12 +178,28 @@ export const restorePassword = createAsyncThunk<unknown, string, { rejectValue: 
       };
 
       await authAPI.restorePassword(data);
-    } catch (err: any) {
-      const error = err.response ? err.response.data.error : 'Unexpected error';
+    } catch (err) {
+      const error = getResponseErrorMessage(err);
 
       return rejectWithValue(error);
     }
   },
 );
+
+export const updateProfile = createAsyncThunk<
+  AuthDataType,
+  UpdateProfileRequestDataType,
+  { rejectValue: string }
+>('auth/update-profile', async (data, { rejectWithValue }) => {
+  try {
+    const res = await authAPI.updateProfile(data);
+
+    return res.data.updatedUser;
+  } catch (err) {
+    const error = getResponseErrorMessage(err);
+
+    return rejectWithValue(error);
+  }
+});
 
 type AuthStateType = ReturnType<typeof slice.getInitialState>;

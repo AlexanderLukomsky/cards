@@ -6,7 +6,7 @@ import { CustomPagination } from 'components/custom-pagination';
 import { CustomSelect } from 'components/custom-select';
 
 export const PacksFooter: FC<PacksFooterPropsType> = ({
-  onChangePage,
+  onPageChangeHandler,
   onChangePageCount,
   page,
   cardPacksTotalCount,
@@ -15,7 +15,7 @@ export const PacksFooter: FC<PacksFooterPropsType> = ({
   return (
     <div className={style.footer}>
       <CustomPagination
-        onClick={onChangePage}
+        onPageChangeHandler={onPageChangeHandler}
         page={page}
         totalCount={cardPacksTotalCount}
         pageCount={pageCount}
@@ -29,7 +29,7 @@ export const PacksFooter: FC<PacksFooterPropsType> = ({
   );
 };
 type PacksFooterPropsType = {
-  onChangePage: (page: number) => void;
+  onPageChangeHandler: (page: number) => void;
   onChangePageCount: (pageCount: number) => void;
   page: number;
   cardPacksTotalCount: number;

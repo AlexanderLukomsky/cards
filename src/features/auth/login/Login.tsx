@@ -18,7 +18,7 @@ export const Login = (): JSX.Element => {
   const loginStatus = useSelector(selectAuthStatus);
   const authNotice = useSelector(selectAuthNotice);
 
-  const onCloseSnackbar = (): void => {
+  const handleCloseSnackbar = (): void => {
     dispatch(setNotice({ notice: '' }));
   };
 
@@ -32,7 +32,7 @@ export const Login = (): JSX.Element => {
       <LoginForm loginStatus={loginStatus} />
       <CustomizedSnackbar
         message={authNotice}
-        onClose={onCloseSnackbar}
+        onClose={handleCloseSnackbar}
         isError={loginStatus === 'failed'}
         isOpen={!!authNotice}
       />

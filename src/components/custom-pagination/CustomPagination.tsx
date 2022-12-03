@@ -7,11 +7,12 @@ export const CustomPagination: FC<CustomPaginationPropsType> = ({
   page,
   totalCount,
   pageCount,
-  onClick,
+  onPageChangeHandler,
 }) => {
   const pageTotalCount = Math.ceil(totalCount / pageCount);
-  const onClickHandler = (event: ChangeEvent<unknown>, page: number): void => {
-    onClick(page);
+
+  const handlePageChange = (event: ChangeEvent<unknown>, page: number): void => {
+    onPageChangeHandler(page);
   };
 
   return (
@@ -23,7 +24,7 @@ export const CustomPagination: FC<CustomPaginationPropsType> = ({
         count={pageTotalCount}
         variant="outlined"
         shape="rounded"
-        onChange={onClickHandler}
+        onChange={handlePageChange}
       />
     </div>
   );
@@ -32,5 +33,5 @@ type CustomPaginationPropsType = {
   page: number;
   totalCount: number;
   pageCount: number;
-  onClick: (page: number) => void;
+  onPageChangeHandler: (page: number) => void;
 };

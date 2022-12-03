@@ -1,6 +1,6 @@
 import { Nullable } from 'common/types';
 
-export type GetPacksRequestDataType = {
+export type GetPacksRequestParamsType = {
   page: number;
   pageCount: number;
   min: Nullable<number>;

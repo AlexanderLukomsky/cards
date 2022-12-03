@@ -17,19 +17,19 @@ import {
 import { LoaderFullSize } from 'components/loader-full-size';
 import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
-import { setLogin } from 'store/reducers/auth-reducer/authReducer';
+import { login } from 'store/reducers/auth-reducer';
 
 export const LoginForm: FC<LoginFormPropsType> = ({ loginStatus }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onEmailFocusHandler = (): void => {
+  const handleEmailFocus = (): void => {
     formik.setTouched({
       email: false,
       password: formik.touched.password && !!formik.errors.password,
     });
   };
-  const onPasswordFocusHandler = (): void => {
+  const handlePasswordFocus = (): void => {
     formik.setTouched({
       password: false,
       email: formik.touched.email && !!formik.errors.email,
@@ -45,10 +45,10 @@ export const LoginForm: FC<LoginFormPropsType> = ({ loginStatus }) => {
       return validationForm(values);
     },
     onSubmit: async values => {
-      const action = await dispatch(setLogin(values));
+      const action = await dispatch(login(values));
 
-      if (setLogin.fulfilled.match(action)) {
-        navigate(appPath.PROFILE);
+      if (login.fulfilled.match(action)) {
+        navigate(appPath.PACKS);
       }
     },
   });
@@ -60,14 +60,14 @@ export const LoginForm: FC<LoginFormPropsType> = ({ loginStatus }) => {
         <FormEmail
           isError={formik.touched.email && !!formik.errors.email}
           errorText={formik.errors.email}
-          onFocus={onEmailFocusHandler}
+          onFocus={handleEmailFocus}
           fieldProps={formik.getFieldProps('email')}
           className={style.form__email}
         />
         <FormPassword
           isError={formik.touched.password && !!formik.errors.password}
           errorText={formik.errors.password}
-          onFocus={onPasswordFocusHandler}
+          onFocus={handlePasswordFocus}
           fieldProps={formik.getFieldProps('password')}
           className={style.form__password}
         />

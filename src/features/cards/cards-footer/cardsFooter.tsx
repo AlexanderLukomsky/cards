@@ -15,7 +15,7 @@ export const CardsFooter: FC<CardsFooterPropsType> = ({
   return (
     <div className={style.footer}>
       <CustomPagination
-        onClick={onChangePage}
+        onPageChangeHandler={onChangePage}
         page={page}
         totalCount={cardsTotalCount}
         pageCount={pageCount}

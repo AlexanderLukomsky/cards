@@ -38,7 +38,7 @@ export const selectSortPacks = (state: AppRootStateType): SortType =>
   state.packs.params.sortPacks;
 
 export const selectMinCardsCount = (state: AppRootStateType): number =>
-  state.packs.data.maxCardsCount;
+  state.packs.data.minCardsCount;
 
 export const selectMaxCardsCount = (state: AppRootStateType): number =>
   state.packs.data.maxCardsCount;
@@ -48,12 +48,6 @@ export const selectSearchPacksName = (state: AppRootStateType): Nullable<string>
 
 export const selectPacksParamsUserId = (state: AppRootStateType): Nullable<string> =>
   state.packs.params.user_id;
-
-export const selectProfileStatus = (state: AppRootStateType): StatusType =>
-  state.profile.status;
-
-export const selectProfileNotice = (state: AppRootStateType): string =>
-  state.profile.notice;
 
 export const selectLearningIsInitialized = (state: AppRootStateType): boolean =>
   state.learning.isInitialized;
@@ -79,8 +73,7 @@ export const selectCardsStatus = (state: AppRootStateType): StatusType =>
 export const selectCardsPackUserId = (state: AppRootStateType): string =>
   state.cards.data.packUserId;
 
-export const selectCardsNotice = (state: AppRootStateType): string =>
-  state.cards.data.packUserId;
+export const selectCardsNotice = (state: AppRootStateType): string => state.cards.notice;
 
 export const selectCardsPackName = (state: AppRootStateType): string =>
   state.cards.data.packName;

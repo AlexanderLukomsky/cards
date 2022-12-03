@@ -11,10 +11,25 @@
    &__container {
       @include flexWithHeight(row, space-between, center, nowrap, 100%);
    }
+   &__logo-wrapper {
+      position: relative;
+   }
    &__logo {
+      position: relative;
+      z-index: 1;
       &:hover {
          transform: scale(1.03);
       }
+   }
+
+   &__hat {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      right: -12px;
+      top: -2px;
+      opacity: 0.8;
+      transform: rotate(7deg);
    }
    &__link {
       display: inline-block;

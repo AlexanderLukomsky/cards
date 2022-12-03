@@ -1,1 +1,1 @@
-export { CardsFooter } from './cardsFooter';
+export { CardsFooter } from './CardsFooter';

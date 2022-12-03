@@ -7,7 +7,6 @@ import {
   cardsReducer,
   learningReducer,
   packsReducer,
-  profileReducer,
 } from './reducers';
 import { AppRootStateType } from './type';
 
@@ -15,7 +14,6 @@ const rootReducers = combineReducers({
   app: appReducer,
   auth: authReducer,
   packs: packsReducer,
-  profile: profileReducer,
   learning: learningReducer,
   cards: cardsReducer,
 });

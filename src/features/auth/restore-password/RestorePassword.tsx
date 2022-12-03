@@ -23,7 +23,7 @@ export const RestorePassword = (): JSX.Element => {
 
   const notice = useSelector(selectAuthNotice);
 
-  const onCloseSnackbar = (): void => {
+  const handleCloseSnackbar = (): void => {
     dispatch(setNotice({ notice: '' }));
   };
   const handleSubmitForm = (value: string): void => {
@@ -42,7 +42,7 @@ export const RestorePassword = (): JSX.Element => {
       <CustomizedSnackbar
         message={notice}
         isOpen={!!notice}
-        onClose={onCloseSnackbar}
+        onClose={handleCloseSnackbar}
         isError={authStatus === 'failed'}
       />
       {authStatus === 'pending' && <LoaderFullSize />}

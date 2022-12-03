@@ -17,7 +17,7 @@ export const NewPassword = (): JSX.Element => {
 
   const notice = useSelector(selectAuthNotice);
 
-  const onCloseSnackbar = (): void => {
+  const handleCloseSnackbar = (): void => {
     dispatch(setNotice({ notice: '' }));
   };
 
@@ -28,7 +28,7 @@ export const NewPassword = (): JSX.Element => {
       <CustomizedSnackbar
         message={notice}
         isOpen={!!notice}
-        onClose={onCloseSnackbar}
+        onClose={handleCloseSnackbar}
         isError={authStatus === 'failed'}
       />
       {authStatus === 'pending' && <LoaderFullSize />}
