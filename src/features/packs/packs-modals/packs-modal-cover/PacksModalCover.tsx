@@ -8,8 +8,8 @@ import style from './packsModalCover.module.scss';
 import { UploadButton } from 'components/upload-button';
 
 export const PacksModalCover: FC<PacksModalCoverPropsType> = ({
-  uploadHandler,
-  onDeleteClick,
+  onUploadImageChangeHandler,
+  onDeleteClickHandler,
   cover,
   error,
 }) => {
@@ -22,14 +22,18 @@ export const PacksModalCover: FC<PacksModalCoverPropsType> = ({
             <Button variant="text" component="label">
               Change cover
               <input
-                onChange={uploadHandler}
+                onChange={onUploadImageChangeHandler}
                 hidden
                 accept="image/*"
                 multiple
                 type="file"
               />
             </Button>
-            <IconButton onClick={onDeleteClick} aria-label="delete" color="primary">
+            <IconButton
+              onClick={onDeleteClickHandler}
+              aria-label="delete"
+              color="primary"
+            >
               <DeleteIcon />
             </IconButton>
           </div>
@@ -38,15 +42,15 @@ export const PacksModalCover: FC<PacksModalCoverPropsType> = ({
           </div>
         </>
       ) : (
-        <UploadButton uploadHandler={uploadHandler} />
+        <UploadButton uploadHandler={onUploadImageChangeHandler} />
       )}
       {error && <div className={style.cover__error}>{error}</div>}
     </div>
   );
 };
 type PacksModalCoverPropsType = {
-  uploadHandler: (e: ChangeEvent<HTMLInputElement>) => void;
-  onDeleteClick: () => void;
+  onUploadImageChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+  onDeleteClickHandler: () => void;
   cover: string | null;
   error: string | null;
 };

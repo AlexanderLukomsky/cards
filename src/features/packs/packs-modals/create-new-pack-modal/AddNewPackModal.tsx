@@ -25,56 +25,65 @@ export const AddNewPackModal: FC<AddNewPackModalPropsType> = ({
   const [isChecked, setIsChecked] = useState(false);
   const [cover, setCover] = useState<null | string>(null);
   const [errorCover, setErrorCover] = useState<string | null>(null);
-  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
+
+  const handlePackNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setErrorMessage('');
     setValue(e.currentTarget.value);
   };
-  const onChangeCheckbox = (
+
+  const handleCheckboxChange = (
     _: SyntheticEvent<Element, Event>,
     checked: boolean,
   ): void => {
     setIsChecked(checked);
   };
-  const uploadHandler = (e: ChangeEvent<HTMLInputElement>): void => {
+
+  const handleUploadImage = (e: ChangeEvent<HTMLInputElement>): void => {
     const { files } = e.currentTarget;
 
     if (files && files.length) {
       convertImageToBase64(files[0], {
-        errorHandler: coverErrorHandler,
-        successHandler: coverSuccessHandler,
+        errorHandler: handleCoverError,
+        successHandler: handleCoverSuccess,
       });
     }
   };
-  const onDeleteCoverClickHandler = (): void => {
+
+  const handleDeleteCoverClick = (): void => {
     setErrorCover(null);
     setCover(null);
   };
-  const coverErrorHandler = (error: string): void => {
+
+  const handleCoverError = (error: string): void => {
     setErrorCover(error);
   };
-  const coverSuccessHandler = (image: string): void => {
+
+  const handleCoverSuccess = (image: string): void => {
     setCover(image);
     setErrorCover(null);
   };
-  const onAddNewPack = async (): Promise<void> => {
+
+  const handleAddButtonClick = async (): Promise<void> => {
     if (value.trim()) {
       const action = await dispatch(
         createNewPack({ name: value.trim(), private: isChecked, deckCover: cover }),
       );
 
       if (createNewPack.fulfilled.match(action)) {
-        onCancel();
+        handleCancelClick();
       }
     } else {
       setValue('');
       setErrorMessage('enter a pack name');
     }
   };
-  const onClose = (): void => {
+
+  const handleCloseClick = (): void => {
     setErrorMessage('');
     onCloseHandler();
   };
-  const onCancel = (): void => {
+
+  const handleCancelClick = (): void => {
     setValue('');
     setErrorMessage('');
     setIsChecked(false);
@@ -88,23 +97,23 @@ export const AddNewPackModal: FC<AddNewPackModalPropsType> = ({
       className={style.addNewPack}
       open={isOpen}
       title="Add new pack"
-      onClose={onClose}
+      onClose={handleCloseClick}
       cancelButton={{
         title: 'Cancel',
-        buttonProps: { onClick: onCancel, disabled: status === 'pending' },
+        buttonProps: { onClick: handleCancelClick, disabled: status === 'pending' },
       }}
       confirmButton={{
         title: 'Save',
         buttonProps: {
-          onClick: onAddNewPack,
+          onClick: handleAddButtonClick,
           disabled: status === 'pending' || !!errorMessage,
         },
       }}
       isLoading={status === 'pending'}
     >
       <PacksModalCover
-        uploadHandler={uploadHandler}
-        onDeleteClick={onDeleteCoverClickHandler}
+        onUploadImageChangeHandler={handleUploadImage}
+        onDeleteClickHandler={handleDeleteCoverClick}
         cover={cover}
         error={errorCover}
       />
@@ -114,7 +123,7 @@ export const AddNewPackModal: FC<AddNewPackModalPropsType> = ({
           error={!!errorMessage}
           color={errorMessage ? 'error' : 'info'}
           value={value}
-          onChange={onChange}
+          onChange={handlePackNameChange}
           id="outlined-basic"
           label="Name pack"
           variant="standard"
@@ -123,7 +132,7 @@ export const AddNewPackModal: FC<AddNewPackModalPropsType> = ({
       </div>
       <div className={style.control}>
         <Checkbox
-          onChange={onChangeCheckbox}
+          onChange={handleCheckboxChange}
           id="private"
           className={style.control__checkbox}
           checked={isChecked}

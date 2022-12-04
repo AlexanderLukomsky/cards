@@ -18,6 +18,6 @@ export const packsAPI = {
     return instance.delete(`/cards/pack?id=${id}`);
   },
   updatePack: (data: UpdatePackRequestDataType) => {
-    return instance.put('/cards/pack', { data });
+    return instance.put('/cards/pack', { cardsPack: data });
   },
 };

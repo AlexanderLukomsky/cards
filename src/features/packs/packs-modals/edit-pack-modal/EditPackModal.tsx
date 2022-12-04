@@ -21,22 +21,22 @@ export const EditPackModal: FC<EditPackModalPropsType> = ({
   const [errorCover, setErrorCover] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isPrivate, setIsPrivate] = useState(false);
-  const onChangePackName = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handlePackNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setErrorMessage('');
     onUpdatePack({ packName: e.currentTarget.value });
   };
-  const onChangeCheckbox = (
+  const handleCheckboxChange = (
     _: SyntheticEvent<Element, Event>,
     isPrivate: boolean,
   ): void => {
     setIsPrivate(isPrivate);
   };
-  const onClose = (): void => {
+  const handleCloseClick = (): void => {
     setErrorMessage('');
     setIsPrivate(false);
     onCloseHandler();
   };
-  const setEditedPack = (): void => {
+  const handleSetEditedPackClick = (): void => {
     if (packName.trim()) {
       setEditedPackHandler(isPrivate);
       setIsPrivate(false);
@@ -45,24 +45,24 @@ export const EditPackModal: FC<EditPackModalPropsType> = ({
       setErrorMessage('enter a pack name');
     }
   };
-  const uploadHandler = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleUploadImage = (e: ChangeEvent<HTMLInputElement>): void => {
     const { files } = e.currentTarget;
 
     if (files && files.length) {
       convertImageToBase64(files[0], {
-        errorHandler: coverErrorHandler,
-        successHandler: coverSuccessHandler,
+        errorHandler: handleCoverError,
+        successHandler: handlerCoverSuccess,
       });
     }
   };
-  const coverErrorHandler = (error: string): void => {
+  const handleCoverError = (error: string): void => {
     setErrorCover(error);
   };
-  const coverSuccessHandler = (deckCover: string): void => {
+  const handlerCoverSuccess = (deckCover: string): void => {
     onUpdatePack({ deckCover });
     setErrorCover(null);
   };
-  const onDeleteCoverClickHandler = (): void => {
+  const handleDeleteCoverClick = (): void => {
     onUpdatePack({ deckCover: null });
     setErrorCover(null);
   };
@@ -72,22 +72,25 @@ export const EditPackModal: FC<EditPackModalPropsType> = ({
       className={style.editPack}
       open={isOpen}
       title="Edit pack"
-      onClose={onClose}
+      onClose={handleCloseClick}
       cancelButton={{
         title: 'Cancel',
-        buttonProps: { onClick: onClose, disabled: isLoading },
+        buttonProps: { onClick: handleCloseClick, disabled: isLoading },
       }}
       confirmButton={{
         title: 'Save',
-        buttonProps: { onClick: setEditedPack, disabled: isLoading || !!errorMessage },
+        buttonProps: {
+          onClick: handleSetEditedPackClick,
+          disabled: isLoading || !!errorMessage,
+        },
       }}
       isLoading={isLoading}
     >
       <PacksModalCover
         cover={cover}
         error={errorCover}
-        onDeleteClick={onDeleteCoverClickHandler}
-        uploadHandler={uploadHandler}
+        onDeleteClickHandler={handleDeleteCoverClick}
+        onUploadImageChangeHandler={handleUploadImage}
       />
       <div className={style.input}>
         <TextField
@@ -95,7 +98,7 @@ export const EditPackModal: FC<EditPackModalPropsType> = ({
           error={!!errorMessage}
           color={errorMessage ? 'error' : 'info'}
           value={packName}
-          onChange={onChangePackName}
+          onChange={handlePackNameChange}
           id="outlined-basic"
           label="Name pack"
           variant="standard"
@@ -104,7 +107,7 @@ export const EditPackModal: FC<EditPackModalPropsType> = ({
       </div>
       <div className={style.control}>
         <Checkbox
-          onChange={onChangeCheckbox}
+          onChange={handleCheckboxChange}
           id="private"
           className={style.control__checkbox}
           checked={isPrivate}
