@@ -14,6 +14,7 @@ import {
 } from 'common/selectors';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
 import { LoaderFullSize } from 'components/loader-full-size';
+import { ParticlesContainer } from 'components/particles-container';
 import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
 import {
@@ -50,6 +51,7 @@ export const Learning = (): JSX.Element => {
 
   return (
     <div className={style.learning_page}>
+      <ParticlesContainer />
       <NavLink to={appPath.PACKS} className={style.back_link}>
         <img src={backIcon} alt="back" />
         <span>Back to Packs list</span>
