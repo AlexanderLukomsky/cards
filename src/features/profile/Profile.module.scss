@@ -1,7 +1,6 @@
 @import "common/styles/mixins";
 
 .profile_page {
-  min-height: 100vh;
   padding-top: 80px;
   @include flexWithHeight(column, center, center, nowrap, 100vh);
   .back_link {

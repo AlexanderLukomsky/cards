@@ -61,8 +61,8 @@ export const selectLearningNotice = (state: AppRootStateType): string =>
 export const selectLearningCard = (state: AppRootStateType): CardType[] =>
   state.learning.data;
 
-export const selectLearningStepBy = (state: AppRootStateType): boolean =>
-  state.learning.sortStepByStep;
+export const selectIsOrderedSort = (state: AppRootStateType): boolean =>
+  state.learning.isOrderedSort;
 
 export const selectLearningPackName = (state: AppRootStateType): string =>
   state.learning.packName;

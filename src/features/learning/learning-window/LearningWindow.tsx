@@ -4,19 +4,21 @@ import { useEffect, useState } from 'react';
 import { Button, Switch } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-import { AnswerBlock } from './answer-block';
+import { AnswerBlock } from '../answer-block';
+import { QuestionBlock } from '../question-block';
+
 import style from './learningWindow.module.scss';
 
 import {
+  selectIsOrderedSort,
   selectLearningCard,
   selectLearningPackName,
-  selectLearningStepBy,
 } from 'common/selectors';
 import { useAppDispatch } from 'store/hooks';
 import { CardType } from 'store/reducers/cards-reducer';
-import { setFilter } from 'store/reducers/learning-reducer';
+import { setIsOrderedSort } from 'store/reducers/learning-reducer';
 
-const getCard = (cards: CardType[]): CardType => {
+const getRandomCard = (cards: CardType[]): CardType => {
   const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
   const rand = Math.random() * sum;
   const res = cards.reduce(
@@ -34,96 +36,68 @@ const getCard = (cards: CardType[]): CardType => {
 export const LearningWindow = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const packName = useSelector(selectLearningPackName);
-  const sortStepByStep = useSelector(selectLearningStepBy);
-  const cardAll = useSelector(selectLearningCard);
+  const isOrderedSort = useSelector(selectIsOrderedSort);
+  const cards = useSelector(selectLearningCard);
 
-  const [card, setCard] = useState<CardType>({
-    _id: 'fake',
-    cardsPack_id: '',
-    answer: 'answer fake',
-    question: 'question fake',
-    questionImg: null,
-    answerImg: null,
-    grade: 0,
-    shots: 0,
-    type: '',
-    rating: 0,
-    more_id: '',
-    created: new Date(),
-    updated: new Date(),
-    __v: 0,
-    user_id: '',
-    questionVideo: '',
-    comments: '',
-    answerVideo: '',
-  });
+  const [selectedCard, setSelectedCard] = useState<CardType>({} as CardType);
 
-  const [answerBlock, setAnswerBlock] = useState(false);
+  const [isShowedAnswerBlock, setIsShowedAnswerBlock] = useState(false);
 
-  const answerButtonHandler = (): void => {
-    setAnswerBlock(true);
+  const handleShowAnswerBlockClick = (): void => {
+    setIsShowedAnswerBlock(true);
+  };
+  const handleCloseAnswerBlockClick = (): void => {
+    setIsShowedAnswerBlock(false);
   };
 
-  const [checked, setChecked] = useState(sortStepByStep);
-  const handleChange = (): void => {
-    dispatch(setFilter({ filter: !checked }));
-    setChecked(!checked);
+  const handleCardOrderChange = (): void => {
+    dispatch(setIsOrderedSort(!isOrderedSort));
   };
 
   useEffect(() => {
-    if (!sortStepByStep) {
-      let index = cardAll.findIndex(c => c._id === card._id);
+    if (!isOrderedSort) {
+      setSelectedCard(getRandomCard(cards));
+    } else {
+      let index = cards.findIndex(card => card._id === selectedCard._id);
 
-      if (index === cardAll.length - 1) {
+      if (index === cards.length - 1) {
         index = -1;
       }
-      setCard(cardAll[index + 1]);
-    } else {
-      setCard(getCard(cardAll));
+      setSelectedCard(cards[index + 1]);
     }
-  }, [dispatch, packName, cardAll, card._id, sortStepByStep]);
+  }, [dispatch, cards, isOrderedSort]);
 
   return (
-    <div className={style.container}>
-      <div className={style.title}>
-        <h3>Learn {packName} </h3>
-        <div className={style.switch}>
-          <span className={style.mode}>dogged mode</span>
-          <Switch
-            checked={checked}
-            onChange={handleChange}
-            inputProps={{ 'aria-label': 'controlled' }}
-          />
-        </div>
+    <div className={style.learn_wrapper}>
+      <h3 className={style.title}>Learn ${packName}</h3>
+
+      <div className={style.switch_block}>
+        <span className={style.switch_block__text}>random mode</span>
+        <Switch checked={!isOrderedSort} onChange={handleCardOrderChange} />
       </div>
-      <div className={style.block}>
-        <div className={style.question}>
-          <span>Question: </span>
-          {card.questionImg && card.questionImg !== 'url or base 64' ? (
-            <img src={card.questionImg} alt="0" className={style.questionImg} />
-          ) : (
-            card.question
-          )}
-        </div>
-        <div className={style.attempts}>
-          Number of attempts:
-          <span>{card.shots}</span>
-        </div>
-        {!answerBlock ? (
+
+      <div className={style.learn_block}>
+        <QuestionBlock
+          image={selectedCard.questionImg}
+          question={selectedCard.question}
+          shots={selectedCard.shots}
+        />
+
+        {isShowedAnswerBlock ? (
+          <AnswerBlock
+            onNextButtonClickHandler={handleCloseAnswerBlockClick}
+            cardId={selectedCard._id}
+            answer={selectedCard.answer}
+            image={selectedCard.answerImg}
+          />
+        ) : (
           <Button
             variant="contained"
             className={style.button}
-            onClick={answerButtonHandler}
+            onClick={handleShowAnswerBlockClick}
           >
             Show answer
           </Button>
-        ) : (
-          <AnswerBlock
-            setAnswerBlock={setAnswerBlock}
-            cardId={card._id}
-            answer={card.answer}
-            answerImg={card.answerImg}
-          />
         )}
       </div>
     </div>

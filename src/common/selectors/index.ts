@@ -18,7 +18,7 @@ export {
   selectLearningStatus,
   selectLearningNotice,
   selectLearningCard,
-  selectLearningStepBy,
+  selectIsOrderedSort,
   selectLearningPackName,
   selectCardsStatus,
   selectCardsPackUserId,

@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 
-import { CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 
 import { LearningWindow } from './learning-window';
-import styles from './learning.module.scss';
+import style from './learning.module.scss';
 
 import backIcon from 'common/assets/icons/back.png';
 import {
@@ -14,19 +13,24 @@ import {
   selectLearningStatus,
 } from 'common/selectors';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
+import { LoaderFullSize } from 'components/loader-full-size';
 import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
-import { getAllCards, setNotice } from 'store/reducers/learning-reducer';
+import {
+  getAllCards,
+  setIsInitialized,
+  setNotice,
+} from 'store/reducers/learning-reducer';
 
 export const Learning = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const initialized = useSelector(selectLearningIsInitialized);
+  const isInitialized = useSelector(selectLearningIsInitialized);
   const status = useSelector(selectLearningStatus);
   const notice = useSelector(selectLearningNotice);
   const param = useParams<{ id: string }>();
 
-  const onCloseSnackbar = (): void => {
+  const handleCloseSnackbar = (): void => {
     dispatch(setNotice({ notice: '' }));
   };
 
@@ -34,33 +38,30 @@ export const Learning = (): JSX.Element => {
     if (param.id) {
       dispatch(getAllCards(param.id));
     }
+
+    return () => {
+      dispatch(setIsInitialized(false));
+    };
   }, [dispatch, param]);
 
-  if (!initialized) {
-    return (
-      <CircularProgress
-        style={{ zIndex: '3', position: 'absolute', left: '50vw', top: '50vh' }}
-      />
-    );
+  if (!isInitialized) {
+    return <LoaderFullSize />;
   }
 
   return (
-    <div className={styles.container}>
-      {status === 'pending' && (
-        <CircularProgress
-          style={{ zIndex: '3', position: 'absolute', left: '50vw', top: '50vh' }}
-        />
-      )}
-      <NavLink to={appPath.PACKS} className={styles.link}>
-        <img src={backIcon} alt="back" /> Back to Packs list
+    <div className={style.learning_page}>
+      <NavLink to={appPath.PACKS} className={style.back_link}>
+        <img src={backIcon} alt="back" />
+        <span>Back to Packs list</span>
       </NavLink>
       <LearningWindow />
       <CustomizedSnackbar
         message={notice}
         isOpen={!!notice}
-        onClose={onCloseSnackbar}
+        onClose={handleCloseSnackbar}
         isError
       />
+      {status === 'pending' && <LoaderFullSize />}
     </div>
   );
 };

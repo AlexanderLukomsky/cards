@@ -1,2 +1,8 @@
 export { learningReducer } from './learningReducer';
-export { setFilter, setNotice, getAllCards, changeGradeCard } from './learningReducer';
+export {
+  setIsOrderedSort,
+  setNotice,
+  getAllCards,
+  setCardGrade,
+  setIsInitialized,
+} from './learningReducer';

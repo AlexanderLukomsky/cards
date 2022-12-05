@@ -36,16 +36,16 @@ export const PacksTable: FC<PacksTablePropsType> = ({ packs, status }) => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
 
-  const openDeleteModal = (data: SelectedPackType): void => {
+  const handleOpenDeleteModalClick = (data: SelectedPackType): void => {
     setSelectedPack(data);
     setIsOpenDeleteModal(true);
   };
 
-  const learnPackHandler = (id: string): void => {
+  const handleLearnPackClick = (id: string): void => {
     navigate(appPath.LEARNING_DEFAULT + id);
   };
 
-  const onDeletePack = async (): Promise<void> => {
+  const handleDeleteButtonClick = async (): Promise<void> => {
     const action = await dispatch(deletePack(selectedPack.id));
 
     if (deletePack.fulfilled.match(action)) {
@@ -55,24 +55,24 @@ export const PacksTable: FC<PacksTablePropsType> = ({ packs, status }) => {
   };
   // edit pack name
 
-  const openEditModal = (data: SelectedPackType): void => {
+  const handleOpenEditModalClock = (data: SelectedPackType): void => {
     setSelectedPack(data);
     setIsOpenEditModal(true);
   };
-  const onCloseEditModal = (): void => {
+  const handleCloseEditModalClick = (): void => {
     setIsOpenEditModal(false);
   };
-  const onUpdatePackHandler = (value: { [key: string]: string | null }): void => {
+  const handleEditPackChange = (value: { [key: string]: string | null }): void => {
     setSelectedPack(data => ({ ...data, ...value }));
   };
-  const setEditPack = async (isPrivate: boolean): Promise<void> => {
+  const handleSetEditedPackClick = async (isPrivate: boolean): Promise<void> => {
     const { packName, id, deckCover } = selectedPack;
     const action = await dispatch(
       updatePack({ name: packName.trim(), _id: id, private: isPrivate, deckCover }),
     );
 
     if (updatePack.fulfilled.match(action)) {
-      onCloseEditModal();
+      handleCloseEditModalClick();
     }
   };
   const navigateToCards = (id: string): void => {
@@ -116,18 +116,18 @@ export const PacksTable: FC<PacksTablePropsType> = ({ packs, status }) => {
               </TableCell>
               <ActionTableCell
                 learnPack={() => {
-                  learnPackHandler(pack._id);
+                  handleLearnPackClick(pack._id);
                 }}
                 cardsCount={pack.cardsCount}
                 openDeleteModal={() => {
-                  openDeleteModal({
+                  handleOpenDeleteModalClick({
                     packName: pack.name,
                     id: pack._id,
                     deckCover: pack.deckCover,
                   });
                 }}
                 openEditModal={() => {
-                  openEditModal({
+                  handleOpenEditModalClock({
                     packName: pack.name,
                     id: pack._id,
                     deckCover: pack.deckCover,
@@ -148,16 +148,16 @@ export const PacksTable: FC<PacksTablePropsType> = ({ packs, status }) => {
         onClose={() => {
           setIsOpenDeleteModal(false);
         }}
-        onDeletePack={onDeletePack}
+        onDeletePack={handleDeleteButtonClick}
       />
       <EditPackModal
         cover={selectedPack.deckCover ? selectedPack.deckCover : null}
         isLoading={status === 'pending'}
         packName={selectedPack.packName}
-        onCloseHandler={onCloseEditModal}
-        onUpdatePack={onUpdatePackHandler}
+        onCloseHandler={handleCloseEditModalClick}
+        onUpdatePack={handleEditPackChange}
         isOpen={isOpenEditModal}
-        setEditedPackHandler={setEditPack}
+        setEditedPackHandler={handleSetEditedPackClick}
       />
     </TableContainer>
   );

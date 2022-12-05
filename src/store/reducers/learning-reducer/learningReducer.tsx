@@ -1,6 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 
 import { CardType } from '../cards-reducer';
+
+import { setCardGradeDataType, SetCardGradeReturnDataType } from './types';
 
 import { cardsAPI } from 'api';
 import { StatusType } from 'common/types';
@@ -12,7 +14,7 @@ const initialState = {
   notice: '',
   status: 'idle' as StatusType,
   isInitialized: false,
-  sortStepByStep: false,
+  isOrderedSort: false,
 };
 
 const slice = createSlice({
@@ -22,57 +24,66 @@ const slice = createSlice({
     setNotice(state, action: PayloadAction<{ notice: string }>) {
       state.notice = action.payload.notice;
     },
-    setFilter(state, action: PayloadAction<{ filter: boolean }>) {
-      state.sortStepByStep = action.payload.filter;
+    setIsOrderedSort(state, action: PayloadAction<boolean>) {
+      state.isOrderedSort = action.payload;
+    },
+    setIsInitialized: (state, action: PayloadAction<boolean>) => {
+      state.isInitialized = action.payload;
     },
   },
   extraReducers: builder => {
-    builder
-      .addCase(getAllCards.pending, state => {
-        state.status = 'pending';
-      })
-      .addCase(changeGradeCard.pending, state => {
-        state.status = 'pending';
-      })
+    const setPendingStatus = (state: LearningStateType): void => {
+      state.status = 'pending';
+    };
 
+    const handleReject = (
+      state: LearningStateType,
+      action: PayloadAction<string | undefined>,
+    ): void => {
+      state.status = 'failed';
+      if (action.payload) {
+        state.notice = action.payload;
+      } else {
+        state.notice = 'unknown error, please try again later';
+      }
+    };
+
+    builder
       .addCase(getAllCards.fulfilled, (state, action) => {
         state.data = action.payload.data;
         state.packName = action.payload.packName;
         state.isInitialized = true;
         state.status = 'succeeded';
       })
-      .addCase(changeGradeCard.fulfilled, (state, action) => {
-        const card = state.data.find(c => c._id === action.payload.cardId);
 
-        if (card) {
-          card.shots = action.payload.shots;
-          card.grade = action.payload.grade;
+      .addCase(setCardGrade.fulfilled, (state, action) => {
+        const foundCard = state.data.find(card => card._id === action.payload.cardId);
+
+        if (foundCard) {
+          foundCard.shots = action.payload.shots;
+          foundCard.grade = action.payload.grade;
         }
         state.status = 'succeeded';
-      })
-
-      .addCase(changeGradeCard.rejected, (state, action) => {
-        state.notice = action.payload
-          ? action.payload.error
-          : 'unknown error, please try again later';
-        state.status = 'failed';
-      })
-      .addCase(getAllCards.rejected, (state, action) => {
-        state.notice = action.payload
-          ? action.payload.error
-          : 'unknown error, please try again later';
-        state.status = 'failed';
       });
+
+    builder.addMatcher(
+      isAnyOf(getAllCards.pending, setCardGrade.pending),
+      setPendingStatus,
+    );
+    builder.addMatcher(
+      isAnyOf(setCardGrade.rejected, getAllCards.rejected),
+      handleReject,
+    );
   },
 });
 
 export const learningReducer = slice.reducer;
-export const { setFilter, setNotice } = slice.actions;
+export const { setIsOrderedSort, setNotice, setIsInitialized } = slice.actions;
 
 export const getAllCards = createAsyncThunk<
   { data: CardType[]; packName: string },
   string,
-  { rejectValue: { error: string } }
+  { rejectValue: string }
 >('learning/getAllCards', async (id, { rejectWithValue }) => {
   try {
     const res = await cardsAPI.getCards({ cardsPack_id: id, pageCount: 100 });
@@ -81,17 +92,17 @@ export const getAllCards = createAsyncThunk<
   } catch (err) {
     const error = getResponseErrorMessage(err);
 
-    return rejectWithValue({ error });
+    return rejectWithValue(error);
   }
 });
 
-export const changeGradeCard = createAsyncThunk<
-  { cardId: string; grade: number; shots: number },
-  ChangeGradeType,
-  { rejectValue: { error: string } }
->('learning/changeGrade', async (param, { rejectWithValue }) => {
+export const setCardGrade = createAsyncThunk<
+  SetCardGradeReturnDataType,
+  setCardGradeDataType,
+  { rejectValue: string }
+>('learning/changeGrade', async (data, { rejectWithValue }) => {
   try {
-    const res = await cardsAPI.setGrade({ grade: param.grade, card_id: param.idCard });
+    const res = await cardsAPI.setGrade(data);
 
     return {
       cardId: res.data.updatedGrade.card_id,
@@ -101,11 +112,8 @@ export const changeGradeCard = createAsyncThunk<
   } catch (err) {
     const error = getResponseErrorMessage(err);
 
-    return rejectWithValue({ error });
+    return rejectWithValue(error);
   }
 });
 
-type ChangeGradeType = {
-  idCard: string;
-  grade: number;
-};
+type LearningStateType = typeof initialState;
