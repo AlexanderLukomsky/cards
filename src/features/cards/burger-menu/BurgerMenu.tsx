@@ -15,18 +15,12 @@ import {
   selectCardsPackName,
   selectCardsTotalCount,
 } from 'common/selectors';
+import { Nullable } from 'common/types';
 import { appPath } from 'components/routes/path';
 import { DeletePackModal, EditPackModal } from 'features/packs/packs-modals';
 import { useAppDispatch } from 'store/hooks';
 import { getCards } from 'store/reducers/cards-reducer';
 import { deletePack, updatePack } from 'store/reducers/packs-reducer';
-
-const ITEM_HEIGHT = 36;
-
-type BurgerMenuPropsType = {
-  _id: string;
-  status: boolean;
-};
 
 export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, status }) => {
   const dispatch = useAppDispatch();
@@ -36,53 +30,62 @@ export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, status }) => {
   const packDeckCover = useSelector(selectCardsPackDeckCover);
   const cardsCount = useSelector(selectCardsTotalCount);
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = useState<Nullable<HTMLElement>>(null);
+  const isOpenMenu = Boolean(anchorEl);
 
-  const handleClick = (event: MouseEvent<HTMLElement>): void => {
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+
+  const [updatedPack, setUpdatedPack] = useState<{
+    packName: string;
+    deckCover: Nullable<string>;
+  }>({
+    packName: '',
+    deckCover: null,
+  });
+
+  const handleOpenMenuClick = (event: MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (): void => {
+
+  const handleCloseMenu = (): void => {
     setAnchorEl(null);
   };
-  const learnHandler = (): void => {
+
+  const handleMenuLearnClick = (): void => {
     setAnchorEl(null);
     navigate(appPath.LEARNING_DEFAULT + _id);
   };
-  // delete pack
-  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-  const openDeleteModal = (): void => {
+
+  const handleOpenDeletePackModal = (): void => {
     setIsOpenDeleteModal(true);
   };
-  const closeDeleteModal = (): void => {
+
+  const handleCloseDeleteModal = (): void => {
     setIsOpenDeleteModal(false);
   };
-  const deleteHandler = async (): Promise<void> => {
-    setAnchorEl(null);
+
+  const handleDeletePackClick = async (): Promise<void> => {
     const action = await dispatch(deletePack(_id));
 
     if (deletePack.fulfilled.match(action)) {
       navigate(appPath.PACKS);
     }
   };
-  // edit pack
-  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
-  const [updatedPack, setUpdatedPack] = useState<{ packName: ''; deckCover: null }>({
-    packName: '',
-    deckCover: null,
-  });
-  const onUpdatePackHandler = (value: { [key: string]: string | null }): void => {
-    setUpdatedPack(data => ({ ...data, ...value }));
+
+  const handleUpdatePack = (value: EditedPackValueType): void => {
+    setUpdatedPack(pack => ({ ...pack, ...value }));
   };
-  const openEditModal = (): void => {
-    onUpdatePackHandler({ packName });
+
+  const handleOpenPackEditModal = (): void => {
+    handleUpdatePack({ packName, deckCover: packDeckCover });
     setIsOpenEditModal(true);
   };
 
-  const closeEditModal = (): void => {
+  const handleCloseEditModal = (): void => {
     setIsOpenEditModal(false);
   };
-  const editHandler = async (isPrivate: boolean): Promise<void> => {
+  const handleSetEditedPackClick = async (isPrivate: boolean): Promise<void> => {
     const { packName, deckCover } = updatedPack;
 
     setAnchorEl(null);
@@ -91,49 +94,27 @@ export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, status }) => {
     );
 
     if (updatePack.fulfilled.match(action)) {
-      closeEditModal();
+      handleCloseEditModal();
       dispatch(getCards({ cardsPack_id: _id }));
     }
   };
 
   return (
     <div>
-      <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-controls={open ? 'long-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
+      <IconButton onClick={handleOpenMenuClick}>
         <MoreVertIcon />
       </IconButton>
-      <Menu
-        id="long-menu"
-        MenuListProps={{
-          'aria-labelledby': 'long-button',
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          style: {
-            // eslint-disable-next-line no-magic-numbers
-            maxHeight: ITEM_HEIGHT * 4.5,
-            width: '20ch',
-          },
-        }}
-      >
-        <MenuItem onClick={openEditModal}>
-          <img src={editIcon} alt="0" style={{ marginRight: '10px' }} />
+      <Menu anchorEl={anchorEl} open={isOpenMenu} onClose={handleCloseMenu}>
+        <MenuItem onClick={handleOpenPackEditModal}>
+          <img src={editIcon} alt="edit icon" style={{ marginRight: '10px' }} />
           Edit
         </MenuItem>
-        <MenuItem onClick={openDeleteModal}>
-          <img src={deleteIcon} alt="0" style={{ marginRight: '10px' }} />
+        <MenuItem onClick={handleOpenDeletePackModal}>
+          <img src={deleteIcon} alt="delete icon" style={{ marginRight: '10px' }} />
           Delete
         </MenuItem>
-        <MenuItem onClick={learnHandler} disabled={cardsCount === 0}>
-          <img src={learnIcon} alt="0" style={{ marginRight: '10px' }} />
+        <MenuItem onClick={handleMenuLearnClick} disabled={cardsCount === 0}>
+          <img src={learnIcon} alt="learn icon" style={{ marginRight: '10px' }} />
           Learn
         </MenuItem>
       </Menu>
@@ -142,18 +123,28 @@ export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, status }) => {
         isLoading={status}
         packName={packName}
         isOpen={isOpenDeleteModal}
-        onClose={closeDeleteModal}
-        onDeletePack={deleteHandler}
+        onClose={handleCloseDeleteModal}
+        onDeletePack={handleDeletePackClick}
       />
       <EditPackModal
         cover={updatedPack.deckCover}
-        onUpdatePack={onUpdatePackHandler}
+        onUpdatePack={handleUpdatePack}
         isLoading={status}
         packName={updatedPack.packName}
         isOpen={isOpenEditModal}
-        onCloseHandler={closeEditModal}
-        setEditedPackHandler={editHandler}
+        onCloseHandler={handleCloseEditModal}
+        setEditedPackHandler={handleSetEditedPackClick}
       />
     </div>
   );
+};
+
+type BurgerMenuPropsType = {
+  _id: string;
+  status: boolean;
+};
+
+type EditedPackValueType = {
+  packName?: string;
+  deckCover?: Nullable<string>;
 };
