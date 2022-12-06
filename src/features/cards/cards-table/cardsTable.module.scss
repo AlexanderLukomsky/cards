@@ -11,54 +11,6 @@
     width: 100%;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-
-    .tableHeader {
-      background-color: #ededed;
-    }
-
-    .headerTitle {
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 17px;
-      color: rgb(0, 0, 0);
-    }
-  }
-
-  .title {
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 27px;
-    display: flex;
-    justify-items: end;
-
-    .owner {
-      font-size: 12px;
-      margin-left: 10px;
-      margin-right: 10px;
-    }
-  }
-
-  .searchBlock {
-    margin-top: 28px;
-
-    .searchTitle {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 17px;
-    }
-  }
-}
-
-.headerBlock {
-  display: flex;
-  justify-content: space-between;
-
-  .button {
-    min-width: 190px;
-    border-radius: 30px;
-    height: 36px;
-    padding-right: 15px;
-    padding-left: 15px;
   }
 }
 
@@ -73,10 +25,10 @@
     }
   }
 }
-.packCover{
+.packCover {
   width: 170px;
   border-radius: 10px;
 }
-.questionImg{
+.questionImg {
   width: 100px;
 }

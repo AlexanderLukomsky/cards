@@ -4,7 +4,7 @@ import { PacksDataType, SortType } from './type';
 
 import { packsAPI } from 'api';
 import { CreateNewPackRequestDataType, UpdatePackRequestDataType } from 'api/packs-api';
-import { StatusType } from 'common/types';
+import { StatusType, Nullable } from 'common/types';
 import { getResponseErrorMessage } from 'common/utils';
 import { AppRootStateType } from 'store/type';
 
@@ -15,11 +15,11 @@ const initialState = {
   } as PacksDataType,
 
   params: {
-    user_id: null as string | null,
-    searchPacksName: null as string | null,
-    sortPacks: null as SortType,
-    min: null as number | null,
-    max: null as number | null,
+    user_id: null as Nullable<string>,
+    searchPacksName: null as Nullable<string>,
+    sortPacks: null as Nullable<SortType>,
+    min: null as Nullable<number>,
+    max: null as Nullable<number>,
   },
   isSettings: false,
   isInitialized: false,
@@ -33,7 +33,7 @@ const slice = createSlice({
     setNotice: (state, action: PayloadAction<string>) => {
       state.notice = action.payload;
     },
-    setUserPacksId: (state, action: PayloadAction<string | null>) => {
+    setUserPacksId: (state, action: PayloadAction<Nullable<string>>) => {
       state.params.user_id = action.payload;
       state.params.min = null;
       state.params.max = null;
@@ -44,7 +44,7 @@ const slice = createSlice({
     setPageCount: (state, action: PayloadAction<number>) => {
       state.data.pageCount = action.payload;
     },
-    setSearchPacksName: (state, action: PayloadAction<string | null>) => {
+    setSearchPacksName: (state, action: PayloadAction<Nullable<string>>) => {
       state.params.searchPacksName = action.payload;
     },
     setSortPacks: (state, action: PayloadAction<SortType>) => {
@@ -63,7 +63,7 @@ const slice = createSlice({
       state.data.minCardsCount = 0;
       state.params.sortPacks = null;
     },
-    initSettings: (state, action: PayloadAction<{ [key: string]: string | null }>) => {
+    initSettings: (state, action: PayloadAction<{ [key: string]: Nullable<string> }>) => {
       state.isSettings = true;
       state.params = { ...state.params, ...action.payload };
     },

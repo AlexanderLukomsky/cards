@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { LearningWindow } from './learning-window';
 import style from './learning.module.scss';
 
-import backIcon from 'common/assets/icons/back.png';
 import {
   selectLearningIsInitialized,
   selectLearningNotice,
   selectLearningStatus,
 } from 'common/selectors';
+import { BackLinkButton } from 'components/back-link-button';
 import { CustomizedSnackbar } from 'components/customized-snackbar';
 import { LoaderFullSize } from 'components/loader-full-size';
 import { ParticlesContainer } from 'components/particles-container';
@@ -52,10 +52,7 @@ export const Learning = (): JSX.Element => {
   return (
     <div className={style.learning_page}>
       <ParticlesContainer />
-      <NavLink to={appPath.PACKS} className={style.back_link}>
-        <img src={backIcon} alt="back" />
-        <span>Back to Packs list</span>
-      </NavLink>
+      <BackLinkButton path={appPath.PACKS} />
       <LearningWindow />
       <CustomizedSnackbar
         message={notice}

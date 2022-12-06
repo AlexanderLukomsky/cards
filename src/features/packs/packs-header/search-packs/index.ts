@@ -1,1 +1,0 @@
-export { SearchPacks } from './SearchPacks';

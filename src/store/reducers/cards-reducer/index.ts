@@ -9,6 +9,7 @@ export {
   dataSort,
   deleteCard,
   setIsInitialized,
+  setSearchQuestionName,
 } from './cardsReducer';
 
 export type {

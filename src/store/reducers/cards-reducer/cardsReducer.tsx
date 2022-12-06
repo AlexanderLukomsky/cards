@@ -4,17 +4,20 @@ import { CardsDataType, DataSortType, DeleteCardType, EditCardType } from './typ
 
 import { cardsAPI } from 'api';
 import { AddNewCardRequestType, GetCardsRequestParamsType } from 'api/cards-api';
-import { StatusType } from 'common/types';
+import { Nullable, StatusType } from 'common/types';
 import { getResponseErrorMessage } from 'common/utils';
 import { AppRootStateType } from 'store/type';
 
 const initialState = {
-  data: {} as CardsDataType,
+  data: {
+    page: 1,
+    pageCount: 5,
+    packDeckCover: null as Nullable<string>,
+  } as CardsDataType,
   status: 'idle' as StatusType,
   notice: '',
-  page: 1,
-  pageCount: 5,
   isInitialized: false,
+  searchQuestionName: null as Nullable<string>,
 };
 
 const slice = createSlice({
@@ -28,10 +31,13 @@ const slice = createSlice({
       state.notice = action.payload.notice;
     },
     setPageCount(state, action: PayloadAction<number>) {
-      state.pageCount = action.payload;
+      state.data.pageCount = action.payload;
     },
     setPage(state, action: PayloadAction<number>) {
-      state.page = action.payload;
+      state.data.page = action.payload;
+    },
+    setSearchQuestionName: (state, action: PayloadAction<Nullable<string>>) => {
+      state.searchQuestionName = action.payload;
     },
     setIsInitialized: (state, action: PayloadAction<boolean>) => {
       state.isInitialized = action.payload;
@@ -98,8 +104,14 @@ const slice = createSlice({
 
 export const cardsReducer = slice.reducer;
 
-export const { setStatus, setNotice, setPageCount, setPage, setIsInitialized } =
-  slice.actions;
+export const {
+  setStatus,
+  setNotice,
+  setPageCount,
+  setPage,
+  setIsInitialized,
+  setSearchQuestionName,
+} = slice.actions;
 
 export const getCards = createAsyncThunk<
   CardsDataType,
@@ -108,13 +120,14 @@ export const getCards = createAsyncThunk<
 >('cards/get-cards', async (data, { getState, rejectWithValue }) => {
   try {
     const { cards } = getState() as AppRootStateType;
-    const response = await cardsAPI.getCards({
+    const res = await cardsAPI.getCards({
       ...data,
-      pageCount: cards.pageCount,
-      page: cards.page,
+      pageCount: cards.data.pageCount,
+      page: cards.data.page,
+      cardQuestion: cards.searchQuestionName,
     });
 
-    return response.data;
+    return res.data;
   } catch (err) {
     const error = getResponseErrorMessage(err);
 

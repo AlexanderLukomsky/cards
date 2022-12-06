@@ -22,7 +22,7 @@ import { useAppDispatch } from 'store/hooks';
 import { getCards } from 'store/reducers/cards-reducer';
 import { deletePack, updatePack } from 'store/reducers/packs-reducer';
 
-export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, status }) => {
+export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, isLoading }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -120,7 +120,7 @@ export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, status }) => {
       </Menu>
       <DeletePackModal
         cover={packDeckCover}
-        isLoading={status}
+        isLoading={isLoading}
         packName={packName}
         isOpen={isOpenDeleteModal}
         onClose={handleCloseDeleteModal}
@@ -129,7 +129,7 @@ export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, status }) => {
       <EditPackModal
         cover={updatedPack.deckCover}
         onUpdatePack={handleUpdatePack}
-        isLoading={status}
+        isLoading={isLoading}
         packName={updatedPack.packName}
         isOpen={isOpenEditModal}
         onCloseHandler={handleCloseEditModal}
@@ -141,7 +141,7 @@ export const BurgerMenu: FC<BurgerMenuPropsType> = ({ _id, status }) => {
 
 type BurgerMenuPropsType = {
   _id: string;
-  status: boolean;
+  isLoading: boolean;
 };
 
 type EditedPackValueType = {

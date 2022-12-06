@@ -95,3 +95,6 @@ export const selectCardsCurrentPage = (state: AppRootStateType): number =>
 
 export const selectCardsFromData = (state: AppRootStateType): CardType[] =>
   state.cards.data.cards;
+
+export const selectSearchCardName = (state: AppRootStateType): Nullable<string> =>
+  state.cards.searchQuestionName;

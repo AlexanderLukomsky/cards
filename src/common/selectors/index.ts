@@ -30,4 +30,5 @@ export {
   selectCardsCurrentPage,
   selectCardsFromData,
   selectCardsIsInitialized,
+  selectSearchCardName,
 } from './selectors';
