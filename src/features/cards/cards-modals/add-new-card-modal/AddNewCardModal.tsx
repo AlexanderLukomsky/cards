@@ -1,16 +1,15 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { FC, useState } from 'react';
 
 import {
-  FormControl,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from '@mui/material';
+  CardModalImageQuestion,
+  SelectQuestionType,
+  TextInput,
+} from '../modal-components';
 
 import style from './addNewCardModal.module.scss';
-import { ImageInput } from './image-input';
 
+import { Nullable } from 'common/types';
+import { validationTextInputCard } from 'common/utils';
 import { BasicModal } from 'components/basic-modal';
 import { useAppDispatch } from 'store/hooks';
 import { addNewCard } from 'store/reducers/cards-reducer';
@@ -22,69 +21,99 @@ export const AddNewCardModal: FC<AddNewCardModalPropsType> = ({
   packId,
 }) => {
   const dispatch = useAppDispatch();
+
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
-  const [questionError, setQuestionError] = useState('');
-  const [answerError, setAnswerError] = useState('');
-  const [isImgQuestion, setIsImgQuestion] = useState<QuestionType>('text');
-  const [questionImg, setQuestionImg] = useState('');
 
-  const setTypeOfQuestionHandler = (event: SelectChangeEvent): void => {
-    setIsImgQuestion(event.target.value as QuestionType);
+  const [questionError, setQuestionError] = useState<Nullable<string>>(null);
+  const [answerError, setAnswerError] = useState<Nullable<string>>(null);
+
+  const [questionImage, setQuestionImage] = useState<Nullable<string>>(null);
+  const [questionImageError, setQuestionImageError] = useState<Nullable<string>>(null);
+
+  const [questionType, setQuestionType] = useState<QuestionType>('text');
+
+  const handleQuestionTypeChange = (value: QuestionType): void => {
+    setQuestionType(value);
+
+    if (questionType === 'text') {
+      setQuestionError(null);
+
+      return;
+    }
+    setQuestionImageError(null);
   };
 
-  const onChangeQuestion = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleQuestionValueChange = (value: string): void => {
     setQuestionError('');
-    setQuestion(e.currentTarget.value);
+    setQuestion(value);
   };
-  const onChangeAnswer = (e: ChangeEvent<HTMLInputElement>): void => {
+
+  const handleAnswerValueChange = (value: string): void => {
     setAnswerError('');
-    setAnswer(e.currentTarget.value);
+    setAnswer(value);
   };
-  const onClose = (): void => {
-    setQuestionError('');
-    setAnswerError('');
+
+  const handleSuccessUploadImage = (value: string): void => {
+    setQuestionImageError(null);
+    setQuestionImage(value);
+  };
+
+  const handlerErrorUploadImage = (value: string): void => {
+    setQuestionImageError(value);
+  };
+
+  const handleCloseModal = (): void => {
     setAnswer('');
     setQuestion('');
+    setQuestionError(null);
+    setAnswerError(null);
+    setQuestionImage(null);
+    setQuestionImageError(null);
+    setQuestionType('text');
     onCloseHandler();
-    setQuestionImg('');
   };
-  const setEditedCard = async (): Promise<void> => {
-    if (isImgQuestion === 'text') {
-      if (!question.trim()) {
-        setQuestionError('enter a question');
-      }
-      if (!answer.trim()) {
-        setAnswerError('enter answer');
-      }
-      if (!!question.trim() && !!answer.trim()) {
-        const card = {
-          cardsPack_id: packId,
-          question,
-          answer,
-        };
-        const action = await dispatch(addNewCard(card));
 
-        if (action) {
-          onClose();
-        }
-      }
-    } else {
-      if (!answer.trim()) {
-        setAnswerError('enter answer');
-      }
-      if (questionImg.length > 1 && !!answer.trim()) {
-        const card = {
-          cardsPack_id: packId,
-          questionImg,
-          answer,
-        };
-        const action = await dispatch(addNewCard({ ...card, question: '123' }));
+  const handleSaveCardButtonClick = async (): Promise<void> => {
+    const errors = validationTextInputCard({ question, answer });
 
-        if (action) {
-          onClose();
-        }
+    if (questionType === 'text') {
+      if (errors.isError) {
+        setQuestionError(errors.questionError);
+        setAnswerError(errors.answer);
+
+        return;
       }
+      const card = {
+        cardsPack_id: packId,
+        question,
+        answer,
+      };
+      const action = await dispatch(addNewCard(card));
+
+      if (addNewCard.fulfilled.match(action)) {
+        handleCloseModal();
+      }
+
+      return;
+    }
+
+    if (errors.isError || questionImageError || !questionImage) {
+      setAnswerError(errors.answer);
+      setQuestionImageError('image is required');
+
+      return;
+    }
+
+    const card = {
+      cardsPack_id: packId,
+      questionImage,
+      answer,
+    };
+    const action = await dispatch(addNewCard(card));
+
+    if (addNewCard.fulfilled.match(action)) {
+      handleCloseModal();
     }
   };
 
@@ -93,60 +122,50 @@ export const AddNewCardModal: FC<AddNewCardModalPropsType> = ({
       className={style.addCard}
       open={isOpen}
       title="Add card"
-      onClose={onClose}
+      onClose={handleCloseModal}
       cancelButton={{
         title: 'Cancel',
-        buttonProps: { onClick: onClose, disabled: isLoading },
+        buttonProps: { onClick: handleCloseModal, disabled: isLoading },
       }}
       confirmButton={{
         title: 'Save',
         buttonProps: {
-          onClick: setEditedCard,
+          onClick: handleSaveCardButtonClick,
           disabled: isLoading || !!questionError || !!answerError,
         },
       }}
       isLoading={isLoading}
     >
-      <FormControl variant="outlined" className={style.selector}>
-        <Select
-          labelId="ImgOrText"
-          id="demo-simple-select-standard"
-          value={isImgQuestion}
-          onChange={setTypeOfQuestionHandler}
-        >
-          <MenuItem value="text">Text</MenuItem>
-          <MenuItem value="image">Image</MenuItem>
-        </Select>
-      </FormControl>
+      <SelectQuestionType
+        onChangeHandler={handleQuestionTypeChange}
+        questionType={questionType}
+      />
+
       <div className={style.question}>
-        {isImgQuestion === 'text' ? (
-          <TextField
-            className={style.question__value}
-            error={!!questionError}
-            color={questionError ? 'error' : 'info'}
+        {questionType === 'text' ? (
+          <TextInput
+            onChangeHandler={handleQuestionValueChange}
             value={question}
-            onChange={onChangeQuestion}
-            id="outlined-basic"
+            errorMessage={questionError}
             label="Question"
-            variant="standard"
           />
         ) : (
-          <ImageInput image={questionImg} setImage={setQuestionImg} />
+          <CardModalImageQuestion
+            image={questionImage}
+            errorMessage={questionImageError}
+            onSuccessUploadImageHandler={handleSuccessUploadImage}
+            onErrorUploadImageHandler={handlerErrorUploadImage}
+          />
         )}
-        {!!questionError && <div className={style.question__error}>{questionError}</div>}
       </div>
+
       <div className={style.answer}>
-        <TextField
-          className={style.answer__value}
-          error={!!answerError}
-          color={answerError ? 'error' : 'info'}
+        <TextInput
+          onChangeHandler={handleAnswerValueChange}
           value={answer}
-          onChange={onChangeAnswer}
-          id="outlined-basic"
+          errorMessage={answerError}
           label="Answer"
-          variant="standard"
         />
-        {!!answerError && <div className={style.answer__error}>{answerError}</div>}
       </div>
     </BasicModal>
   );

@@ -1,0 +1,26 @@
+.question_block {
+  .image {
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+    max-height: 150px;
+    margin-bottom: 15px;
+  }
+  .button {
+    display: block;
+    margin: 0 auto;
+    max-width: 172px;
+    text-align: center;
+    border-color: #d9d9d9;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif;
+  }
+  .error {
+    margin: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #d32f2f;
+    text-align: center;
+  }
+}

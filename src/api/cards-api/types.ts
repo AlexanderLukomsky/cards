@@ -13,14 +13,14 @@ export type GetCardsRequestParamsType = {
 
 export type AddNewCardRequestType = {
   cardsPack_id: string;
-  question: string;
+  question?: string;
   answer: string;
-
+  questionImg?: string;
   // optional
   grade?: number;
   shots?: number;
   answerImg?: string;
-  questionImg?: string;
+
   questionVideo?: string;
   answerVideo?: string;
 };

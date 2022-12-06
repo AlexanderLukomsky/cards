@@ -8,6 +8,7 @@ import { PacksModalCover } from '../packs-modal-cover';
 import style from './addNewPackModal.module.scss';
 
 import { selectPacks } from 'common/selectors/selectors';
+import { Nullable } from 'common/types';
 import { convertImageToBase64 } from 'common/utils';
 import { BasicModal } from 'components/basic-modal';
 import { useAppDispatch } from 'store/hooks';
@@ -23,8 +24,8 @@ export const AddNewPackModal: FC<AddNewPackModalPropsType> = ({
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  const [cover, setCover] = useState<null | string>(null);
-  const [errorCover, setErrorCover] = useState<string | null>(null);
+  const [cover, setCover] = useState<Nullable<string>>(null);
+  const [errorCover, setErrorCover] = useState<Nullable<string>>(null);
 
   const handlePackNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setErrorMessage('');

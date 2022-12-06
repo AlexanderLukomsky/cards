@@ -1,0 +1,1 @@
+export { CardModalImageQuestion } from './CardModalImageQuestion';
