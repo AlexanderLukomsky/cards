@@ -46,7 +46,8 @@ export type DeleteCardType = {
 export type EditCardType = {
   card: {
     _id: string;
-    question?: string;
+    question?: Nullable<string>;
+    questionImg?: Nullable<string>;
     answer?: string;
   };
   packId: string;

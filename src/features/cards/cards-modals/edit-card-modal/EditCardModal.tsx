@@ -1,104 +1,130 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 
 import {
-  FormControl,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from '@mui/material';
-
-import { QuestionType } from '../add-new-card-modal';
-import { ImageInput } from '../add-new-card-modal/image-input';
+  CardModalImageQuestion,
+  QuestionType,
+  SelectedCardType,
+  SelectQuestionType,
+  TextInput,
+} from '../modal-components';
 
 import style from './editCardModal.module.scss';
 
+import { Nullable } from 'common/types';
+import { validationTextInputCard } from 'common/utils';
 import { BasicModal } from 'components/basic-modal';
 import { useAppDispatch } from 'store/hooks';
 import { editCard } from 'store/reducers/cards-reducer';
 
 export const EditCardModal: FC<EditCardModalPropsType> = ({
   isOpen,
-  onCloseHandler,
   isLoading,
-  question,
-  answer,
-  onChangeQuestionHandler,
-  onChangeAnswerHandler,
-  cardId,
-  packId,
-  questionImg,
+  selectedCard,
+  onCloseHandler,
+  onQuestionChangeHandler,
+  onAnswerChangeHandler,
+  onQuestionTypeChangeHandler,
+  onQuestionImageChangeHandler,
 }) => {
   const dispatch = useAppDispatch();
 
-  const [questionError, setQuestionError] = useState('');
-  const [answerError, setAnswerError] = useState('');
+  const { questionImg, question, answer, packId, cardId, questionType } = selectedCard;
 
-  const [isImgQuestion, setIsImgQuestion] = useState<QuestionType>('text');
-  const [imageForQuestion, setImageForQuestion] = useState(questionImg);
+  const [questionError, setQuestionError] = useState<Nullable<string>>(null);
 
-  useEffect(() => {
-    setIsImgQuestion(questionImg && questionImg !== 'url or base 64' ? 'image' : 'text');
-    setImageForQuestion(questionImg);
-  }, [questionImg]);
+  const [answerError, setAnswerError] = useState<Nullable<string>>(null);
 
-  const setTypeOfQuestionHandler = (event: SelectChangeEvent): void => {
-    setIsImgQuestion(event.target.value as QuestionType);
+  const [questionImageError, setQuestionImageError] = useState<Nullable<string>>(null);
+
+  const handleQuestionTypeChange = (value: QuestionType): void => {
+    onQuestionTypeChangeHandler(value);
+
+    if (value === 'image') {
+      setQuestionError(null);
+
+      return;
+    }
+    setQuestionImageError(null);
   };
 
-  const onClose = (): void => {
+  const handleCloseModal = (): void => {
     onCloseHandler();
-    setQuestionError('');
-    setAnswerError('');
-    setImageForQuestion('url or base 64');
+    setQuestionError(null);
+    setAnswerError(null);
+    setQuestionImageError(null);
   };
-  const setEditedCard = async (): Promise<void> => {
-    if (isImgQuestion === 'text') {
-      if (!question.trim()) {
-        setQuestionError('enter a question');
+
+  const handleSaveCardButtonClick = async (): Promise<void> => {
+    if (questionType === 'text') {
+      const errors = validationTextInputCard({ question, answer });
+
+      if (errors.isError) {
+        setQuestionError(errors.questionError);
+        setAnswerError(errors.answer);
+
+        return;
       }
-      if (!answer.trim()) {
-        setAnswerError('enter answer');
-      }
-      if (!!question.trim() && !!answer.trim()) {
-        const card = {
+      const data = {
+        card: {
           _id: cardId,
           question,
           answer,
           questionImg: 'url or base 64',
-        };
-        const action = await dispatch(editCard({ card, packId }));
+        },
+        packId,
+      };
+      const action = await dispatch(editCard(data));
 
-        if (action) {
-          onCloseHandler();
-        }
+      if (editCard.fulfilled.match(action)) {
+        handleCloseModal();
       }
-    } else {
-      if (!answer.trim()) {
-        setAnswerError('enter answer');
-      }
-      if (imageForQuestion && !!answer.trim()) {
-        const card = {
-          _id: cardId,
-          questionImg: imageForQuestion,
-          answer,
-        };
-        const action = await dispatch(editCard({ card, packId }));
 
-        if (action) {
-          onCloseHandler();
-        }
-      }
+      return;
+    }
+
+    const errors = validationTextInputCard({ answer });
+
+    if (errors.isError) {
+      setAnswerError(errors.answer);
+
+      return;
+    }
+    if (questionImageError || !questionImg) {
+      setQuestionImageError('image is required');
+
+      return;
+    }
+    const data = {
+      card: {
+        _id: cardId,
+        question: null,
+        answer,
+        questionImg,
+      },
+      packId,
+    };
+    const action = await dispatch(editCard(data));
+
+    if (editCard.fulfilled.match(action)) {
+      handleCloseModal();
     }
   };
 
-  const onChangeQuestion = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleQuestionValueChange = (value: string): void => {
     setQuestionError('');
-    onChangeQuestionHandler(e.currentTarget.value);
+    onQuestionChangeHandler(value);
   };
-  const onChangeAnswer = (e: ChangeEvent<HTMLInputElement>): void => {
+
+  const handleAnswerValueChange = (value: string): void => {
     setAnswerError('');
-    onChangeAnswerHandler(e.currentTarget.value);
+    onAnswerChangeHandler(value);
+  };
+  const handleSuccessUploadImage = (value: string): void => {
+    setQuestionImageError(null);
+    onQuestionImageChangeHandler(value);
+  };
+  const handlerErrorUploadImage = (value: string): void => {
+    setQuestionImageError(value);
   };
 
   return (
@@ -106,61 +132,50 @@ export const EditCardModal: FC<EditCardModalPropsType> = ({
       className={style.editCard}
       open={isOpen}
       title="Edit card"
-      onClose={onClose}
+      onClose={handleCloseModal}
       cancelButton={{
         title: 'Cancel',
-        buttonProps: { onClick: onClose, disabled: isLoading },
+        buttonProps: { onClick: handleCloseModal, disabled: isLoading },
       }}
       confirmButton={{
         title: 'Save',
         buttonProps: {
-          onClick: setEditedCard,
+          onClick: handleSaveCardButtonClick,
           disabled: isLoading || !!questionError || !!answerError,
         },
       }}
       isLoading={isLoading}
     >
-      <FormControl variant="outlined" className={style.selector}>
-        <Select
-          labelId="ImgOrTextEdit"
-          id="editSelector"
-          value={isImgQuestion}
-          onChange={setTypeOfQuestionHandler}
-        >
-          <MenuItem value="text">Text</MenuItem>
-          <MenuItem value="image">Image</MenuItem>
-        </Select>
-      </FormControl>
+      <SelectQuestionType
+        onChangeHandler={handleQuestionTypeChange}
+        questionType={questionType}
+      />
+
       <div className={style.question}>
-        {isImgQuestion === 'image' ? (
-          <ImageInput image={imageForQuestion} setImage={setImageForQuestion} />
-        ) : (
-          <TextField
-            className={style.question__value}
-            error={!!questionError}
-            color={questionError ? 'error' : 'info'}
+        {questionType === 'text' ? (
+          <TextInput
+            onChangeHandler={handleQuestionValueChange}
             value={question}
-            onChange={onChangeQuestion}
-            id="outlined-basic"
+            errorMessage={questionError}
             label="Question"
-            variant="standard"
+          />
+        ) : (
+          <CardModalImageQuestion
+            image={questionImg}
+            errorMessage={questionImageError}
+            onSuccessUploadImageHandler={handleSuccessUploadImage}
+            onErrorUploadImageHandler={handlerErrorUploadImage}
           />
         )}
-
-        {!!questionError && <div className={style.question__error}>{questionError}</div>}
       </div>
+
       <div className={style.answer}>
-        <TextField
-          className={style.answer__value}
-          error={!!answerError}
-          color={answerError ? 'error' : 'info'}
+        <TextInput
+          onChangeHandler={handleAnswerValueChange}
           value={answer}
-          onChange={onChangeAnswer}
-          id="outlined-basic"
-          label="Name pack"
-          variant="standard"
+          errorMessage={answerError}
+          label="Answer"
         />
-        {!!answerError && <div className={style.answer__error}>{answerError}</div>}
       </div>
     </BasicModal>
   );
@@ -169,12 +184,10 @@ export const EditCardModal: FC<EditCardModalPropsType> = ({
 type EditCardModalPropsType = {
   isLoading: boolean;
   isOpen: boolean;
+  onQuestionChangeHandler: (value: string) => void;
+  onAnswerChangeHandler: (value: string) => void;
   onCloseHandler: () => void;
-  question: string;
-  answer: string;
-  onChangeQuestionHandler: (value: string) => void;
-  onChangeAnswerHandler: (value: string) => void;
-  cardId: string;
-  packId: string;
-  questionImg: string | null;
+  onQuestionTypeChangeHandler: (value: QuestionType) => void;
+  onQuestionImageChangeHandler: (value: string) => void;
+  selectedCard: SelectedCardType;
 };

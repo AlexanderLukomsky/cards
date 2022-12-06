@@ -13,9 +13,9 @@ export type GetCardsRequestParamsType = {
 
 export type AddNewCardRequestType = {
   cardsPack_id: string;
-  question?: string;
+  question?: Nullable<string>;
   answer: string;
-  questionImg?: string;
+  questionImg?: Nullable<string>;
   // optional
   grade?: number;
   shots?: number;
@@ -27,7 +27,7 @@ export type AddNewCardRequestType = {
 
 export type EditCardRequestType = {
   _id: string;
-} & Partial<Pick<AddNewCardRequestType, 'question' | 'answer'>>;
+} & Partial<Pick<AddNewCardRequestType, 'question' | 'answer' | 'questionImg'>>;
 
 export type SetGradeRequestParamsType = {
   grade: number;

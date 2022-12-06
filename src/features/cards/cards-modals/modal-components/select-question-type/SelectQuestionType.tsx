@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { SelectChangeEvent, Select, MenuItem } from '@mui/material';
 
-import { QuestionType } from '../../add-new-card-modal';
+import { QuestionType } from '../types';
 
 import style from './selectQuestionType.module.scss';
 

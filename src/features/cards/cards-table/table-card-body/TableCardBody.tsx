@@ -10,39 +10,43 @@ import deleteIcon from 'common/assets/icons/trash.svg';
 import { selectCardsFromData, selectCardsStatus } from 'common/selectors';
 import { dateFormat } from 'common/utils';
 import { RatingStars } from 'components/rating-stars';
-import { DeleteCardModal, EditCardModal } from 'features/cards/cards-modals';
+import {
+  DeleteCardModal,
+  EditCardModal,
+  OpenModalDataType,
+  QuestionType,
+  SelectedCardType,
+} from 'features/cards/cards-modals';
 import { useAppDispatch } from 'store/hooks';
 import { deleteCard } from 'store/reducers/cards-reducer';
 
 type TableCardBodyType = {
   isOwner: boolean;
 };
-type SelectedCardType = {
-  cardId: string;
-  packId: string;
-  question: string;
-  answer: string;
-  questionImg: string | null;
-};
 
 export const TableCardBody: FC<TableCardBodyType> = ({ isOwner }) => {
   const dispatch = useAppDispatch();
   const cards = useSelector(selectCardsFromData);
   const status = useSelector(selectCardsStatus);
-  // actions
+
   const [selectedCard, setSelectedCard] = useState<SelectedCardType>({
     cardId: '',
     packId: '',
     question: '',
     answer: '',
     questionImg: null,
+    questionType: 'text',
   });
-  // delete card
+
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-  const openDeleteModal = (data: SelectedCardType): void => {
-    setSelectedCard(data);
+
+  const handleDeleteModalClick = (data: OpenModalDataType): void => {
+    const questionType = data.questionImg !== 'url or base 64' ? 'image' : 'text';
+
+    setSelectedCard({ ...data, questionType });
     setIsOpenDeleteModal(true);
   };
+
   const deleteCardHandler = async (): Promise<void> => {
     const action = await dispatch(
       deleteCard({ cardId: selectedCard.cardId, packId: selectedCard.packId }),
@@ -54,17 +58,28 @@ export const TableCardBody: FC<TableCardBodyType> = ({ isOwner }) => {
   };
   // edit card
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
-  const openEditModal = (data: SelectedCardType): void => {
-    setSelectedCard(data);
+
+  const handleOpenEditModalClick = (data: OpenModalDataType): void => {
+    const questionType = data.questionImg !== 'url or base 64' ? 'image' : 'text';
+
+    setSelectedCard({ ...data, questionType });
     setIsOpenEditModal(true);
   };
 
-  const onChangeQuestionHandler = (value: string): void => {
-    setSelectedCard(data => ({ ...data, question: value }));
+  const handleQuestionTypeChange = (questionType: QuestionType): void => {
+    setSelectedCard(data => ({ ...data, questionType }));
   };
 
-  const onChangeAnswerHandler = (value: string): void => {
-    setSelectedCard(data => ({ ...data, answer: value }));
+  const handleQuestionChange = (question: string): void => {
+    setSelectedCard(data => ({ ...data, question }));
+  };
+
+  const handleAnswerChange = (answer: string): void => {
+    setSelectedCard(data => ({ ...data, answer }));
+  };
+
+  const handleQuestionImageChange = (questionImg: string): void => {
+    setSelectedCard(data => ({ ...data, questionImg }));
   };
 
   return (
@@ -106,7 +121,7 @@ export const TableCardBody: FC<TableCardBodyType> = ({ isOwner }) => {
                 card.answer
               )}
             </TableCell>
-            <TableCell align="right">{dateFormat(new Date())}</TableCell>
+            <TableCell align="right">{dateFormat(card.updated)}</TableCell>
             <TableCell align="right">
               <RatingStars stars={card.grade} />
             </TableCell>
@@ -116,7 +131,7 @@ export const TableCardBody: FC<TableCardBodyType> = ({ isOwner }) => {
                   <button
                     type="button"
                     onClick={() => {
-                      openEditModal({
+                      handleOpenEditModalClick({
                         cardId: card._id,
                         packId: card.cardsPack_id,
                         question: card.question,
@@ -132,7 +147,7 @@ export const TableCardBody: FC<TableCardBodyType> = ({ isOwner }) => {
                   <button
                     type="button"
                     onClick={() => {
-                      openDeleteModal({
+                      handleDeleteModalClick({
                         cardId: card._id,
                         packId: card.cardsPack_id,
                         question: card.question,
@@ -151,6 +166,7 @@ export const TableCardBody: FC<TableCardBodyType> = ({ isOwner }) => {
           </TableRow>
         ))
       )}
+
       <DeleteCardModal
         cardName={selectedCard.question}
         isOpen={isOpenDeleteModal}
@@ -160,16 +176,15 @@ export const TableCardBody: FC<TableCardBodyType> = ({ isOwner }) => {
         onDeleteCard={deleteCardHandler}
         isLoading={status === 'pending'}
       />
+
       <EditCardModal
-        questionImg={selectedCard.questionImg}
-        question={selectedCard.question}
-        answer={selectedCard.answer}
-        cardId={selectedCard.cardId}
-        packId={selectedCard.packId}
+        selectedCard={selectedCard}
         isLoading={status === 'pending'}
         isOpen={isOpenEditModal}
-        onChangeQuestionHandler={onChangeQuestionHandler}
-        onChangeAnswerHandler={onChangeAnswerHandler}
+        onQuestionTypeChangeHandler={handleQuestionTypeChange}
+        onQuestionChangeHandler={handleQuestionChange}
+        onQuestionImageChangeHandler={handleQuestionImageChange}
+        onAnswerChangeHandler={handleAnswerChange}
         onCloseHandler={() => {
           setIsOpenEditModal(false);
         }}

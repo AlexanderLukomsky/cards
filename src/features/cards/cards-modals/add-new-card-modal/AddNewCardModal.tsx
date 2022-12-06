@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 
 import {
   CardModalImageQuestion,
+  QuestionType,
   SelectQuestionType,
   TextInput,
 } from '../modal-components';
@@ -98,13 +99,16 @@ export const AddNewCardModal: FC<AddNewCardModalPropsType> = ({
       return;
     }
 
-    if (errors.isError || questionImageError || !questionImage) {
+    if (errors.isError) {
       setAnswerError(errors.answer);
+
+      return;
+    }
+    if (questionImageError || !questionImage) {
       setQuestionImageError('image is required');
 
       return;
     }
-
     const card = {
       cardsPack_id: packId,
       questionImage,
@@ -176,4 +180,3 @@ type AddNewCardModalPropsType = {
   onCloseHandler: () => void;
   packId: string;
 };
-export type QuestionType = 'text' | 'image';
