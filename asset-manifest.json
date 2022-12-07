@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/cards/static/css/main.3d4c01c9.css",
-    "main.js": "/cards/static/js/main.bfadbf74.js",
+    "main.css": "/cards/static/css/main.bc3bda65.css",
+    "main.js": "/cards/static/js/main.bfc8325f.js",
     "static/js/787.cfef8d12.chunk.js": "/cards/static/js/787.cfef8d12.chunk.js",
     "static/media/Montserrat-VariableFont_wght.ttf": "/cards/static/media/Montserrat-VariableFont_wght.3faa3eef13649db02044.ttf",
     "static/media/christmas-hat.png": "/cards/static/media/christmas-hat.83793edd2fc1e28f559d.png",
@@ -15,12 +15,12 @@
     "index.html": "/cards/index.html",
     "static/media/cross.svg": "/cards/static/media/cross.bd72ece561ff841df80e82c1a5ce8aaf.svg",
     "static/media/drop.svg": "/cards/static/media/drop.fea3ba07db5a1e87b16c9acd04731f72.svg",
-    "main.3d4c01c9.css.map": "/cards/static/css/main.3d4c01c9.css.map",
-    "main.bfadbf74.js.map": "/cards/static/js/main.bfadbf74.js.map",
+    "main.bc3bda65.css.map": "/cards/static/css/main.bc3bda65.css.map",
+    "main.bfc8325f.js.map": "/cards/static/js/main.bfc8325f.js.map",
     "787.cfef8d12.chunk.js.map": "/cards/static/js/787.cfef8d12.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3d4c01c9.css",
-    "static/js/main.bfadbf74.js"
+    "static/css/main.bc3bda65.css",
+    "static/js/main.bfc8325f.js"
   ]
 }
