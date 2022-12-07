@@ -59,6 +59,7 @@ export const Packs = (): JSX.Element => {
     packsState.data.pageCount,
     packsState.isSettings,
     packsState.params,
+    params.userPack,
   ]);
 
   if (!isAuth) {
