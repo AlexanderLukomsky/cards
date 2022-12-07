@@ -7,6 +7,7 @@ import {
   cardsReducer,
   learningReducer,
   packsReducer,
+  usersReducer,
 } from './reducers';
 import { AppRootStateType } from './type';
 
@@ -16,6 +17,7 @@ const rootReducers = combineReducers({
   packs: packsReducer,
   learning: learningReducer,
   cards: cardsReducer,
+  users: usersReducer,
 });
 
 export const store = configureStore({

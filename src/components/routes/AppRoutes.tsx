@@ -11,6 +11,7 @@ import { Learning } from 'features/learning';
 import { Main } from 'features/main';
 import { Packs } from 'features/packs';
 import { Profile } from 'features/profile';
+import { UsersList } from 'features/users-list';
 
 export const AppRoutes = (): JSX.Element => {
   return (
@@ -31,6 +32,8 @@ export const AppRoutes = (): JSX.Element => {
       <Route path={appPath.CARDS} element={<Cards />} />
 
       <Route path={appPath.LEARNING} element={<Learning />} />
+
+      <Route path={appPath.USERS} element={<UsersList />} />
     </Routes>
   );
 };

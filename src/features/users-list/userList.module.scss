@@ -1,0 +1,7 @@
+@import "common/styles/mixins";
+
+.user_list {
+  padding-top: 80px;
+  @include flexWithHeight(column, center, center, nowrap, 100vh);
+  gap: 15px;
+}

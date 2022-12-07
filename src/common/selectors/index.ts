@@ -32,3 +32,13 @@ export {
   selectCardsIsInitialized,
   selectSearchCardName,
 } from './selectors';
+
+export {
+  selectUsers,
+  selectUsersPage,
+  selectUsersPageCount,
+  selectUsersTotalCount,
+  selectUsersStatus,
+  selectUsersIsInitialized,
+  selectUsersNotice,
+} from './users-selectors';

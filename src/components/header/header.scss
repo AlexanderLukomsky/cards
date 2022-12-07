@@ -76,4 +76,17 @@
          }
       }
    }
+   &__auth {
+      display: flex;
+      align-items: center;
+   }
+   &__link-users {
+      margin-right: 25px;
+      padding-top: 5px;
+      &:hover {
+         svg {
+            fill: #1976d2;
+         }
+      }
+   }
 }

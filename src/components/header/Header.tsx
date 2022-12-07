@@ -1,3 +1,4 @@
+import Groups2Icon from '@mui/icons-material/Groups2';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
@@ -19,7 +20,12 @@ export const Header = (): JSX.Element => {
           <img className="header__hat" src={christmasHat} alt="christmas-hat" />
         </NavLink>
         {isAuth ? (
-          <LoginInfo />
+          <div className="header__auth">
+            <NavLink className="header__link-users" to={appPath.USERS}>
+              <Groups2Icon fontSize="large" color="action" />
+            </NavLink>
+            <LoginInfo />
+          </div>
         ) : (
           <NavLink className="header__link" to={appPath.LOGIN}>
             <span>Sign in</span>

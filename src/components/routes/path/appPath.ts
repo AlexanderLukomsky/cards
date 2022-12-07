@@ -11,5 +11,6 @@ export enum appPath {
   CARDS_DEFAULT = '/cards-decks/',
   LEARNING = '/learning/:id',
   LEARNING_DEFAULT = '/learning/',
-  ERROR_PAGE = '/ErrorPage',
+
+  USERS = '/users-list',
 }
