@@ -19,8 +19,9 @@ import { getPacks, packsActions } from 'store/reducers/packs-reducer';
 export const Packs = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const { setNotice, setPage, setPageCount, initSettings } = packsActions;
+  const { setNotice, setPage, setPageCount } = packsActions;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   const isAuth = useSelector(selectIsAuth);
@@ -43,22 +44,15 @@ export const Packs = (): JSX.Element => {
   searchParams.forEach((value, key) => {
     params[key] = value;
   });
+
   useEffect(() => {
-    if (packsState.params.user_id && !params.userPack) {
-      setSearchParams({ userPack: packsState.params.user_id });
-    }
-    if (!packsState.isSettings) {
-      if (params.userPack === 'all') {
-        setSearchParams({ userPack: 'all' });
-        dispatch(initSettings({ user_id: null }));
-      } else {
-        dispatch(initSettings({ ...params, user_id: params.userPack }));
-      }
+    if (params.userPack === 'all' || !params.userPack) {
+      dispatch(getPacks({}));
 
       return;
     }
 
-    dispatch(getPacks());
+    dispatch(getPacks({ user_id: params.userPack }));
   }, [
     dispatch,
     packsState.data.page,

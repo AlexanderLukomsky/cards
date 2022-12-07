@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import style from './user.module.scss';
 
 import { validationImage } from 'common/utils';
+import { appPath } from 'components/routes/path';
 
 export const User: FC<UserPropsType> = ({
   name,
@@ -19,7 +20,7 @@ export const User: FC<UserPropsType> = ({
       {publicCardPacksCount === 0 ? (
         <span className={style.name}>{name}</span>
       ) : (
-        <NavLink className={style.name} to={userId}>
+        <NavLink className={style.name} to={`${appPath.PACKS}?userPack=${userId}`}>
           {name}
         </NavLink>
       )}

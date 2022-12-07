@@ -3,7 +3,11 @@ import { createAsyncThunk, createSlice, PayloadAction, isAnyOf } from '@reduxjs/
 import { PacksDataType, SortType } from './type';
 
 import { packsAPI } from 'api';
-import { CreateNewPackRequestDataType, UpdatePackRequestDataType } from 'api/packs-api';
+import {
+  CreateNewPackRequestDataType,
+  GetPacksRequestParamsType,
+  UpdatePackRequestDataType,
+} from 'api/packs-api';
 import { StatusType, Nullable } from 'common/types';
 import { getResponseErrorMessage } from 'common/utils';
 import { AppRootStateType } from 'store/type';
@@ -118,9 +122,9 @@ const slice = createSlice({
 
 export const getPacks = createAsyncThunk<
   PacksDataType,
-  undefined,
+  Partial<GetPacksRequestParamsType>,
   { rejectValue: string }
->('packs/get-packs', async (_, { getState, rejectWithValue }) => {
+>('packs/get-packs', async (reqData, { getState, rejectWithValue }) => {
   const { data, params } = (getState() as AppRootStateType).packs;
 
   const requestParams = {
@@ -131,6 +135,7 @@ export const getPacks = createAsyncThunk<
     user_id: params.user_id,
     min: params.min,
     max: params.max,
+    ...reqData,
   };
 
   try {
@@ -151,7 +156,7 @@ export const createNewPack = createAsyncThunk<
 >('packs/add-new-pack', async (data, { dispatch, rejectWithValue }) => {
   try {
     await packsAPI.createNewPack(data);
-    dispatch(getPacks());
+    dispatch(getPacks({}));
   } catch (err) {
     const error = getResponseErrorMessage(err);
 
@@ -164,7 +169,7 @@ export const deletePack = createAsyncThunk<unknown, string, { rejectValue: strin
   async (id, { dispatch, rejectWithValue }) => {
     try {
       await packsAPI.deletePack(id);
-      dispatch(getPacks());
+      dispatch(getPacks({}));
     } catch (err) {
       const error = getResponseErrorMessage(err);
 
@@ -179,7 +184,7 @@ export const updatePack = createAsyncThunk<
 >('packs/edit-pack-name', async (data, { dispatch, rejectWithValue }) => {
   try {
     await packsAPI.updatePack(data);
-    dispatch(getPacks());
+    dispatch(getPacks({}));
   } catch (err) {
     const error = getResponseErrorMessage(err);
 
