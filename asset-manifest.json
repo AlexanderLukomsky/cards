@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/cards/static/css/main.bc3bda65.css",
-    "main.js": "/cards/static/js/main.fed28f3a.js",
+    "main.js": "/cards/static/js/main.543488da.js",
     "static/js/787.cfef8d12.chunk.js": "/cards/static/js/787.cfef8d12.chunk.js",
     "static/media/Montserrat-VariableFont_wght.ttf": "/cards/static/media/Montserrat-VariableFont_wght.3faa3eef13649db02044.ttf",
     "static/media/christmas-hat.png": "/cards/static/media/christmas-hat.83793edd2fc1e28f559d.png",
@@ -16,11 +16,11 @@
     "static/media/cross.svg": "/cards/static/media/cross.bd72ece561ff841df80e82c1a5ce8aaf.svg",
     "static/media/drop.svg": "/cards/static/media/drop.fea3ba07db5a1e87b16c9acd04731f72.svg",
     "main.bc3bda65.css.map": "/cards/static/css/main.bc3bda65.css.map",
-    "main.fed28f3a.js.map": "/cards/static/js/main.fed28f3a.js.map",
+    "main.543488da.js.map": "/cards/static/js/main.543488da.js.map",
     "787.cfef8d12.chunk.js.map": "/cards/static/js/787.cfef8d12.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bc3bda65.css",
-    "static/js/main.fed28f3a.js"
+    "static/js/main.543488da.js"
   ]
 }
