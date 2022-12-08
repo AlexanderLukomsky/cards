@@ -170,10 +170,9 @@ export const restorePassword = createAsyncThunk<unknown, string, { rejectValue: 
       const data = {
         email,
         from: 'test-front-admin <ai73a@yandex.by>',
-        message: `<div style="background-color: lime; padding: 15px">
+        message: `<div style="padding: 15px">
                 password recovery link: 
-                <a href=''>
-                link</a>
+                <a href='https://alexanderlukomsky.github.io/cards/#/new-password/$token$''>link</a>
                 </div>`,
       };
 

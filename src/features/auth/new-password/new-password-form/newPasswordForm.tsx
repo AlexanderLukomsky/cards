@@ -1,19 +1,20 @@
 import { FC } from 'react';
 
 import { useFormik } from 'formik';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import style from './newPasswordForm.module.scss';
 
 import { StatusType } from 'common/types';
 import { validationForm } from 'common/utils';
 import { FormFooter, FormPassword } from 'components/form-components';
+import { appPath } from 'components/routes/path';
 import { useAppDispatch } from 'store/hooks';
 import { setNewPassword } from 'store/reducers/auth-reducer';
 
 export const NewPasswordForm: FC<NewPasswordFormPropsType> = ({ status }) => {
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const params = useParams();
   const token = params.token as string;
 
@@ -39,7 +40,7 @@ export const NewPasswordForm: FC<NewPasswordFormPropsType> = ({ status }) => {
       );
 
       if (setNewPassword.fulfilled.match(action)) {
-        console.log('true');
+        navigate(appPath.LOGIN);
       }
     },
   });

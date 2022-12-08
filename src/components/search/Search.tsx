@@ -4,15 +4,12 @@ import style from './search.module.scss';
 
 import { ReactComponent as SearchIcon } from 'common/assets/icons/searchIcon.svg';
 import { Nullable } from 'common/types';
-import { useAppDispatch } from 'store/hooks';
 
 export const Search: FC<SearchPropsType> = ({
   initialValue,
   onSetSearchHandler,
   className,
 }) => {
-  const dispatch = useAppDispatch();
-
   const [value, setValue] = useState<string>('');
   const [isSearching, setIsSearching] = useState(false);
 
@@ -29,7 +26,7 @@ export const Search: FC<SearchPropsType> = ({
         setIsSearching(false);
       }
     },
-    [dispatch],
+    [onSetSearchHandler],
   );
 
   useEffect(() => {

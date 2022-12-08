@@ -65,7 +65,7 @@ export const LearningWindow = (): JSX.Element => {
       }
       setSelectedCard(cards[index + 1]);
     }
-  }, [dispatch, cards, isOrderedSort]);
+  }, [dispatch, cards, isOrderedSort, selectedCard._id]);
 
   return (
     <div className={style.learn_wrapper}>

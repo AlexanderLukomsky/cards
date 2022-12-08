@@ -25,7 +25,7 @@ export const CheckEmail: FC<CheckEmailPropsType> = ({ email }) => {
         {email && (
           <>
             <span>to</span>
-            <p>{email}</p>
+            <span>{email}</span>
           </>
         )}
       </p>

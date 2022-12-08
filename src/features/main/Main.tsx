@@ -18,7 +18,7 @@ export const Main = (): JSX.Element => {
     if (isAuth) {
       navigate(appPath.PACKS);
     }
-  }, [isAuth]);
+  }, [isAuth, navigate]);
 
   return (
     <div className="main-page">
